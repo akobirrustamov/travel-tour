@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Helvetica Neue LT Std";
+    src: url("/fonts/HelveticaNeueLTStd-Roman.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Helvetica Neue LT Std";
+    src: url("/fonts/HelveticaNeueLTStd-Italic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Helvetica Neue LT Std";
+    src: url("/fonts/HelveticaNeueLTStd-Bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Helvetica Neue LT Std";
+    src: url("/fonts/HelveticaNeueLTStd-Black.otf") format("opentype");
+    font-weight: 900;
+    font-style: normal;
+}
+
+body {
+    font-family: "Helvetica Neue LT Std", sans-serif;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+}
+
+.scroll-smooth {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* #contacts {
+    scroll-margin-top: 100px;
+    /* чтобы хедер не перекрывал секцию */
+/* чтобы при скролле было место */

@@ -1,0 +1,65 @@
+####################################
+# OS
+####################################
+.DS_Store
+Thumbs.db
+
+####################################
+# Node / React / Vite
+####################################
+node_modules/
+dist/
+dist-ssr/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+.env
+.env.*
+!.env.example
+
+####################################
+# Java / Spring Boot
+####################################
+target/
+build/
+*.class
+*.log
+
+####################################
+# Maven / Gradle
+####################################
+.mvn/wrapper/maven-wrapper.jar
+.gradle/
+!gradle-wrapper.jar
+
+####################################
+# IDEs
+####################################
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+####################################
+# Spring Boot
+####################################
+hs_err_pid*
+spring.log
+
+####################################
+# Tests & coverage
+####################################
+coverage/
+*.lcov
+
+####################################
+# Temporary files
+####################################
+tmp/
+temp/
+
