@@ -54,24 +54,19 @@ public class TravelTour {
     private List<String> cities;
 
     /* ================= DESCRIPTIONS ================= */
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String description_uz;
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String description_ru;
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String description_en;
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String description_turk;
 
     /* ================= ITINERARY ================= */
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String itineraryDetails;
 

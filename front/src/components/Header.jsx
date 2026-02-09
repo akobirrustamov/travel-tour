@@ -90,30 +90,34 @@ function Header() {
             </div>
           </div>
 
-          {/* 🔹 Навигация */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleScroll(item.id)}
-                className={`relative font-medium px-1 py-2 transition-all duration-300 ${
-                  activeSection === item.id
-                    ? "text-yellow-400 font-semibold"
-                    : "text-gray-300 hover:text-yellow-400"
-                }`}
-              >
-                {item.label}
-                <span
-                  className={`absolute bottom-0 left-0 w-full h-0.5 bg-yellow-400 transition-opacity duration-500 ${
-                    activeSection === item.id ? "opacity-100" : "opacity-0"
-                  }`}
-                ></span>
-              </button>
-            ))}
-          </nav>
+
 
           {/* 🔹 Правый блок (язык и кнопка) */}
           <div className="hidden lg:flex items-center gap-4">
+
+
+            {/* 🔹 Навигация */}
+            <nav className="hidden lg:flex items-center space-x-8">
+              {navItems.map((item) => (
+                  <button
+                      key={item.id}
+                      onClick={() => handleScroll(item.id)}
+                      className={`relative font-medium px-1 py-2 transition-all duration-300 ${
+                          activeSection === item.id
+                              ? "text-yellow-400 font-semibold"
+                              : "text-gray-300 hover:text-yellow-400"
+                      }`}
+                  >
+                    {item.label}
+                    <span
+                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-yellow-400 transition-opacity duration-500 ${
+                            activeSection === item.id ? "opacity-100" : "opacity-0"
+                        }`}
+                    ></span>
+                  </button>
+              ))}
+            </nav>
+
             {/* 🌐 Выбор языка */}
             <div className="relative">
               <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-full border border-yellow-400/40 shadow-sm hover:border-yellow-400 transition-all cursor-pointer">
@@ -129,21 +133,8 @@ function Header() {
               </div>
             </div>
 
-            {/* 🟡 Кнопка “Забронировать” */}
-            <button
-              onClick={() => {
-                const bookingSection = document.getElementById("booking");
-                if (bookingSection)
-                  bookingSection.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                setIsMobileMenuOpen(false);
-              }}
-              className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-yellow-300/50 hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 transform hover:-translate-y-0.5"
-            >
-              {t("header.book")}
-            </button>
+
+
           </div>
 
           {/* Мобильное меню */}

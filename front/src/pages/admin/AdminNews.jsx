@@ -1,0 +1,987 @@
+import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import ApiCall, { baseUrl } from "../../config";
+import Sidebar from "./Sidebar";
+import { ToastContainer, toast } from "react-toastify";
+import { isTokenExpired } from "../../config/token";
+import MyCkeditor from "../../components/MyCkeditor";
+import {
+    Plus,
+    Edit,
+    Trash2,
+    Image as ImageIcon,
+    Upload,
+    X,
+    Search,
+    ChevronLeft,
+    ChevronRight,
+    Newspaper,
+    Calendar,
+    Globe,
+    Filter,
+    Eye,
+    ImagePlus,
+    Star,
+    Tag
+} from "lucide-react";
+
+function AdminNews() {
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [news, setNews] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingId, setEditingId] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalItems, setTotalItems] = useState(0);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [uploading, setUploading] = useState(false);
+    const [uploadingPhotos, setUploadingPhotos] = useState(false);
+    const [mainImagePreview, setMainImagePreview] = useState(null);
+    const [additionalPhotos, setAdditionalPhotos] = useState([]);
+    const [selectedLanguage, setSelectedLanguage] = useState("all");
+    const mainFileInputRef = useRef(null);
+    const photosFileInputRef = useRef(null);
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        title_uz: "",
+        title_ru: "",
+        title_en: "",
+        title_turk: "",
+        description_uz: "",
+        description_ru: "",
+        description_en: "",
+        description_turk: "",
+        mainPhoto: null,
+        photos: []
+    });
+
+    // === Проверка токена ===
+    useEffect(() => {
+        const token = localStorage.getItem("access_token");
+        if (!token || isTokenExpired(token)) {
+            localStorage.clear();
+            navigate("/admin/login");
+        } else {
+            fetchNews();
+        }
+    }, [navigate, currentPage]);
+
+    // === Request with Refresh Token ===
+    const requestWithRefresh = async (url, method = "GET", data = null, params = null) => {
+        let res = await ApiCall(url, method, data, params);
+        if (res && res.error && (res.data === 401 || res.data === 403)) {
+            const refreshRes = await ApiCall(
+                "/api/auth/refresh",
+                "POST",
+                null,
+                null,
+                false,
+                true
+            );
+            if (refreshRes && !refreshRes.error) {
+                localStorage.setItem("access_token", refreshRes.data.accessToken);
+                res = await ApiCall(url, method, data, params);
+            } else {
+                localStorage.removeItem("access_token");
+                navigate("/admin/login");
+            }
+        }
+        return res;
+    };
+
+    // === Fetch News with Pagination ===
+    const fetchNews = async () => {
+        try {
+            setLoading(true);
+            const res = await requestWithRefresh(`/api/v1/news/page?page=${currentPage}&size=12`);
+            if (res && !res.error) {
+                setNews(res.data.content || []);
+                setTotalPages(res.data.totalPages || 0);
+                setTotalItems(res.data.totalElements || 0);
+            } else {
+                toast.error("Failed to fetch news");
+            }
+        } catch (error) {
+            toast.error("Error loading news");
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // === Handle File Upload (Single) ===
+    const handleFileUpload = async (file, type = "main") => {
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
+        const maxSize = 10 * 1024 * 1024; // 10MB
+
+        if (!allowedTypes.includes(file.type)) {
+            toast.error("Only image files are allowed (JPEG, PNG, JPG, GIF, WebP)");
+            return;
+        }
+
+        if (file.size > maxSize) {
+            toast.error("File size must be less than 10MB");
+            return;
+        }
+
+        try {
+            if (type === "main") setUploading(true);
+            else setUploadingPhotos(true);
+
+            const uploadFormData = new FormData();
+            uploadFormData.append("photo", file);
+            uploadFormData.append("prefix", "news");
+
+            const res = await requestWithRefresh("/api/v1/file/upload", "POST", uploadFormData, null, true);
+
+            if (res && !res.error) {
+                const previewUrl = URL.createObjectURL(file);
+
+                if (type === "main") {
+                    setMainImagePreview({
+                        url: previewUrl,
+                        file: file,
+                        isNewUpload: true
+                    });
+                    setFormData(prev => ({ ...prev, mainPhoto: res.data }));
+                    toast.success("Main image uploaded successfully");
+                } else {
+                    const newPhoto = {
+                        id: res.data,
+                        url: previewUrl,
+                        file: file,
+                        isNewUpload: true
+                    };
+                    setAdditionalPhotos(prev => [...prev, newPhoto]);
+                    setFormData(prev => ({
+                        ...prev,
+                        photos: [...prev.photos, res.data]
+                    }));
+                    toast.success("Additional photo uploaded");
+                }
+            } else {
+                toast.error("Failed to upload image");
+            }
+        } catch (error) {
+            toast.error("Error uploading image");
+            console.error(error);
+        } finally {
+            if (type === "main") setUploading(false);
+            else setUploadingPhotos(false);
+        }
+    };
+
+    // === Handle Create/Update ===
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!formData.mainPhoto && !editingId) {
+            toast.error("Please upload a main image first");
+            return;
+        }
+
+        try {
+            const url = editingId ? `/api/v1/news/${editingId}` : "/api/v1/news";
+            const method = editingId ? "PUT" : "POST";
+
+            const res = await requestWithRefresh(url, method, formData);
+
+            if (res && !res.error) {
+                toast.success(`News ${editingId ? 'updated' : 'created'} successfully`);
+                resetForm();
+                setIsModalOpen(false);
+                fetchNews();
+            } else {
+                toast.error(`Failed to ${editingId ? 'update' : 'create'} news`);
+            }
+        } catch (error) {
+            toast.error("Error saving news");
+            console.error(error);
+        }
+    };
+
+    // === Handle Delete ===
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this news article?")) return;
+
+        try {
+            const res = await requestWithRefresh(`/api/v1/news/${id}`, "DELETE");
+            if (res && !res.error) {
+                toast.success("News deleted successfully");
+                fetchNews();
+            } else {
+                toast.error("Failed to delete news");
+            }
+        } catch (error) {
+            toast.error("Error deleting news");
+            console.error(error);
+        }
+    };
+
+    // === Handle Edit ===
+    const handleEdit = async (newsItem) => {
+        setEditingId(newsItem.id);
+        setFormData({
+            title_uz: newsItem.title_uz || "",
+            title_ru: newsItem.title_ru || "",
+            title_en: newsItem.title_en || "",
+            title_turk: newsItem.title_turk || "",
+            description_uz: newsItem.description_uz || "",
+            description_ru: newsItem.description_ru || "",
+            description_en: newsItem.description_en || "",
+            description_turk: newsItem.description_turk || "",
+            mainPhoto: newsItem.mainPhoto?.id || null,
+            photos: newsItem.photos?.map(p => p.id) || []
+        });
+
+        // Set main image preview
+        if (newsItem.mainPhoto) {
+            setMainImagePreview({
+                url: `${baseUrl}/api/v1/file/getFile/${newsItem.mainPhoto.id}`,
+                file: null,
+                isNewUpload: false,
+                existingMediaId: newsItem.mainPhoto.id
+            });
+        } else {
+            setMainImagePreview(null);
+        }
+
+        // Set additional photos preview
+        if (newsItem.photos && newsItem.photos.length > 0) {
+            const photosPreviews = newsItem.photos.map(photo => ({
+                id: photo.id,
+                url: `${baseUrl}/api/v1/file/getFile/${photo.id}`,
+                file: null,
+                isNewUpload: false,
+                existingMediaId: photo.id
+            }));
+            setAdditionalPhotos(photosPreviews);
+        } else {
+            setAdditionalPhotos([]);
+        }
+
+        setIsModalOpen(true);
+    };
+
+    // === Handle Remove Main Image ===
+    const handleRemoveMainImage = () => {
+        setMainImagePreview(null);
+        setFormData(prev => ({ ...prev, mainPhoto: null }));
+        if (mainFileInputRef.current) {
+            mainFileInputRef.current.value = "";
+        }
+    };
+
+    // === Handle Remove Additional Photo ===
+    const handleRemoveAdditionalPhoto = (index, photoId) => {
+        setAdditionalPhotos(prev => prev.filter((_, i) => i !== index));
+        setFormData(prev => ({
+            ...prev,
+            photos: prev.photos.filter(id => id !== photoId)
+        }));
+    };
+
+    // === Reset Form ===
+    const resetForm = () => {
+        setFormData({
+            title_uz: "",
+            title_ru: "",
+            title_en: "",
+            title_turk: "",
+            description_uz: "",
+            description_ru: "",
+            description_en: "",
+            description_turk: "",
+            mainPhoto: null,
+            photos: []
+        });
+        setMainImagePreview(null);
+        setAdditionalPhotos([]);
+        setEditingId(null);
+        if (mainFileInputRef.current) mainFileInputRef.current.value = "";
+        if (photosFileInputRef.current) photosFileInputRef.current.value = "";
+    };
+
+    // === Handle Input Change ===
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    // === Handle CKEditor Change ===
+    const handleEditorChange = (field, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    // === Handle Logout ===
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate("/admin/login");
+    };
+
+    // === Filter News ===
+    const filteredNews = news.filter(newsItem => {
+        if (searchTerm && !newsItem.title_uz?.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            !newsItem.title_ru?.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            !newsItem.title_en?.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            !newsItem.title_turk?.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return false;
+        }
+
+        if (selectedLanguage !== "all") {
+            const hasTitle = newsItem[`title_${selectedLanguage}`]?.trim();
+            return hasTitle;
+        }
+
+        return true;
+    });
+
+    // === Get Image URL ===
+    const getImageUrl = (attachment) => {
+        if (attachment && attachment.id) {
+            return `${baseUrl}/api/v1/file/getFile/${attachment.id}`;
+        }
+        return null;
+    };
+
+    // === Format Date ===
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    // === Truncate Text ===
+    const truncateText = (text, length = 100) => {
+        if (!text) return "";
+        if (text.length <= length) return text;
+        return text.substring(0, length) + '...';
+    };
+
+    // === Strip HTML Tags ===
+    const stripHtml = (html) => {
+        if (!html) return "";
+        return html.replace(/<[^>]*>/g, '');
+    };
+
+    // === Language Options ===
+    const languages = [
+        { key: "all", label: "All Languages", color: "gray" },
+        { key: "uz", label: "O'zbekcha", color: "blue" },
+        { key: "ru", label: "Русский", color: "green" },
+        { key: "en", label: "English", color: "purple" },
+        { key: "turk", label: "Türkçe", color: "yellow" }
+    ];
+
+    // === Render Language Badges ===
+    const renderLanguageBadges = (newsItem) => {
+        const badges = [];
+        if (newsItem.title_uz?.trim()) badges.push({ key: "uz", label: "UZ", color: "blue" });
+        if (newsItem.title_ru?.trim()) badges.push({ key: "ru", label: "RU", color: "green" });
+        if (newsItem.title_en?.trim()) badges.push({ key: "en", label: "EN", color: "purple" });
+        if (newsItem.title_turk?.trim()) badges.push({ key: "turk", label: "TR", color: "yellow" });
+
+        return (
+            <div className="flex flex-wrap gap-1">
+                {badges.map(badge => (
+                    <span
+                        key={badge.key}
+                        className={`text-xs font-medium px-2 py-1 rounded-full 
+                            ${badge.color === 'blue' ? 'bg-blue-100 text-blue-700' : ''}
+                            ${badge.color === 'green' ? 'bg-green-100 text-green-700' : ''}
+                            ${badge.color === 'purple' ? 'bg-purple-100 text-purple-700' : ''}
+                            ${badge.color === 'yellow' ? 'bg-yellow-100 text-yellow-700' : ''}
+                        `}
+                    >
+                        {badge.label}
+                    </span>
+                ))}
+            </div>
+        );
+    };
+
+    // === Render Title Inputs ===
+    const renderTitleInputs = () => {
+        const languageInputs = [
+            { key: "uz", label: "O'zbekcha", placeholder: "O'zbekcha sarlavha" },
+            { key: "ru", label: "Русский", placeholder: "Русский заголовок" },
+            { key: "en", label: "English", placeholder: "English title" },
+            { key: "turk", label: "Türkçe", placeholder: "Türkçe başlık" }
+        ];
+
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {languageInputs.map((lang) => (
+                    <div key={lang.key} className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                            {lang.label} <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            name={`title_${lang.key}`}
+                            value={formData[`title_${lang.key}`]}
+                            onChange={handleInputChange}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder={lang.placeholder}
+                            required
+                        />
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
+    // === Render CKEditor Inputs ===
+    const renderCKEditorInputs = () => {
+        const editorInputs = [
+            { key: "uz", label: "O'zbekcha" },
+            { key: "ru", label: "Русский" },
+            { key: "en", label: "English" },
+            { key: "turk", label: "Türkçe" }
+        ];
+
+        return (
+            <div className="space-y-6">
+                {editorInputs.map((lang) => (
+                    <div key={lang.key} className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                            {lang.label} Description
+                        </label>
+                        <MyCkeditor
+                            id={`editor-${lang.key}`}
+                            value={formData[`description_${lang.key}`]}
+                            onChange={(value) => handleEditorChange(`description_${lang.key}`, value)}
+                        />
+
+                        <div className="text-xs text-gray-500">
+                            Rich text editor - supports images, formatting, and more
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
+    return (
+        <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+            <ToastContainer position="top-right" autoClose={2000} />
+
+            {/* === Mobile Menu Button === */}
+            <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden fixed top-6 left-6 z-50 bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+                ☰
+            </button>
+
+            {/* === Sidebar === */}
+            <div className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 fixed lg:static inset-y-0 left-0 z-40 w-72 transition-transform duration-300 ease-in-out`}>
+                <Sidebar onLogout={handleLogout} />
+            </div>
+
+            {/* === Overlay === */}
+            {sidebarOpen && (
+                <div
+                    className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+                    onClick={() => setSidebarOpen(false)}
+                ></div>
+            )}
+
+            {/* === Main Content === */}
+            <main className="flex-1 py-2 px-4 lg:px-8 overflow-auto">
+                <div className="max-w-7xl mx-auto">
+                    {/* Header */}
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-2">
+                        <div>
+                            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                                News Management
+                            </h1>
+                            <p className="text-gray-600 mt-2">Manage news articles with rich text content and images</p>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mt-6 lg:mt-0">
+                            {/* Search */}
+                            <div className="relative">
+                                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                                <input
+                                    type="text"
+                                    placeholder="Search news titles..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-64"
+                                />
+                            </div>
+
+                            {/* Add New Button */}
+                            <button
+                                onClick={() => {
+                                    resetForm();
+                                    setIsModalOpen(true);
+                                }}
+                                className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-5 py-3 rounded-xl hover:shadow-xl transition-all duration-300 shadow-lg"
+                            >
+                                <Plus size={22} className="mr-2" />
+                                Add New Article
+                            </button>
+                        </div>
+                    </div>
+
+
+
+                    {/* Loading State */}
+                    {loading ? (
+                        <div className="flex flex-col justify-center items-center h-96">
+                            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+                            <p className="mt-4 text-gray-600">Loading news articles...</p>
+                        </div>
+                    ) : (
+                        <>
+                            {/* News Grid */}
+                            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-10 pt-2">
+                                {filteredNews.map((newsItem) => {
+                                    const mainImageUrl = getImageUrl(newsItem.mainPhoto);
+                                    return (
+                                        <div key={newsItem.id} className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                                            {/* Image */}
+                                            <div className="relative h-56 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                                                {mainImageUrl ? (
+                                                    <img
+                                                        src={mainImageUrl}
+                                                        alt={newsItem.title_uz || "News article"}
+                                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                                        onError={(e) => {
+                                                            e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' fill='%239ca3af' text-anchor='middle' dy='.3em'%3ENo Image%3C/text%3E%3C/svg%3E";
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full flex flex-col items-center justify-center p-4">
+                                                        <Newspaper className="text-gray-400 mb-2" size={48} />
+                                                        <span className="text-gray-500 text-sm">No image</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-md">
+                                                    #{newsItem.id}
+                                                </div>
+                                                {newsItem.photos && newsItem.photos.length > 0 && (
+                                                    <div className="absolute bottom-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-md flex items-center">
+                                                        <ImagePlus size={12} className="mr-1" />
+                                                        +{newsItem.photos.length} more
+                                                    </div>
+                                                )}
+                                                <div className="absolute bottom-3 right-3">
+                                                    {renderLanguageBadges(newsItem)}
+                                                </div>
+                                            </div>
+
+                                            {/* Content */}
+                                            <div className="p-5">
+                                                {/* Title */}
+                                                <h3 className="font-bold text-lg text-gray-800 mb-2 line-clamp-2 h-14">
+                                                    {newsItem.title_uz || newsItem.title_ru || newsItem.title_en || newsItem.title_turk || "Untitled"}
+                                                </h3>
+
+                                                {/* Description Preview */}
+                                                <div className="mb-4">
+                                                    <p className="text-gray-600 text-sm line-clamp-3 h-16">
+                                                        {truncateText(stripHtml(newsItem.description_uz || newsItem.description_ru || newsItem.description_en || newsItem.description_turk || "No description"), 150)}
+                                                    </p>
+                                                </div>
+
+                                                {/* Date and Photos */}
+                                                <div className="flex items-center justify-between text-gray-500 text-sm mb-4">
+                                                    <div className="flex items-center">
+                                                        <Calendar size={14} className="mr-2" />
+                                                        {formatDate(newsItem.createdAt)}
+                                                    </div>
+                                                    <div className="flex items-center">
+                                                        <ImageIcon size={14} className="mr-1" />
+                                                        {1 + (newsItem.photos?.length || 0)} photos
+                                                    </div>
+                                                </div>
+
+                                                {/* Actions */}
+                                                <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                                                    <button
+                                                        onClick={() => handleEdit(newsItem)}
+                                                        className="flex items-center text-blue-600 hover:text-blue-800 font-medium group"
+                                                    >
+                                                        <Edit size={18} className="mr-2 group-hover:scale-110 transition-transform" />
+                                                        Edit
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(newsItem.id)}
+                                                        className="flex items-center text-red-600 hover:text-red-800 font-medium group"
+                                                    >
+                                                        <Trash2 size={18} className="mr-2 group-hover:scale-110 transition-transform" />
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Empty State */}
+                            {filteredNews.length === 0 && !loading && (
+                                <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-100">
+                                    <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-r from-gray-100 to-gray-200 flex items-center justify-center mb-6">
+                                        <Newspaper className="text-gray-400" size={48} />
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-gray-800 mb-3">No news articles found</h3>
+                                    <p className="text-gray-600 max-w-md mx-auto mb-8">
+                                        {searchTerm || selectedLanguage !== "all"
+                                            ? "No results found for your filter. Try changing your search or filter criteria."
+                                            : "Get started by publishing your first news article."}
+                                    </p>
+                                    <button
+                                        onClick={() => {
+                                            resetForm();
+                                            setIsModalOpen(true);
+                                        }}
+                                        className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+                                    >
+                                        <Plus size={20} className="inline mr-2" />
+                                        Publish First Article
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Pagination */}
+                            {totalPages > 1 && (
+                                <div className="flex flex-col sm:flex-row items-center justify-between bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mt-8">
+                                    <div className="text-sm text-gray-700 mb-4 sm:mb-0">
+                                        Showing <span className="font-bold text-blue-600">{filteredNews.length}</span> of{" "}
+                                        <span className="font-bold text-gray-800">{totalItems}</span> articles • Page{" "}
+                                        <span className="font-bold text-blue-600">{currentPage + 1}</span> of{" "}
+                                        <span className="font-bold text-gray-800">{totalPages}</span>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <button
+                                            onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
+                                            disabled={currentPage === 0}
+                                            className="flex items-center px-4 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                        >
+                                            <ChevronLeft size={18} className="mr-2" />
+                                            Previous
+                                        </button>
+                                        <div className="flex items-center space-x-1">
+                                            {[...Array(Math.min(5, totalPages))].map((_, idx) => {
+                                                let pageNum;
+                                                if (totalPages <= 5) {
+                                                    pageNum = idx;
+                                                } else if (currentPage < 3) {
+                                                    pageNum = idx;
+                                                } else if (currentPage > totalPages - 4) {
+                                                    pageNum = totalPages - 5 + idx;
+                                                } else {
+                                                    pageNum = currentPage - 2 + idx;
+                                                }
+
+                                                return (
+                                                    <button
+                                                        key={idx}
+                                                        onClick={() => setCurrentPage(pageNum)}
+                                                        className={`w-10 h-10 rounded-xl text-sm font-medium transition-colors
+                                                            ${currentPage === pageNum
+                                                            ? 'bg-blue-500 text-white'
+                                                            : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                                                        }`}
+                                                    >
+                                                        {pageNum + 1}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                        <button
+                                            onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
+                                            disabled={currentPage === totalPages - 1}
+                                            className="flex items-center px-4 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                        >
+                                            Next
+                                            <ChevronRight size={18} className="ml-2" />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </div>
+            </main>
+
+            {/* === Modal === */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-7xl max-h-[95vh] overflow-y-auto">
+                        {/* Modal Header */}
+                        <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 rounded-t-3xl">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h2 className="text-3xl font-bold text-gray-800">
+                                        {editingId ? "Edit News Article" : "Create News Article"}
+                                    </h2>
+                                    <p className="text-gray-600 mt-1">
+                                        {editingId ? "Update article details and content" : "Add a new news article with rich text content"}
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        setIsModalOpen(false);
+                                        resetForm();
+                                    }}
+                                    className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-2 rounded-full transition-colors"
+                                >
+                                    <X size={28} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Modal Body */}
+                        <form onSubmit={handleSubmit} className="p-8">
+                            {/* Titles Section */}
+                            <div className="mb-10">
+                                <div className="flex items-center justify-between mb-6">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-gray-800">Article Titles</h3>
+                                        <p className="text-gray-600 mt-1">Enter titles in 4 different languages (required)</p>
+                                    </div>
+                                    <div className="flex items-center text-gray-500">
+                                        <Globe size={20} className="mr-2" />
+                                        <span className="text-sm">Multi-language Support</span>
+                                    </div>
+                                </div>
+                                {renderTitleInputs()}
+                            </div>
+
+                            {/* Main Image Section */}
+                            <div className="mb-10">
+                                <label className="block text-lg font-semibold text-gray-800 mb-6">
+                                    Main Image <span className="text-red-500">*</span>
+                                    <span className="block text-sm font-normal text-gray-500 mt-1">
+                                        Featured image for the article (Recommended: 1200x800px, max 10MB)
+                                    </span>
+                                </label>
+
+                                {mainImagePreview ? (
+                                    <div className="relative group">
+                                        <div className="rounded-2xl overflow-hidden border-4 border-gray-100">
+                                            <img
+                                                src={mainImagePreview.url}
+                                                alt="Main preview"
+                                                className="w-full h-64 object-cover"
+                                                onError={(e) => {
+                                                    e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='24' fill='%239ca3af' text-anchor='middle' dy='.3em'%3EMain Image%3C/text%3E%3C/svg%3E";
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col items-center justify-center p-6">
+                                            <div className="flex space-x-4 mt-auto mb-6">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => mainFileInputRef.current?.click()}
+                                                    className="bg-white text-gray-800 px-6 py-3 rounded-xl font-medium hover:bg-gray-100 transition-colors shadow-lg"
+                                                >
+                                                    Change Image
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={handleRemoveMainImage}
+                                                    className="bg-red-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-red-600 transition-colors shadow-lg"
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p className="mt-3 text-sm text-gray-600 flex items-center">
+                                            <Star size={16} className="mr-2" />
+                                            Main article image • Click to change
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div
+                                        onClick={() => mainFileInputRef.current?.click()}
+                                        className="border-3 border-dashed border-gray-300 rounded-2xl p-12 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50/50 transition-all duration-300"
+                                    >
+                                        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center mb-6">
+                                            <Upload className="text-blue-500" size={36} />
+                                        </div>
+                                        <p className="text-xl font-medium text-gray-700 mb-3">
+                                            Upload Main Article Image
+                                        </p>
+                                        <p className="text-gray-500 mb-4">
+                                            This will be the featured image for your news article
+                                        </p>
+                                        <p className="text-sm text-gray-400">
+                                            Supports: JPEG, PNG, WebP, GIF • Max: 10MB
+                                        </p>
+                                        <input
+                                            ref={mainFileInputRef}
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => {
+                                                if (e.target.files[0]) {
+                                                    handleFileUpload(e.target.files[0], "main");
+                                                }
+                                            }}
+                                            className="hidden"
+                                        />
+                                    </div>
+                                )}
+
+                                {uploading && (
+                                    <div className="mt-6 text-center">
+                                        <div className="inline-flex items-center justify-center">
+                                            <div className="animate-spin rounded-full h-8 w-8 border-t-3 border-b-3 border-blue-500"></div>
+                                            <span className="ml-3 text-gray-700 font-medium">Uploading main image...</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Additional Photos Section */}
+                            <div className="mb-10">
+                                <label className="block text-lg font-semibold text-gray-800 mb-6">
+                                    Additional Photos
+                                    <span className="block text-sm font-normal text-gray-500 mt-1">
+                                        Optional gallery images for the article (max 10 photos, 10MB each)
+                                    </span>
+                                </label>
+
+                                {/* Current Photos Grid */}
+                                {additionalPhotos.length > 0 && (
+                                    <div className="mb-6">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h4 className="font-medium text-gray-700">Uploaded Photos ({additionalPhotos.length})</h4>
+                                            <span className="text-sm text-gray-500">Click on image to remove</span>
+                                        </div>
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                                            {additionalPhotos.map((photo, index) => (
+                                                <div key={index} className="relative group">
+                                                    <div className="aspect-square rounded-xl overflow-hidden border-2 border-gray-200">
+                                                        <img
+                                                            src={photo.url}
+                                                            alt={`Additional ${index + 1}`}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRemoveAdditionalPhoto(index, photo.id)}
+                                                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                                    >
+                                                        <X size={14} />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Upload More Button */}
+                                <div
+                                    onClick={() => photosFileInputRef.current?.click()}
+                                    className="border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center cursor-pointer hover:border-indigo-500 hover:bg-indigo-50/30 transition-all duration-300"
+                                >
+                                    <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 flex items-center justify-center mb-4">
+                                        <ImagePlus className="text-indigo-500" size={28} />
+                                    </div>
+                                    <p className="text-lg font-medium text-gray-700 mb-2">
+                                        {additionalPhotos.length === 0 ? 'Add Gallery Photos' : 'Add More Photos'}
+                                    </p>
+                                    <p className="text-gray-500 text-sm">
+                                        Upload additional images for your article gallery
+                                    </p>
+                                    <input
+                                        ref={photosFileInputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        onChange={(e) => {
+                                            if (e.target.files) {
+                                                Array.from(e.target.files).forEach(file => {
+                                                    handleFileUpload(file, "additional");
+                                                });
+                                            }
+                                        }}
+                                        className="hidden"
+                                    />
+                                </div>
+
+                                {uploadingPhotos && (
+                                    <div className="mt-6 text-center">
+                                        <div className="inline-flex items-center justify-center">
+                                            <div className="animate-spin rounded-full h-8 w-8 border-t-3 border-b-3 border-indigo-500"></div>
+                                            <span className="ml-3 text-gray-700 font-medium">Uploading additional photos...</span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* CKEditor Descriptions */}
+                            <div className="mb-10">
+                                <div className="flex items-center justify-between mb-6">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-gray-800">Article Content</h3>
+                                        <p className="text-gray-600 mt-1">Write detailed content in 4 languages using rich text editor</p>
+                                    </div>
+                                    <div className="flex items-center text-gray-500">
+                                        <Tag size={20} className="mr-2" />
+                                        <span className="text-sm">Rich Text Support</span>
+                                    </div>
+                                </div>
+                                {renderCKEditorInputs()}
+                            </div>
+
+                            {/* Modal Footer */}
+                            <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setIsModalOpen(false);
+                                        resetForm();
+                                    }}
+                                    className="px-8 py-3.5 border-2 border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-400 transition-all duration-300"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={uploading || uploadingPhotos || (!formData.mainPhoto && !editingId)}
+                                    className="px-8 py-3.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg"
+                                >
+                                    {uploading || uploadingPhotos ? (
+                                        <span className="flex items-center">
+                                            <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-3"></div>
+                                            Uploading...
+                                        </span>
+                                    ) : editingId ? (
+                                        "Update News Article"
+                                    ) : (
+                                        "Publish News Article"
+                                    )}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default AdminNews;

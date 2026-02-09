@@ -1,35 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
-import ProtectedRoute from "./components/ProtectedRoute";
 
-// 🔑 Админ
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLogin from "./pages/admin/AdminLogin";
-import BookingsPage from "./pages/admin/BookingsPage";
-import AdminMessenger from "./pages/admin/chat/AdminMesseger";
+import AdminCarusel from "./pages/admin/AdminCarusel";
+import AdminGallery from "./pages/admin/AdminGallery";
+import AdminNews from "./pages/admin/AdminNews";
+import AdminTour from "./pages/admin/AdminTour";
+import AdminYoutube from "./pages/admin/AdminYoutube";
+import AdminPartner from "./pages/admin/AdminPartner";
 
-// 🔑 Ресепшн
-import ReceptionDashboard from "./pages/reception/AdminDashboard";
-import BookingsPageReception from "./pages/reception/BookingsPage";
-import Messenger from "./pages/reception/chat/Messeger";
 
-// 🔑 Повар
-import Dashboard from "./pages/cook/Dashboard";
-import CookMessenger from "./pages/cook/chat/Messeger";
 
-// 🔑 Other
-import OtherDashboard from "./pages/others/Dashboard";
-import OtherMessenger from "./pages/others/chat/Messeger";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Rooms from "./pages/Rooms";
 import Restaurant from "./pages/Restaurant";
 import Booking from "./pages/Booking";
-import ManageUsers from "./pages/admin/ManageUsers";
-
-// import Conference from "./pages/Conference";
-// import Contacts from "./pages/Contacts";
 
 function App() {
   return (
@@ -43,12 +31,17 @@ function App() {
           <Route path="booking" element={<Booking />} />
         </Route>
 
+
+
         {/* 🔑 Админ */}
-        <Route path="/admin/users" element={<ManageUsers />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/bookings" element={<BookingsPage />} />
-        <Route path="/admin/talk" element={<AdminMessenger />} />
+        <Route path="/admin/carusel" element={<AdminCarusel />} />
+        <Route path="/admin/gallery" element={<AdminGallery />} />
+        <Route path="/admin/news" element={<AdminNews />} />
+        <Route path="/admin/tour" element={<AdminTour />} />
+        <Route path="/admin/youtube" element={<AdminYoutube />} />
+        <Route path="/admin/partner" element={<AdminPartner />} />
 
 
       </Routes>

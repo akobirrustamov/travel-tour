@@ -21,19 +21,15 @@ public class Gallery {
     @ManyToOne
     private Attachment media;
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String description_uz;
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String description_ru;
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String description_en;
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String description_turk;
 
