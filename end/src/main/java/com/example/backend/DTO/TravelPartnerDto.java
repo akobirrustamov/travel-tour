@@ -11,7 +11,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class TravelPartnerDto {
 
-    private String name;
+    private String title_uz;
+    private String title_ru;
+    private String title_en;
+    private String title_turk;
+
 
     private UUID logoId;
 

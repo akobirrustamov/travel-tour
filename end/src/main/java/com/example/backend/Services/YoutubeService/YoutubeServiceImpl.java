@@ -23,6 +23,7 @@ public class YoutubeServiceImpl implements YoutubeService {
                 .description_uz(dto.getDescription_uz())
                 .description_ru(dto.getDescription_ru())
                 .description_en(dto.getDescription_en())
+
                 .description_turk(dto.getDescription_turk())
                 .build();
 

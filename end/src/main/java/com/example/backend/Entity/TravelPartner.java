@@ -18,7 +18,13 @@ public class TravelPartner {
     private Integer id;
     /* Partner name */
     @Column(nullable = false, length = 255)
-    private String name;
+    private String nameUz;
+    @Column(nullable = false, length = 255)
+    private String nameRu;
+    @Column(nullable = false, length = 255)
+    private String nameEn;
+    @Column(nullable = false, length = 255)
+    private String nameTurk;
     /* Logo (image/file) */
     @ManyToOne
     private Attachment logo;
