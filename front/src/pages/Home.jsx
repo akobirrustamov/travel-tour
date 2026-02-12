@@ -1,20 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import {
-  ChevronDown,
-  Calendar,
-  Users,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
-import backgroundImage from "../assets/images/testback.png";
+
 import { useNavigate } from "react-router-dom";
 import icon from "../assets/images/miniAture.jpg";
 import bg from "../assets/images/bgNew.png";
-import street from "../assets/images/street.jpg";
-import entry from "../assets/images/entry.jpg";
-import inside from "../assets/images/inside.jpg";
-import gallery from "../assets/images/gallery.jpg";
-import breakfastGallery from "../assets/images/breakfast-gallery1.jpg";
 import twin from "../assets/images/twin.jpg";
 import twin1 from "../assets/images/twin1.jpg";
 import twin2 from "../assets/images/twin2.jpg";
@@ -31,6 +19,9 @@ import newterrace from "../assets/images/NEWterrace.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import ApiCall, { baseUrl } from "../config";
+import Hero from "../components/Hero.jsx";
+import About from "../components/About.jsx";
+import Tours from "../components/Tours.jsx";
 
 function Home() {
   const [rooms, setRooms] = useState([
@@ -210,67 +201,13 @@ function Home() {
     <div className="min-h-screen">
       <ToastContainer position="top-right" autoClose={2000} />
 
-      {/* ===== HERO SECTION ===== */}
-      <section
-        id="home"
-        className="relative h-[70vh] w-full  flex items-center justify-center overflow-hidden"
-      >
-        {mainCarouselSlides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 bg-gradient-to-r from-black/60 to-black/40 transition-opacity duration-1000 ease-in-out ${
-              index === currentSlide ? "opacity-100" : "opacity-0"
-            }`}
-            style={{
-              backgroundImage: `url(${slide.background})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-        ))}
 
-        <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-6">
-          <div className="mb-8">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
-              {t("home.carousel.title")}
-            </h1>
-            <h2 className="text-2xl md:text-3xl text-gray-50 font-light mb-8 leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
-              {t("home.carousel.subtitle")}
-            </h2>
-          </div>
-        </div>
+      <Hero />
 
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white rounded-full p-3 transition-all z-20"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white rounded-full p-3 transition-all z-20"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
+      <About />
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-          {mainCarouselSlides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all ${
-                index === currentSlide
-                  ? "bg-yellow-400 scale-125"
-                  : "bg-white/60 hover:bg-white"
-              }`}
-            />
-          ))}
-        </div>
+      <Tours/>
 
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown className="w-8 h-8 text-white" />
-        </div>
-      </section>
       {/* ===== BOOKING SECTION ===== */}
       <section
         id="booking"
@@ -589,48 +526,7 @@ function Home() {
         </div>
       </section>
 
-      {/* ===== ABOUT SECTION ===== */}
-      <section
-        id="about"
-        className="py-20 bg-gradient-to-br from-[#1d2a25] to-[#2d3a35] text-white relative"
-      >
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="relative">
-            <div className="rounded-3xl overflow-hidden shadow-2xl">
-              <img
-                src={breakfastGallery}
-                alt="Hotel Interior"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-yellow-400 rounded-2xl flex items-center justify-center shadow-xl">
-              <span className="text-3xl">⭐</span>
-            </div>
-          </div>
 
-          <div className="lg:pl-8">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              <span className="text-yellow-400">{t("home.about.title")}</span>
-            </h2>
-            <h3 className="text-2xl font-semibold mb-4 text-yellow-400">
-              {t("home.about.subtitle")}
-            </h3>
-            <p className="text-gray-300 leading-relaxed mb-8 text-lg">
-              {t("home.about.text")}
-            </p>
-            <button
-              onClick={() =>
-                document
-                  .getElementById("booking")
-                  .scrollIntoView({ behavior: "smooth" })
-              }
-              className="bg-yellow-400 text-black px-8 py-4 rounded-xl font-semibold hover:bg-yellow-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-            >
-              {t("home.about.button")}
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* ===== FOOTER ===== */}
       <footer

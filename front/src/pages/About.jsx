@@ -1,11 +1,58 @@
 import React from 'react';
+import icon from "../assets/images/miniAture.jpg";
+import { useTranslation } from "react-i18next";
+import logo from "../assets/images/logo.png"
+function About(props) {
+    const { t } = useTranslation();
 
-function About() {
-  return (
-    <section className="h-[80vh] flex items-center justify-center bg-gray-100 text-3xl font-bold">
-      About Page
-    </section>
-  );
+    return (
+        <div>
+
+            {/* ===== ABOUT SECTION ===== */}
+            <section
+                id="about"
+                className="py-20 bg-gradient-to-br from-[#1d2a25] to-[#2d3a35] text-white relative"
+            >
+                <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div className="relative">
+                        <div className="rounded-3xl overflow-hidden shadow-2xl">
+                            <img
+                                src={logo}
+                                alt="Hotel Interior"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-yellow-400 rounded-2xl flex items-center justify-center shadow-xl">
+                            <span className="text-3xl">⭐</span>
+                        </div>
+                    </div>
+
+                    <div className="lg:pl-8">
+                        <h2 className="text-5xl md:text-6xl font-bold mb-6">
+                            <span className="text-yellow-400">{t("home.about.title")}</span>
+                        </h2>
+                        <h3 className="text-2xl font-semibold mb-4 text-yellow-400">
+                            {t("home.about.subtitle")}
+                        </h3>
+                        <p className="text-gray-300 leading-relaxed mb-8 text-lg">
+                            {t("home.about.text")}
+                        </p>
+                        <button
+                            onClick={() =>
+                                document
+                                    .getElementById("booking")
+                                    .scrollIntoView({ behavior: "smooth" })
+                            }
+                            className="bg-yellow-400 text-black px-8 py-4 rounded-xl font-semibold hover:bg-yellow-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        >
+                            {t("home.about.button")}
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    );
 }
 
 export default About;
