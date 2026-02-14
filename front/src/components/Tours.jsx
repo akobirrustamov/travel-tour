@@ -12,13 +12,11 @@ import {
   Send,
   Heart,
   Share2,
-  Sparkles,
   Compass,
   Camera,
   Users,
-  Coffee,
-  Globe,
   Award,
+  X, // 🔥 SHU YERGA QO‘SHING
 } from "lucide-react";
 import ApiCall, { baseUrl } from "../config";
 import { useNavigate } from "react-router-dom";
@@ -44,8 +42,6 @@ function Tours() {
     name: "",
     id: 0,
   });
-
-  
 
   // Show tour details modal
   const showTourDetails = (id) => {
@@ -91,6 +87,27 @@ function Tours() {
 
     return () => observer.disconnect();
   }, []);
+
+  const handleBookingSubmit = async () => {
+    const bronData = {
+      phone: bron.phone,
+      email: bron.email,
+      name: bron.name,
+      travelTourId: selectedTour.id, // Send the selected tour ID
+    };
+
+    try {
+      const res = await ApiCall("/api/v1/bron", "POST", bronData);
+      if (res && !res.error) {
+        alert("Booking created successfully.");
+        setShowModal(false); // Close the modal after success
+        navigate("/tours"); // Optionally navigate back to the tours page
+      }
+    } catch (error) {
+      console.error("Error creating booking:", error);
+      alert("An error occurred while creating the booking.");
+    }
+  };
 
   // Share to Telegram
   const shareToTelegram = (title, description, url) => {
@@ -749,7 +766,15 @@ function Tours() {
                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></div>
                             </button>
 
-                            <button className="group/btn relative overflow-hidden bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white py-3 rounded-xl text-sm font-medium transition-all shadow-lg hover:shadow-xl">
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setSelectedTour(tour);
+                                setShowModal(true);
+                              }}
+                              className="group/btn relative overflow-hidden bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white py-3 rounded-xl text-sm font-medium transition-all shadow-lg hover:shadow-xl"
+                            >
                               <span className="relative z-10 flex items-center justify-center gap-1">
                                 <Send className="w-4 h-4" />
                                 {translations.book_now}
@@ -793,7 +818,7 @@ function Tours() {
       </section>
 
       {/* Tour Details Modal */}
-      {showModal && selectedTour && (
+      {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="modal-animation bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="relative">
@@ -812,7 +837,7 @@ function Tours() {
 
                 {/* Close Button */}
                 <button
-                  onClick={() => setShowModal(false)}
+                  onClick={() => setShowModal(false)} // Close the modal when clicking the close button
                   className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-all"
                 >
                   <X className="w-5 h-5 text-gray-700" />
@@ -822,7 +847,7 @@ function Tours() {
               {/* Modal Content */}
               <div className="p-6">
                 <h3 className="text-2xl font-bold text-gray-800 mb-3">
-                  {getTitle(selectedTour)}
+                  {getTitle(selectedTour)} {/* Display the title */}
                 </h3>
 
                 {/* Cities */}
@@ -833,73 +858,87 @@ function Tours() {
 
                 {/* Description */}
                 <p className="text-gray-600 mb-4">
-                  {getDescription(selectedTour)}
+                  {getDescription(selectedTour)} {/* Display the description */}
                 </p>
 
-                {/* Details Grid */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <Calendar className="w-4 h-4 text-emerald-500 mb-1" />
-                    <span className="text-sm text-gray-600 block">
-                      {formatDateRange(
-                        selectedTour.startDate,
-                        selectedTour.endDate,
-                      )}
-                    </span>
-                  </div>
-
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <Clock className="w-4 h-4 text-emerald-500 mb-1" />
-                    <span className="text-sm text-gray-600 block">
-                      {calculateDuration(
-                        selectedTour.startDate,
-                        selectedTour.endDate,
-                      )}{" "}
-                      {translations.days}
-                    </span>
-                  </div>
-
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <DollarSign className="w-4 h-4 text-emerald-500 mb-1" />
-                    <span className="text-sm text-gray-600 block">
-                      {selectedTour.price?.toLocaleString()}{" "}
-                      {selectedTour.currency || "UZS"} /{" "}
-                      {translations.per_person}
-                    </span>
-                  </div>
-
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <Users className="w-4 h-4 text-emerald-500 mb-1" />
-                    <span className="text-sm text-gray-600 block">
-                      {selectedTour.maxParticipants || 20} {translations.max}{" "}
-                      {translations.participants}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Itinerary */}
-                {selectedTour.itineraryDetails && (
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-800 mb-2">
-                      {translations.details}
-                    </h4>
-                    <div className="bg-emerald-50 p-4 rounded-lg">
-                      <pre className="text-sm text-gray-700 whitespace-pre-wrap font-sans">
-                        {JSON.stringify(selectedTour.itineraryDetails, null, 2)}
-                      </pre>
+                {/* Booking Form */}
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-800 mb-2">
+                    {t("tours.book_details")}
+                  </h4>
+                  <form>
+                    <div className="mb-4">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        {t("tours.name")}
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        value={bron.name}
+                        onChange={(e) =>
+                          setBron({ ...bron, name: e.target.value })
+                        }
+                        className="w-full p-3 mt-1 border border-gray-300 rounded-lg"
+                        placeholder={t("tours.enter_name")}
+                      />
                     </div>
-                  </div>
-                )}
+
+                    <div className="mb-4">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        {t("tours.email")}
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        value={bron.email}
+                        onChange={(e) =>
+                          setBron({ ...bron, email: e.target.value })
+                        }
+                        className="w-full p-3 mt-1 border border-gray-300 rounded-lg"
+                        placeholder={t("tours.enter_email")}
+                      />
+                    </div>
+
+                    <div className="mb-4">
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        {t("tours.phone")}
+                      </label>
+                      <input
+                        type="text"
+                        id="phone"
+                        value={bron.phone}
+                        onChange={(e) =>
+                          setBron({ ...bron, phone: e.target.value })
+                        }
+                        className="w-full p-3 mt-1 border border-gray-300 rounded-lg"
+                        placeholder={t("tours.enter_phone")}
+                      />
+                    </div>
+                  </form>
+                </div>
 
                 {/* Action Buttons */}
                 <div className="grid grid-cols-2 gap-3">
                   <button
-                    onClick={() => setShowModal(false)}
+                    onClick={() => setShowModal(false)} // Close the modal
                     className="py-3 px-4 border-2 border-gray-200 rounded-xl text-gray-600 font-medium hover:bg-gray-50 transition-all"
                   >
                     {translations.close}
                   </button>
-                  <button className="py-3 px-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg">
+
+                  <button
+                    onClick={handleBookingSubmit} // Call the booking handler
+                    className="py-3 px-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg"
+                  >
                     {translations.book_now}
                   </button>
                 </div>

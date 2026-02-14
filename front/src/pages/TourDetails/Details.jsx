@@ -12,24 +12,13 @@ import {
   Share2,
   MapPin,
   Clock,
-  Star,
   Info,
   X,
   Camera,
   CheckCircle,
-  Coffee,
-  Wifi,
-  Car,
-  Shield,
-  Award,
   Sparkles,
-  Download,
   Phone,
-  Mail,
   MessageCircle,
-  Globe,
-  Sun,
-  Cloud,
   Navigation,
   Check,
   HelpCircle,
@@ -47,9 +36,38 @@ function Details() {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [activeDay, setActiveDay] = useState(1);
-
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [bron, setBron] = useState({
+    phone: "",
+    email: "",
+    name: "",
+  });
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+
+  const handleBookingSubmit = async () => {
+    if (!tour) return;
+
+    const bronData = {
+      phone: bron.phone,
+      email: bron.email,
+      name: bron.name,
+      travelTourId: tour.id,
+    };
+
+    try {
+      const res = await ApiCall("/api/v1/bron", "POST", bronData);
+
+      if (res && !res.error) {
+        alert("Booking created successfully");
+        setShowBookingModal(false);
+        setBron({ phone: "", email: "", name: "" });
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Booking error");
+    }
+  };
 
   // Get current language
   const getCurrentLang = () => {
@@ -222,18 +240,7 @@ function Details() {
 
   // Handle book now
   const handleBookNow = () => {
-    navigate(`/booking/${tour?.id}`, {
-      state: {
-        tour: {
-          id: tour.id,
-          title: getTitle(tour),
-          price: tour.price,
-          currency: tour.currency,
-          startDate: tour.startDate,
-          endDate: tour.endDate,
-        },
-      },
-    });
+    setShowBookingModal(true);
   };
 
   // Loading state
@@ -677,6 +684,77 @@ function Details() {
           </div>
         </div>
       </div>
+
+      {showBookingModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden">
+            {/* Header */}
+            <div className="relative h-48">
+              <img
+                src={
+                  tour.images?.[0]
+                    ? `${baseUrl}/api/v1/file/getFile/${tour.images[0].id}`
+                    : "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800"
+                }
+                className="w-full h-full object-cover"
+                alt=""
+              />
+              <button
+                onClick={() => setShowBookingModal(false)}
+                className="absolute top-3 right-3 bg-white p-2 rounded-full"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6">
+              <h3 className="text-xl font-bold mb-4">{getTitle(tour)}</h3>
+
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Full name"
+                  value={bron.name}
+                  onChange={(e) => setBron({ ...bron, name: e.target.value })}
+                  className="w-full border p-3 rounded-lg"
+                />
+
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={bron.email}
+                  onChange={(e) => setBron({ ...bron, email: e.target.value })}
+                  className="w-full border p-3 rounded-lg"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Phone"
+                  value={bron.phone}
+                  onChange={(e) => setBron({ ...bron, phone: e.target.value })}
+                  className="w-full border p-3 rounded-lg"
+                />
+              </div>
+
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => setShowBookingModal(false)}
+                  className="flex-1 border py-3 rounded-lg"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={handleBookingSubmit}
+                  className="flex-1 bg-emerald-500 text-white py-3 rounded-lg"
+                >
+                  Confirm Booking
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Image Modal */}
       {isModalOpen && tour?.images && (

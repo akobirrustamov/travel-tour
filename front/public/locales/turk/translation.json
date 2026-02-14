@@ -1,111 +1,118 @@
 {
-    "header": {
-        "testMode": "🧪 Site test modunda. Bazı özellikler mevcut olmayabilir.",
-        "home": "Ana Sayfa",
-        "about": "Hakkımızda",
-        "tours": "Turlar",
-        "media": "Medya",
-        "contacts": "İletişim"
+  "header": {
+    "testMode": "🧪 Site test modunda. Bazı özellikler mevcut olmayabilir.",
+    "home": "Ana Sayfa",
+    "about": "Hakkımızda",
+    "tours": "Turlar",
+    "media": "Medya",
+    "contacts": "İletişim"
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "subtitle": "Yüksek Kalite",
+    "text": "2019 yılından itibaren, çeşitli İslam ülkelerinde kutsal turizm (dini turizm) ilkeleriyle başarılı bir şekilde turlar ve olağanüstü hizmetler sunuyoruz, nitelikli uzmanların yardımıyla.",
+    "text1": "Şirketimiz, yurttaşlarımız ve komşu ülkelerden gelen vatandaşlar için dini turizm, akademik turizm, iş turizmi ve sağlık turizmi konularında her türlü talebe karşılık gelen hizmetler sunmaktadır.",
+    "text2": "Tur hizmeti genellikle katılımcıların isteklerine göre sunulmaktadır. Çoğunlukla dini değerlere dayalı olarak otel ve restoran hizmetleri sunduğumuz için yolcularımızın çoğu bizi dini/kutsal turizm için tercih etmektedir.",
+    "button": "Oda Rezervasyonu Yap"
+  },
+  "tours": {
+    "title": "Seyahat Turları",
+    "subtitle": "Harika seyahat paketlerimizi keşfedin",
+    "no_tours": "Tur bulunamadı",
+    "check_back": "Yeni turlar için daha sonra tekrar kontrol edin",
+    "best_seller": "Çok Satan",
+    "per_person": "kişi",
+    "days": "gün",
+    "itinerary_available": "Program mevcut",
+    "read_more": "Daha fazla",
+    "leave_request": "Talep bırak",
+    "book_details": "Rezervasyon Bilgileri",
+    "name": "Ad",
+    "enter_name": "Adınızı girin",
+    "email": "E-posta",
+    "enter_email": "E-posta adresinizi girin",
+    "phone": "Telefon numarası",
+    "enter_phone": "Telefon numaranızı girin"
+  },
+  "partners": {
+    "title": "Başarılarımız",
+    "trusted": "Güvenilir Ortaklarımız",
+    "subtitle": "Sektördeki en iyi şirketlerle işbirliği yapıyoruz",
+    "no_partners": "Ortak bulunamadı"
+  },
+  "home": {
+    "news": {
+      "title": "Haberler ve Güncellemeler",
+      "subtitle": "En son haberlerimizden haberdar olun",
+      "read_more": "Devamını Oku",
+      "no_news": "Haber bulunamadı",
+      "check_back": "Güncellemeler için daha sonra tekrar kontrol edin"
     },
-    "about": {
-        "title": "Hakkımızda",
-        "subtitle": "Yüksek Kalite",
-        "text": "2019 yılından itibaren, çeşitli İslam ülkelerinde kutsal turizm (dini turizm) ilkeleriyle başarılı bir şekilde turlar ve olağanüstü hizmetler sunuyoruz, nitelikli uzmanların yardımıyla.",
-        "text1": "Şirketimiz, yurttaşlarımız ve komşu ülkelerden gelen vatandaşlar için dini turizm, akademik turizm, iş turizmi ve sağlık turizmi konularında her türlü talebe karşılık gelen hizmetler sunmaktadır.",
-        "text2": "Tur hizmeti genellikle katılımcıların isteklerine göre sunulmaktadır. Çoğunlukla dini değerlere dayalı olarak otel ve restoran hizmetleri sunduğumuz için yolcularımızın çoğu bizi dini/kutsal turizm için tercih etmektedir.",
-        "button": "Oda Rezervasyonu Yap"
+    "carousel": {
+      "title": "Minyatürlü Otel",
+      "subtitle": "Sanat Galerisi ve Eşsiz Hizmet"
     },
-    "tours": {
-        "title": "Seyahat Turları",
-        "subtitle": "Harika seyahat paketlerimizi keşfedin",
-        "no_tours": "Tur bulunamadı",
-        "check_back": "Yeni turlar için daha sonra tekrar kontrol edin",
-        "best_seller": "Çok Satan",
-        "per_person": "kişi",
-        "days": "gün",
-        "itinerary_available": "Program mevcut",
-        "read_more": "Daha fazla",
-        "leave_request": "Talep bırak"
+    "booking": {
+      "title": "Mükemmel Konaklamanızı Rezerve Edin",
+      "subtitle": "Unutulmaz bir deneyim için tarihlerinizi ve misafir sayınızı seçin",
+      "roomType": "Oda Türü",
+      "chooseType": "Tür Seçin",
+      "guests": "Misafirler",
+      "guestLabel": "{{count}} misafir(ler)",
+      "checkIn": "Giriş",
+      "checkOut": "Çıkış",
+      "addRoom": "Oda Ekle",
+      "continue": "Rezervasyonu Devam Ettir",
+      "error": "Her oda için tüm alanları doldurduğunuzdan emin olun"
     },
-    "partners": {
-        "title": "Başarılarımız",
-        "trusted": "Güvenilir Ortaklarımız",
-        "subtitle": "Sektördeki en iyi şirketlerle işbirliği yapıyoruz",
-        "no_partners": "Ortak bulunamadı"
-    },
-    "home": {
-        "news": {
-            "title": "Haberler ve Güncellemeler",
-            "subtitle": "En son haberlerimizden haberdar olun",
-            "read_more": "Devamını Oku",
-            "no_news": "Haber bulunamadı",
-            "check_back": "Güncellemeler için daha sonra tekrar kontrol edin"
+    "rooms": {
+      "sectionTitle": "Odalarımız",
+      "sectionSubtitle": "Mükemmel odayı seçin ve rahatlık ve sanat atmosferini hissedin",
+      "types": {
+        "TWIN": {
+          "title": "TWIN Oda",
+          "desc": "Arkadaşlarınızla huzurlu bir şekilde dinlenmek isteyenler için mükemmel"
         },
-        "carousel": {
-            "title": "Minyatürlü Otel",
-            "subtitle": "Sanat Galerisi ve Eşsiz Hizmet"
+        "DOUBLE": {
+          "title": "DOUBLE Oda",
+          "desc": "Romantik kaçamaklar ve özel anlar için ideal"
         },
-        "booking": {
-            "title": "Mükemmel Konaklamanızı Rezerve Edin",
-            "subtitle": "Unutulmaz bir deneyim için tarihlerinizi ve misafir sayınızı seçin",
-            "roomType": "Oda Türü",
-            "chooseType": "Tür Seçin",
-            "guests": "Misafirler",
-            "guestLabel": "{{count}} misafir(ler)",
-            "checkIn": "Giriş",
-            "checkOut": "Çıkış",
-            "addRoom": "Oda Ekle",
-            "continue": "Rezervasyonu Devam Ettir",
-            "error": "Her oda için tüm alanları doldurduğunuzdan emin olun"
-        },
-        "rooms": {
-            "sectionTitle": "Odalarımız",
-            "sectionSubtitle": "Mükemmel odayı seçin ve rahatlık ve sanat atmosferini hissedin",
-            "types": {
-                "TWIN": {
-                    "title": "TWIN Oda",
-                    "desc": "Arkadaşlarınızla huzurlu bir şekilde dinlenmek isteyenler için mükemmel"
-                },
-                "DOUBLE": {
-                    "title": "DOUBLE Oda",
-                    "desc": "Romantik kaçamaklar ve özel anlar için ideal"
-                },
-                "TRIPLE": {
-                    "title": "TRIPLE Oda",
-                    "desc": "Aile veya arkadaşlar için maksimum rahatlıkla geniş odalar"
-                }
-            },
-            "book": "Şimdi Rezervasyon Yap"
-        },
-        "features": {
-            "title": "Neden Bizi Seçmelisiniz",
-            "subtitle": "Konaklamanızı özel kılan benzersiz avantajlar",
-            "list": {
-                "1": {
-                    "title": "Premium Hizmet",
-                    "desc": "Özelleştirilmiş yüksek kaliteli misafirperverlik"
-                },
-                "2": {
-                    "title": "Sanat Galerisi",
-                    "desc": "Otel lobisinde özel sanat eserleri"
-                },
-                "3": {
-                    "title": "Yüksek Kalite",
-                    "desc": "Yüksek kaliteli malzemeler ve mükemmel konfor"
-                }
-            }
-        },
-
-        "footer": {
-            "desc": "Sanat Galerisi ve Eşsiz Hizmet — Buhara'nın kalbinde konfor, stil ve ilham.",
-            "contacts": "İletişim",
-            "phone": "Telefon",
-            "email": "E-posta",
-            "address": "Adres",
-            "rights": "Tüm hakları saklıdır",
-            "back": "↑ Yukarıya dön"
+        "TRIPLE": {
+          "title": "TRIPLE Oda",
+          "desc": "Aile veya arkadaşlar için maksimum rahatlıkla geniş odalar"
         }
+      },
+      "book": "Şimdi Rezervasyon Yap"
     },
-    "bookingDisabledTitle": "Rezervasyon geçici olarak kullanılamıyor",
-    "bookingDisabledSubtitle": "Daha fazla bilgi için lütfen telefonla ya da sosyal medya üzerinden bizimle iletişime geçin"
+    "features": {
+      "title": "Neden Bizi Seçmelisiniz",
+      "subtitle": "Konaklamanızı özel kılan benzersiz avantajlar",
+      "list": {
+        "1": {
+          "title": "Premium Hizmet",
+          "desc": "Özelleştirilmiş yüksek kaliteli misafirperverlik"
+        },
+        "2": {
+          "title": "Sanat Galerisi",
+          "desc": "Otel lobisinde özel sanat eserleri"
+        },
+        "3": {
+          "title": "Yüksek Kalite",
+          "desc": "Yüksek kaliteli malzemeler ve mükemmel konfor"
+        }
+      }
+    },
+
+    "footer": {
+      "desc": "Sanat Galerisi ve Eşsiz Hizmet — Buhara'nın kalbinde konfor, stil ve ilham.",
+      "contacts": "İletişim",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "address": "Adres",
+      "rights": "Tüm hakları saklıdır",
+      "back": "↑ Yukarıya dön"
+    }
+  },
+  "bookingDisabledTitle": "Rezervasyon geçici olarak kullanılamıyor",
+  "bookingDisabledSubtitle": "Daha fazla bilgi için lütfen telefonla ya da sosyal medya üzerinden bizimle iletişime geçin"
 }

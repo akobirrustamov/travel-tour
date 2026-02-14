@@ -23,7 +23,14 @@
     "share": "Ulashish",
     "details": "Tafsilotlar",
     "close": "Yopish",
-    "loading": "Sayohatlar yuklanmoqda..."
+    "loading": "Sayohatlar yuklanmoqda...",
+    "book_details": "Bron ma'lumotlari",
+    "name": "Ism",
+    "enter_name": "Ismingizni kiriting",
+    "email": "Elektron pochta",
+    "enter_email": "Elektron pochtangizni kiriting",
+    "phone": "Telefon raqam",
+    "enter_phone": "Telefon raqamingizni kiriting"
   },
   "partners": {
     "title": "Bizning Yutuqlarimiz",

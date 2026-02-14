@@ -1,43 +1,50 @@
 {
   "header": {
-    "home": "Anasayfa",
-    "about": "Hakkımızda",
-    "tours": "Turlar",
-    "media": "Medya",
-    "contacts": "İletişim"
+    "home": "Home",
+    "about": "About Us",
+    "tours": "Tours",
+    "media": "Media",
+    "contacts": "Contact"
   },
   "tours": {
-    "title": "Seyahat Turları",
-    "subtitle": "Harika seyahat paketlerimizi keşfedin",
-    "no_tours": "Şu anda tur mevcut değil",
-    "check_back": "Yeni turlar için tekrar kontrol edin",
-    "best_seller": "En Çok Satan",
-    "per_person": "kişi başı",
-    "days": "gün",
-    "itinerary_available": "Rota mevcut",
-    "read_more": "Daha fazla",
-    "book_now": "Hemen Rezervasyon Yap",
-    "from": "dan",
-    "to": "gacha",
-    "participants": "katılımcılar",
-    "share": "Paylaş",
-    "details": "Detaylar",
-    "close": "Kapat",
-    "loading": "Turlar yükleniyor..."
+    "title": "Travel Packages",
+    "subtitle": "Discover our amazing travel packages",
+    "no_tours": "No tours available at the moment",
+    "check_back": "Please check back later for new tours",
+    "best_seller": "Best Seller",
+    "per_person": "per person",
+    "days": "days",
+    "itinerary_available": "Detailed itinerary available",
+    "read_more": "Read More",
+    "book_now": "Book Now",
+    "from": "from",
+    "to": "to",
+    "participants": "participants",
+    "share": "Share",
+    "details": "Details",
+    "close": "Close",
+    "loading": "Loading tours...",
+    "book_details": "Booking Details",
+    "name": "Full Name",
+    "enter_name": "Enter your full name",
+    "email": "Email",
+    "enter_email": "Enter your email address",
+    "phone": "Phone Number",
+    "enter_phone": "Enter your phone number"
   },
   "partners": {
-    "title": "Başarılarımız",
-    "trusted": "Güvenilir Ortaklarımız",
-    "subtitle": "Sektörün en iyi firmaları ile işbirliği yapıyoruz",
-    "no_partners": "Ortaklar yok"
+    "title": "Our Achievements",
+    "trusted": "Our Trusted Partners",
+    "subtitle": "We collaborate with the best companies in the industry",
+    "no_partners": "No partners available"
   },
   "about": {
-    "title": "Hakkımızda",
-    "subtitle": "Yüksek Kalite",
-    "text": "2019'dan bu yana, nitelikli uzmanlar yardımıyla İslam ülkelerinde kutsal turizm (dini turizm) prensiplerine dayalı turlar ve mükemmel hizmetler sunuyoruz.",
-    "text1": "Şirketimiz dini turizm, akademik turizm, ticari turizm ve sağlık turizmi hizmetleri sunmaktadır.",
-    "text2": "Tur hizmeti, genellikle katılımcıların isteklerine dayanmaktadır. Çoğunlukla dini değerlere dayalı otel ve restoran hizmetleri sunduğumuz için, çoğu yolcumuz dini/kutsal turizm için bizi tercih ediyor.",
-    "button": "Odanızı Rezerve Edin"
+    "title": "About Us",
+    "subtitle": "High Quality",
+    "text": "Since 2019, we have been offering successful tours and excellent services in Islamic countries based on the principles of pilgrimage and religious tourism, with the support of qualified specialists.",
+    "text1": "Our company provides services in religious tourism, academic tourism, business tourism, and health tourism.",
+    "text2": "Our travel services are mainly based on the preferences of participants. As we primarily provide hotel and restaurant services aligned with religious values, many of our guests choose us for pilgrimage and religious tourism.",
+    "button": "Book Your Room"
   },
   "home": {
     "news": {

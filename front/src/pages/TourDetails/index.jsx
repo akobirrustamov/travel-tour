@@ -16,6 +16,7 @@ import {
   Camera,
   Users,
   Award,
+  X,
 } from "lucide-react";
 import ApiCall, { baseUrl } from "../../config/index";
 import { useNavigate } from "react-router-dom";
@@ -33,6 +34,34 @@ function Tours() {
   const [isVisible, setIsVisible] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const [bron, setBron] = useState({
+    phone: "",
+    email: "",
+    name: "",
+  });
+
+  const handleBookingSubmit = async () => {
+    if (!selectedTour) return;
+
+    const bronData = {
+      phone: bron.phone,
+      email: bron.email,
+      name: bron.name,
+      travelTourId: selectedTour.id,
+    };
+
+    try {
+      const res = await ApiCall("/api/v1/bron", "POST", bronData);
+      if (res && !res.error) {
+        alert("Booking created successfully");
+        setShowModal(false);
+        setBron({ phone: "", email: "", name: "" });
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Booking error");
+    }
+  };
 
   // Show tour details modal
   const showTourDetails = (id) => {
@@ -295,7 +324,12 @@ function Tours() {
                         {translations.read_more}
                       </button>
                       <button
-                        onClick={() => showTourDetails(tour.id)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedTour(tour);
+                          setShowModal(true);
+                        }}
                         className="bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition-all"
                       >
                         {translations.book_now}
@@ -307,6 +341,84 @@ function Tours() {
             })
           )}
         </div>
+
+        {showModal && selectedTour && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+            <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden">
+              {/* HEADER IMAGE */}
+              <div className="relative h-48">
+                <img
+                  src={
+                    selectedTour.images?.[0]
+                      ? `${baseUrl}/api/v1/file/getFile/${selectedTour.images[0].id}`
+                      : "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800"
+                  }
+                  className="w-full h-full object-cover"
+                  alt=""
+                />
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="absolute top-3 right-3 bg-white p-2 rounded-full"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-4">
+                  {getTitle(selectedTour)}
+                </h3>
+
+                {/* FORM */}
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Full name"
+                    value={bron.name}
+                    onChange={(e) => setBron({ ...bron, name: e.target.value })}
+                    className="w-full border p-3 rounded-lg"
+                  />
+
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={bron.email}
+                    onChange={(e) =>
+                      setBron({ ...bron, email: e.target.value })
+                    }
+                    className="w-full border p-3 rounded-lg"
+                  />
+
+                  <input
+                    type="text"
+                    placeholder="Phone"
+                    value={bron.phone}
+                    onChange={(e) =>
+                      setBron({ ...bron, phone: e.target.value })
+                    }
+                    className="w-full border p-3 rounded-lg"
+                  />
+                </div>
+
+                <div className="flex gap-3 mt-6">
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="flex-1 border py-3 rounded-lg"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    onClick={handleBookingSubmit}
+                    className="flex-1 bg-emerald-500 text-white py-3 rounded-lg"
+                  >
+                    Confirm Booking
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
