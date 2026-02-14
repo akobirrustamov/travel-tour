@@ -124,7 +124,6 @@ function News() {
 
     // === Handle booking (you can modify this for your needs) ===
     const handleNewsReadMore = (newsId) => {
-        console.log("Read more about news:", newsId);
         // Add your logic here, e.g., open modal or navigate to news detail page
     };
 

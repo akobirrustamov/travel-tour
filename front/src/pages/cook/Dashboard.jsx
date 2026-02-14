@@ -98,8 +98,6 @@ function Dashboard() {
 
         return arrivesTodayOrTomorrow || staysOverTomorrow;
       });
-      console.log(filtered);
-
       setBookings(filtered);
     }
   };
@@ -112,9 +110,7 @@ function Dashboard() {
   // ✅ функция подсчёта количества человек
   const getPeopleCount = (booking) => {
     const { guestsCount } = booking;
-    const roomTypeName = booking.room?.roomType?.name?.toLowerCase() || "";
-    console.log(roomTypeName);
-    
+    const roomTypeName = booking.room?.roomType?.name?.toLowerCase() || "";   
 
     // Если guestsCount указан — берём его напрямую
     if (guestsCount && guestsCount > 0) {

@@ -46,9 +46,6 @@ function Home() {
     try {
       const response = await fetch(baseUrl + "/api/v1/settings/booking-status");
       const json = await response.json();
-
-      console.log("📌 FETCH JSON:", json);
-
       setBookingEnabled(json.enabled);
     } catch (e) {
       console.error("❌ Exception while loading booking status:", e);
@@ -89,7 +86,7 @@ function Home() {
         image: roomImages.TRIPLE[0],
       },
     ],
-    [roomImages, t]
+    [roomImages, t],
   );
 
   const mainCarouselSlides = [
@@ -146,7 +143,7 @@ function Home() {
   const prevSlide = () => {
     setCurrentSlide(
       (prev) =>
-        (prev - 1 + mainCarouselSlides.length) % mainCarouselSlides.length
+        (prev - 1 + mainCarouselSlides.length) % mainCarouselSlides.length,
     );
   };
 
@@ -204,17 +201,16 @@ function Home() {
     <div className="min-h-screen">
       <ToastContainer position="top-right" autoClose={2000} />
 
-
       <Hero />
 
       <About />
 
-      <Tours/>
+      <Tours />
 
-<Partners/>
-     {/*<Gallery />*/}
+      <Partners />
+      {/*<Gallery />*/}
 
-  <News/>
+      <News />
 
       {/* ===== FEATURES SECTION ===== */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-yellow-50/30">
@@ -264,8 +260,6 @@ function Home() {
           </div>
         </div>
       </section>
-
-
 
       {/* ===== FOOTER ===== */}
       <footer

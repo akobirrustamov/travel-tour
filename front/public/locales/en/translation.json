@@ -1,111 +1,117 @@
 {
-    "header": {
-        "testMode": "🧪 Site in test mode. Some features may not be available.",
-        "home": "Home",
-        "about": "About Us",
-        "tours": "Tours",
-        "media": "Media",
-        "contacts": "Contacts"
+  "header": {
+    "home": "Anasayfa",
+    "about": "Hakkımızda",
+    "tours": "Turlar",
+    "media": "Medya",
+    "contacts": "İletişim"
+  },
+  "tours": {
+    "title": "Seyahat Turları",
+    "subtitle": "Harika seyahat paketlerimizi keşfedin",
+    "no_tours": "Şu anda tur mevcut değil",
+    "check_back": "Yeni turlar için tekrar kontrol edin",
+    "best_seller": "En Çok Satan",
+    "per_person": "kişi başı",
+    "days": "gün",
+    "itinerary_available": "Rota mevcut",
+    "read_more": "Daha fazla",
+    "book_now": "Hemen Rezervasyon Yap",
+    "from": "dan",
+    "to": "gacha",
+    "participants": "katılımcılar",
+    "share": "Paylaş",
+    "details": "Detaylar",
+    "close": "Kapat",
+    "loading": "Turlar yükleniyor..."
+  },
+  "partners": {
+    "title": "Başarılarımız",
+    "trusted": "Güvenilir Ortaklarımız",
+    "subtitle": "Sektörün en iyi firmaları ile işbirliği yapıyoruz",
+    "no_partners": "Ortaklar yok"
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "subtitle": "Yüksek Kalite",
+    "text": "2019'dan bu yana, nitelikli uzmanlar yardımıyla İslam ülkelerinde kutsal turizm (dini turizm) prensiplerine dayalı turlar ve mükemmel hizmetler sunuyoruz.",
+    "text1": "Şirketimiz dini turizm, akademik turizm, ticari turizm ve sağlık turizmi hizmetleri sunmaktadır.",
+    "text2": "Tur hizmeti, genellikle katılımcıların isteklerine dayanmaktadır. Çoğunlukla dini değerlere dayalı otel ve restoran hizmetleri sunduğumuz için, çoğu yolcumuz dini/kutsal turizm için bizi tercih ediyor.",
+    "button": "Odanızı Rezerve Edin"
+  },
+  "home": {
+    "news": {
+      "title": "News & Updates",
+      "subtitle": "Stay updated with our latest news",
+      "read_more": "Read More",
+      "no_news": "No news available",
+      "check_back": "Please check back later for updates"
     },
-    "tours": {
-        "title": "Travel Tours",
-        "subtitle": "Discover our amazing travel packages",
-        "no_tours": "No tours available",
-        "check_back": "Please check back later for new tours",
-        "best_seller": "Best Seller",
-        "per_person": "person",
-        "days": "d",
-        "itinerary_available": "Itinerary available",
-        "read_more": "Read more",
-        "leave_request": "Leave request"
+    "carousel": {
+      "title": "Miniature Hotel",
+      "subtitle": "Art Gallery & Exceptional Service"
     },
-    "partners": {
-        "title": "Our Achievements",
-        "trusted": "Our Trusted Partners",
-        "subtitle": "We collaborate with the best companies in the industry",
-        "no_partners": "No partners available"
+    "booking": {
+      "title": "Book Your Perfect Stay",
+      "subtitle": "Choose your dates and guests for an unforgettable experience",
+      "roomType": "Room Type",
+      "chooseType": "Select Type",
+      "guests": "Guests",
+      "guestLabel": "{{count}} guest(s)",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "addRoom": "Add Room",
+      "continue": "Continue Booking",
+      "error": "Please fill in all fields for each room"
     },
-    "about": {
-        "title": "About Us",
-        "subtitle": "High Quality",
-        "text": "Since 2019, we have been successfully offering tours and exceptional services based on the principles of blessed tourism (religious tourism) in various Islamic countries with the help of qualified specialists.",
-        "text1": "Our company provides services in religious tourism, academic tourism, business tourism, and health tourism that meet any demand for our compatriots and citizens of neighboring countries.",
-        "text2": "The tour service is offered mainly based on the participants' wishes. Since we often provide hotel and restaurant services based on religious values, most of our passengers choose us for religious/blessed tourism.",
-        "button": "Book a Room"
-    },
-    "home": {
-        "news": {
-            "title": "News & Updates",
-            "subtitle": "Stay updated with our latest news",
-            "read_more": "Read More",
-            "no_news": "No news available",
-            "check_back": "Please check back later for updates"
+    "rooms": {
+      "sectionTitle": "Our Rooms",
+      "sectionSubtitle": "Choose the perfect room and feel the atmosphere of comfort and art",
+      "types": {
+        "TWIN": {
+          "title": "TWIN Room",
+          "desc": "Perfect for those who want to relax peacefully with friends"
         },
-        "carousel": {
-            "title": "Miniature Hotel",
-            "subtitle": "Art Gallery & Exceptional Service"
+        "DOUBLE": {
+          "title": "DOUBLE Room",
+          "desc": "Ideal for romantic getaways and special moments"
         },
-        "booking": {
-            "title": "Book Your Perfect Stay",
-            "subtitle": "Choose your dates and guests for an unforgettable experience",
-            "roomType": "Room Type",
-            "chooseType": "Select Type",
-            "guests": "Guests",
-            "guestLabel": "{{count}} guest(s)",
-            "checkIn": "Check-in",
-            "checkOut": "Check-out",
-            "addRoom": "Add Room",
-            "continue": "Continue Booking",
-            "error": "Please fill in all fields for each room"
-        },
-        "rooms": {
-            "sectionTitle": "Our Rooms",
-            "sectionSubtitle": "Choose the perfect room and feel the atmosphere of comfort and art",
-            "types": {
-                "TWIN": {
-                    "title": "TWIN Room",
-                    "desc": "Perfect for those who want to relax peacefully with friends"
-                },
-                "DOUBLE": {
-                    "title": "DOUBLE Room",
-                    "desc": "Ideal for romantic getaways and special moments"
-                },
-                "TRIPLE": {
-                    "title": "TRIPLE Room",
-                    "desc": "Spacious room for family or friends with maximum comfort"
-                }
-            },
-            "book": "Book Now"
-        },
-        "features": {
-            "title": "Why Choose Us",
-            "subtitle": "Unique advantages that make your stay special",
-            "list": {
-                "1": {
-                    "title": "Premium Service",
-                    "desc": "Personalized top-class hospitality"
-                },
-                "2": {
-                    "title": "Art Gallery",
-                    "desc": "Exclusive artworks in the hotel lobby"
-                },
-                "3": {
-                    "title": "Top Quality",
-                    "desc": "High-quality materials and perfect comfort"
-                }
-            }
-        },
-
-        "footer": {
-            "desc": "Art Gallery & Exceptional Service — comfort, style, and inspiration in the heart of Bukhara.",
-            "contacts": "Contacts",
-            "phone": "Phone",
-            "email": "Email",
-            "address": "Address",
-            "rights": "All rights reserved",
-            "back": "↑ Back to top"
+        "TRIPLE": {
+          "title": "TRIPLE Room",
+          "desc": "Spacious room for family or friends with maximum comfort"
         }
+      },
+      "book": "Book Now"
     },
-    "bookingDisabledTitle": "Booking is temporarily unavailable",
-    "bookingDisabledSubtitle": "Please contact us by phone or social networks for more information"
+    "features": {
+      "title": "Why Choose Us",
+      "subtitle": "Unique advantages that make your stay special",
+      "list": {
+        "1": {
+          "title": "Premium Service",
+          "desc": "Personalized top-class hospitality"
+        },
+        "2": {
+          "title": "Art Gallery",
+          "desc": "Exclusive artworks in the hotel lobby"
+        },
+        "3": {
+          "title": "Top Quality",
+          "desc": "High-quality materials and perfect comfort"
+        }
+      }
+    },
+
+    "footer": {
+      "desc": "Art Gallery & Exceptional Service — comfort, style, and inspiration in the heart of Bukhara.",
+      "contacts": "Contacts",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "rights": "All rights reserved",
+      "back": "↑ Back to top"
+    }
+  },
+  "bookingDisabledTitle": "Booking is temporarily unavailable",
+  "bookingDisabledSubtitle": "Please contact us by phone or social networks for more information"
 }

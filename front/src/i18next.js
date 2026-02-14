@@ -1,28 +1,27 @@
-// src/i18n.js
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import Backend from "i18next-http-backend";
 
-const savedLang = localStorage.getItem("appLang") || "uz"; // Default to Russian
+const savedLang = localStorage.getItem("appLang") || "uz"; // Default to Uzbek
 
 i18n
-    .use(Backend)
-    .use(initReactI18next)
-    .init({
-        lng: savedLang, // Set the default language based on savedLang or fallback
-        fallbackLng: "en", // Fallback language if the selected language is not available
-        debug: true, // 👈 Temporarily enable to see the loading logs
-        interpolation: {
-            escapeValue: false, // Disable escaping of variables (React already does this)
-        },
-        backend: {
-            // 🔥 Path to your translation files; ensure the language code corresponds to file names
-            loadPath: "/locales/{{lng}}/translation.json",
-        },
-        react: {
-            useSuspense: false, // Avoid suspension when loading translations
-        },
-        supportedLngs: ["uz", "ru", "en", "turk"], // Add the languages you want to support
-    });
+  .use(Backend)
+  .use(initReactI18next)
+  .init({
+    lng: savedLang, // Default language
+    fallbackLng: "uz", // Fallback to Uzbek if the translation is missing
+    debug: true, // Enable debug for development
+    interpolation: {
+      escapeValue: false, // React already escapes values
+    },
+    backend: {
+      // The path to load the translation files
+      loadPath: "/locales/{{lng}}/translation.json", // Ensure this path matches your directory structure
+    },
+    react: {
+      useSuspense: false, // Avoid suspending the app when loading translations
+    },
+    supportedLngs: ["uz", "ru", "en", "turk"], // Supported languages
+  });
 
 export default i18n;

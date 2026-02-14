@@ -65,7 +65,6 @@ function AdminLogin() {
 
         // сохраняем роли
         const roles = response.data.roles || [];
-        console.log("user" + loginData.phone);
 
         localStorage.setItem("roles", JSON.stringify(roles));
         localStorage.setItem("phone", loginData.phone);

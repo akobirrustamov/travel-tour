@@ -1,111 +1,118 @@
 {
-    "header": {
-        "testMode": "🧪 Sayt test rejimida. Ba'zi funksiyalar mavjud bo'lmasligi mumkin.",
-        "home": "Bosh sahifa",
-        "about": "Biz haqimizda",
-        "tours": "Sayohatlar",
-        "media": "Media",
-        "contacts": "Aloqa"
-    },
-    "about": {
-        "title": "Biz haqimizda",
-        "subtitle": "Yuqori Sifat",
-        "text": "2019-yildan beri turli islomiy davlatlarga muvaffaqiyatli ravishda tabarruk turizm (diniy turizm) shiorlari asosida malakali mutaxassislar yordamida muvaffaqiyatli turlar va ajoyib xizmatlarni taklif etamiz.",
-        "text1": "Shirkatimiz hamyurtlarimiz hamda qardosh qo’shni davlat fuqarolari uchun diniy turizm, akademik turizm, \nish turizmi va sog’liq turizmi borasida har qanday talabga javob beradigan xizmatlarni taqdim etadi.",
-        "text2": "Asosan qatnashuvchilarning istaklariga qarab tur xizmati taklif qiladi. Ko’pincha diniy qadriyatlarga asoslangan \nholatda mehmonxona va oshxona xizmatlari taqdim etganimiz uchun asosan yo'lovchilarimiz diniy/tabarruk turizm bo'yicha \nbizni tanlashadi.",
-        "button": "Xona bron qiling"
-    },
-    "tours": {
-        "title": "Sayoxatlar",
-        "subtitle": "Ajoyib sayoxat paketlarini kashf eting",
-        "no_tours": "Sayoxatlar mavjud emas",
-        "check_back": "Yangi sayoxatlar uchun keyinroq tekshiring",
-        "best_seller": "Eng ko'p sotilgan",
-        "per_person": "kishi",
-        "days": "kun",
-        "itinerary_available": "Dastur mavjud",
-        "read_more": "Batafsil",
-        "leave_request": "So'rov qoldirish"
-    },
-    "partners": {
-        "title": "Yutuqlarimiz",
-        "trusted": "Ishonchli hamkorlarimiz",
-        "subtitle": "Sohadagi eng yaxshi kompaniyalar bilan hamkorlik qilamiz",
-        "no_partners": "Hamkorlar mavjud emas"
-    },
-    "home": {
-        "news": {
-            "title": "Yangiliklar",
-            "subtitle": "So'nggi yangiliklardan xabardor bo'ling",
-            "read_more": "Batafsil",
-            "no_news": "Yangiliklar mavjud emas",
-            "check_back": "Yangi yangiliklar uchun keyinroq tekshiring"
-        },
-        "carousel": {
-            "title": "Miniatürli Mehmonxona",
-            "subtitle": "San'at Galereyasi va Noyob Xizmat"
-        },
-        "booking": {
-            "title": "Mukammal Qolish joyingizni bron qiling",
-            "subtitle": "Unutilmas tajriba uchun sanalar va mehmonlarni tanlang",
-            "roomType": "Xona turi",
-            "chooseType": "Turini tanlang",
-            "guests": "Mehmonlar",
-            "guestLabel": "{{count}} mehmon(lar)",
-            "checkIn": "Kirish",
-            "checkOut": "Chiqish",
-            "addRoom": "Xona qo‘shish",
-            "continue": "Bron qilishni davom ettirish",
-            "error": "Har bir xona uchun barcha maydonlarni to‘ldiring"
-        },
-        "rooms": {
-            "sectionTitle": "Bizning Xonalarimiz",
-            "sectionSubtitle": "Mukammal xona tanlang va qulaylik va san'at muhitini his qiling",
-            "types": {
-                "TWIN": {
-                    "title": "TWIN Xonasi",
-                    "desc": "Do‘stlar bilan tinch va xotirjam dam olishni xohlaganlar uchun mukammal"
-                },
-                "DOUBLE": {
-                    "title": "DOUBLE Xonasi",
-                    "desc": "Romantik sayohatlar va maxsus lahzalar uchun ideal"
-                },
-                "TRIPLE": {
-                    "title": "TRIPLE Xonasi",
-                    "desc": "Oila yoki do‘stlar uchun eng yuqori qulaylik bilan keng xonalar"
-                }
-            },
-            "book": "Hoziroq bron qiling"
-        },
-        "features": {
-            "title": "Nima uchun bizni tanlashingiz kerak",
-            "subtitle": "Sizning qolishingizni maxsus qiladigan noyob afzalliklar",
-            "list": {
-                "1": {
-                    "title": "Premium Xizmat",
-                    "desc": "Maxsus yuqori darajadagi mehmondo‘stlik"
-                },
-                "2": {
-                    "title": "San'at Galereyasi",
-                    "desc": "Mehmonxona lobisida eksklyuziv san'at asarlari"
-                },
-                "3": {
-                    "title": "Yuqori Sifat",
-                    "desc": "Yuqori sifatli materiallar va mukammal qulaylik"
-                }
-            }
-        },
+  "header": {
+    "home": "Bosh sahifa",
+    "about": "Biz haqimizda",
+    "tours": "Sayohatlar",
+    "media": "Media",
+    "contacts": "Aloqa"
+  },
+  "tours": {
+    "title": "Sayohat Paketlari",
+    "subtitle": "Eng yaxshi sayohat paketlarini kashf eting",
+    "no_tours": "Hozircha sayohatlar mavjud emas",
+    "check_back": "Yangi sayohatlar uchun keyinroq tekshiring",
+    "best_seller": "Eng Sotiladigan",
+    "per_person": "kishi",
+    "days": "kun",
+    "itinerary_available": "Batafsil marshrut mavjud",
+    "read_more": "Batafsil",
+    "book_now": "Bron qilish",
+    "from": "dan",
+    "to": "gacha",
+    "participants": "ishtirokchilar",
+    "share": "Ulashish",
+    "details": "Tafsilotlar",
+    "close": "Yopish",
+    "loading": "Sayohatlar yuklanmoqda..."
+  },
+  "partners": {
+    "title": "Bizning Yutuqlarimiz",
+    "trusted": "Ishonchli Hamkorlarimiz",
+    "subtitle": "Biz eng yaxshi kompaniyalar bilan hamkorlik qilamiz",
+    "no_partners": "Hamkorlar mavjud emas"
+  },
+  "about": {
+    "title": "Biz haqimizda",
+    "subtitle": "Yuqori Sifat",
+    "text": "2019-yildan beri biz malakali mutaxassislar yordamida islomiy davlatlarda tabarruk turizm (diniy turizm) asosida muvaffaqiyatli turlarni va ajoyib xizmatlarni taklif etib kelmoqdamiz.",
+    "text1": "Bizning kompaniya diniy turizm, akademik turizm, biznes turizm va sog'liq turizmi sohalarida xizmatlar taqdim etadi.",
+    "text2": "Sayohat xizmati asosan ishtirokchilarning xohishlariga asoslanadi. Ko'pincha diniy qiymatlarga asoslangan mehmonxona va restoran xizmatlarini taqdim etamiz.",
+    "button": "Xonani bron qilish"
+  },
 
-        "footer": {
-            "desc": "San'at Galereyasi va Noyob Xizmat — Buxoradagi qulaylik, uslub va ilhom markazida.",
-            "contacts": "Aloqa",
-            "phone": "Telefon",
-            "email": "Elektron pochta",
-            "address": "Manzil",
-            "rights": "Barcha huquqlar himoyalangan",
-            "back": "↑ Yuqoriga qaytish"
-        }
+  "home": {
+    "news": {
+      "title": "Yangiliklar",
+      "subtitle": "So'nggi yangiliklardan xabardor bo'ling",
+      "read_more": "Batafsil",
+      "no_news": "Yangiliklar mavjud emas",
+      "check_back": "Yangi yangiliklar uchun keyinroq tekshiring"
     },
-    "bookingDisabledTitle": "Bron qilish vaqtincha mavjud emas",
-    "bookingDisabledSubtitle": "Qo‘shimcha ma'lumot olish uchun iltimos, biz bilan telefon yoki ijtimoiy tarmoqlar orqali bog‘laning"
+    "carousel": {
+      "title": "Miniatürli Mehmonxona",
+      "subtitle": "San'at Galereyasi va Noyob Xizmat"
+    },
+    "booking": {
+      "title": "Mukammal Qolish joyingizni bron qiling",
+      "subtitle": "Unutilmas tajriba uchun sanalar va mehmonlarni tanlang",
+      "roomType": "Xona turi",
+      "chooseType": "Turini tanlang",
+      "guests": "Mehmonlar",
+      "guestLabel": "{{count}} mehmon(lar)",
+      "checkIn": "Kirish",
+      "checkOut": "Chiqish",
+      "addRoom": "Xona qo‘shish",
+      "continue": "Bron qilishni davom ettirish",
+      "error": "Har bir xona uchun barcha maydonlarni to‘ldiring"
+    },
+    "rooms": {
+      "sectionTitle": "Bizning Xonalarimiz",
+      "sectionSubtitle": "Mukammal xona tanlang va qulaylik va san'at muhitini his qiling",
+      "types": {
+        "TWIN": {
+          "title": "TWIN Xonasi",
+          "desc": "Do‘stlar bilan tinch va xotirjam dam olishni xohlaganlar uchun mukammal"
+        },
+        "DOUBLE": {
+          "title": "DOUBLE Xonasi",
+          "desc": "Romantik sayohatlar va maxsus lahzalar uchun ideal"
+        },
+        "TRIPLE": {
+          "title": "TRIPLE Xonasi",
+          "desc": "Oila yoki do‘stlar uchun eng yuqori qulaylik bilan keng xonalar"
+        }
+      },
+      "book": "Hoziroq bron qiling"
+    },
+    "features": {
+      "title": "Nima uchun bizni tanlashingiz kerak",
+      "subtitle": "Sizning qolishingizni maxsus qiladigan noyob afzalliklar",
+      "list": {
+        "1": {
+          "title": "Premium Xizmat",
+          "desc": "Maxsus yuqori darajadagi mehmondo‘stlik"
+        },
+        "2": {
+          "title": "San'at Galereyasi",
+          "desc": "Mehmonxona lobisida eksklyuziv san'at asarlari"
+        },
+        "3": {
+          "title": "Yuqori Sifat",
+          "desc": "Yuqori sifatli materiallar va mukammal qulaylik"
+        }
+      }
+    },
+
+    "footer": {
+      "desc": "San'at Galereyasi va Noyob Xizmat — Buxoradagi qulaylik, uslub va ilhom markazida.",
+      "contacts": "Aloqa",
+      "phone": "Telefon",
+      "email": "Elektron pochta",
+      "address": "Manzil",
+      "rights": "Barcha huquqlar himoyalangan",
+      "back": "↑ Yuqoriga qaytish"
+    }
+  },
+  "bookingDisabledTitle": "Bron qilish vaqtincha mavjud emas",
+  "bookingDisabledSubtitle": "Qo‘shimcha ma'lumot olish uchun iltimos, biz bilan telefon yoki ijtimoiy tarmoqlar orqali bog‘laning"
 }

@@ -160,7 +160,6 @@ function ChatList({
           ) : (
             filteredChats.map((chat) => {
               if (!chat?.id) return null;
-              console.log(chat);
               const isParticipant = chat.participants?.some(
                 (p) => p.id === user?.id
               );

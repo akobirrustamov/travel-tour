@@ -118,16 +118,12 @@ function AdminDashboard() {
   // === Тоггл блокировки бронирования ===
   const toggleBooking = async () => {
     const newState = !bookingEnabled;
-    console.log(newState);
-
     const res = await requestWithRefresh(
       "/api/v1/settings/booking-status",
       "PUT",
       null,
       { enabled: newState }
     );
-    console.log(res);
-
     if (res && !res.error) {
       setBookingEnabled(res.data.enabled); // 🔥 res.data — уже boolean из back-end
       toast.success(
