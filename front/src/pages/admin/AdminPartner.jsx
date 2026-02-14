@@ -131,7 +131,7 @@ function AdminPartner() {
         if (!file) return;
 
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/webp'];
-        const maxSize = 2 * 1024 * 1024; // 2MB
+        const maxSize = 10 * 1024 * 1024; // 2MB
 
         if (!allowedTypes.includes(file.type)) {
             toast.error("Only image files are allowed (JPEG, PNG, JPG, SVG, WebP)");
@@ -139,7 +139,7 @@ function AdminPartner() {
         }
 
         if (file.size > maxSize) {
-            toast.error("Logo size must be less than 2MB");
+            toast.error("Logo size must be less than 10MB");
             return;
         }
 
@@ -853,7 +853,7 @@ function AdminPartner() {
                                 <label className="block text-lg font-semibold text-gray-800 mb-6">
                                     Partner Logo
                                     <span className="block text-sm font-normal text-gray-500 mt-1">
-                                        Recommended: 200x200px, PNG/JPEG/SVG, max 2MB
+                                        Recommended: 200x200px, PNG/JPEG/SVG, max 10MB
                                     </span>
                                 </label>
 

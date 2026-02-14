@@ -29,24 +29,29 @@ function About(props) {
 
                     <div className="lg:pl-8">
                         <h2 className="text-5xl md:text-6xl font-bold mb-6">
-                            <span className="text-yellow-400">{t("home.about.title")}</span>
+                            <span className="text-yellow-400">{t("about.title")}</span>
                         </h2>
-                        <h3 className="text-2xl font-semibold mb-4 text-yellow-400">
-                            {t("home.about.subtitle")}
-                        </h3>
-                        <p className="text-gray-900 leading-relaxed mb-8 text-lg">
-                            {t("home.about.text")}
+
+                        <p className="text-gray-900 leading-relaxed mb-2 text-lg">
+                            {t("about.text")}
                         </p>
-                        <button
-                            onClick={() =>
-                                document
-                                    .getElementById("booking")
-                                    .scrollIntoView({ behavior: "smooth" })
-                            }
-                            className="bg-yellow-400 text-black px-8 py-4 rounded-xl font-semibold hover:bg-yellow-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                        >
-                            {t("home.about.button")}
-                        </button>
+                        <p className="text-gray-900 leading-relaxed mb-2 text-lg">
+                            {t("about.text1")}
+                        </p>
+                        <p className="text-gray-900 leading-relaxed mb-2 text-lg">
+                            {t("about.text2")}
+                        </p>
+
+                        {/*<button*/}
+                        {/*    onClick={() =>*/}
+                        {/*        document*/}
+                        {/*            .getElementById("booking")*/}
+                        {/*            .scrollIntoView({ behavior: "smooth" })*/}
+                        {/*    }*/}
+                        {/*    className="bg-yellow-400 text-black px-8 py-4 rounded-xl font-semibold hover:bg-yellow-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"*/}
+                        {/*>*/}
+                        {/*    {t("about.button")}*/}
+                        {/*</button>*/}
                     </div>
                 </div>
             </section>

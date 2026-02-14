@@ -134,7 +134,7 @@ function Hero() {
     // === No slides state ===
     if (carouselSlides.length === 0) {
         return (
-            <section className="relative h-[70vh] w-full flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-800">
+            <section className="relative h-[100vh] w-full flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-800">
                 <div className="text-center text-white">
                     <p className="text-xl">No carousel slides available</p>
                 </div>
@@ -171,36 +171,36 @@ function Hero() {
                             }}
                         />
                         {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70" />
+                        {/*<div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70" />*/}
                     </div>
                 ))}
 
                 {/* Content */}
-                <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-6">
-                    <div className="mb-8 animate-fade-in">
-                        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-                            {currentContent.title}
-                        </h1>
-                        <h2 className="text-2xl md:text-3xl text-gray-50 font-light mb-8 leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
-                            {currentContent.description}
-                        </h2>
+                {/*<div className="relative z-10 text-center text-white max-w-6xl mx-auto px-6">*/}
+                {/*    <div className="mb-8 animate-fade-in">*/}
+                {/*        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">*/}
+                {/*            {currentContent.title}*/}
+                {/*        </h1>*/}
+                {/*        <h2 className="text-2xl md:text-3xl text-gray-50 font-light mb-8 leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">*/}
+                {/*            {currentContent.description}*/}
+                {/*        </h2>*/}
 
-                        {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">
-                                {t('home.cta.explore', 'Explore Tours')}
-                            </button>
-                            <button className="bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full font-semibold text-lg backdrop-blur-sm transition-all transform hover:scale-105 border border-white/30">
-                                {t('home.cta.contact', 'Contact Us')}
-                            </button>
-                        </div>
-                    </div>
+                {/*        /!* CTA Buttons *!/*/}
+                {/*        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">*/}
+                {/*            <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">*/}
+                {/*                {t('home.cta.explore', 'Explore Tours')}*/}
+                {/*            </button>*/}
+                {/*            <button className="bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full font-semibold text-lg backdrop-blur-sm transition-all transform hover:scale-105 border border-white/30">*/}
+                {/*                {t('home.cta.contact', 'Contact Us')}*/}
+                {/*            </button>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
 
-                    {/* Slide Counter */}
-                    <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 text-white/80 text-sm font-medium">
-                        {String(currentSlide + 1).padStart(2, '0')} / {String(carouselSlides.length).padStart(2, '0')}
-                    </div>
-                </div>
+                {/*    /!* Slide Counter *!/*/}
+                {/*    <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 text-white/80 text-sm font-medium">*/}
+                {/*        {String(currentSlide + 1).padStart(2, '0')} / {String(carouselSlides.length).padStart(2, '0')}*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 {/* Navigation Arrows */}
                 {carouselSlides.length > 1 && (

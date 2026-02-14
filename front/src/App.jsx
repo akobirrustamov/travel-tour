@@ -14,7 +14,6 @@ import AdminPartner from "./pages/admin/AdminPartner";
 
 
 import Home from "./pages/Home";
-import About from "./pages/About";
 import Rooms from "./pages/Rooms";
 import Restaurant from "./pages/Restaurant";
 import Booking from "./pages/Booking";
@@ -25,7 +24,6 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
           <Route path="rooms" element={<Rooms />} />
           <Route path="restaurant" element={<Restaurant />} />
           <Route path="booking" element={<Booking />} />

@@ -55,8 +55,9 @@ function Header() {
   // ✅ Навигационные пункты — всё через i18next
   const navItems = [
     { label: t("header.home"), id: "home" },
-    { label: t("header.rooms"), id: "rooms" },
     { label: t("header.about"), id: "about" },
+    { label: t("header.tours"), id: "tours" },
+    { label: t("header.media"), id: "media" },
     { label: t("header.contacts"), id: "contacts" },
   ];
 
@@ -127,8 +128,11 @@ function Header() {
                   onChange={(e) => setLanguage(e.target.value)}
                   className="bg-transparent text-yellow-300 font-medium focus:outline-none cursor-pointer"
                 >
+                  <option value="uz">UZ</option>
                   <option value="ru">RU</option>
                   <option value="en">EN</option>
+                  <option value="turk">TR</option>
+
                 </select>
               </div>
             </div>

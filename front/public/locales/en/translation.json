@@ -1,13 +1,46 @@
 {
     "header": {
-        "testMode": "🧪 The site is in test mode. Some features may be unavailable.",
+        "testMode": "🧪 Site in test mode. Some features may not be available.",
         "home": "Home",
-        "rooms": "Rooms",
-        "about": "About us",
-        "contacts": "Contacts",
-        "book": "Book now"
+        "about": "About Us",
+        "tours": "Tours",
+        "media": "Media",
+        "contacts": "Contacts"
+    },
+    "tours": {
+        "title": "Travel Tours",
+        "subtitle": "Discover our amazing travel packages",
+        "no_tours": "No tours available",
+        "check_back": "Please check back later for new tours",
+        "best_seller": "Best Seller",
+        "per_person": "person",
+        "days": "d",
+        "itinerary_available": "Itinerary available",
+        "read_more": "Read more",
+        "leave_request": "Leave request"
+    },
+    "partners": {
+        "title": "Our Achievements",
+        "trusted": "Our Trusted Partners",
+        "subtitle": "We collaborate with the best companies in the industry",
+        "no_partners": "No partners available"
+    },
+    "about": {
+        "title": "About Us",
+        "subtitle": "High Quality",
+        "text": "Since 2019, we have been successfully offering tours and exceptional services based on the principles of blessed tourism (religious tourism) in various Islamic countries with the help of qualified specialists.",
+        "text1": "Our company provides services in religious tourism, academic tourism, business tourism, and health tourism that meet any demand for our compatriots and citizens of neighboring countries.",
+        "text2": "The tour service is offered mainly based on the participants' wishes. Since we often provide hotel and restaurant services based on religious values, most of our passengers choose us for religious/blessed tourism.",
+        "button": "Book a Room"
     },
     "home": {
+        "news": {
+            "title": "News & Updates",
+            "subtitle": "Stay updated with our latest news",
+            "read_more": "Read More",
+            "no_news": "No news available",
+            "check_back": "Please check back later for updates"
+        },
         "carousel": {
             "title": "Miniature Hotel",
             "subtitle": "Art Gallery & Exceptional Service"
@@ -62,12 +95,7 @@
                 }
             }
         },
-        "about": {
-            "title": "About Us",
-            "subtitle": "High Quality",
-            "text": "The Miniature Hotel was reopened in 2016 after renovation and modernization to meet the highest standards. We offer luxurious rooms, many facilities, and exceptional service.",
-            "button": "Book a Room"
-        },
+
         "footer": {
             "desc": "Art Gallery & Exceptional Service — comfort, style, and inspiration in the heart of Bukhara.",
             "contacts": "Contacts",
