@@ -43,7 +43,12 @@ function AdminTour() {
   const [uploading, setUploading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("uz");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [cityInput, setCityInput] = useState("");
+  const [cityInput, setCityInput] = useState({
+    uz: "",
+    ru: "",
+    en: "",
+    turk: "",
+  });
   const [imagePreviews, setImagePreviews] = useState([]);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -57,7 +62,10 @@ function AdminTour() {
     endDate: "",
     price: "",
     currency: "USD",
-    cities: [],
+    cities_uz: [],
+    cities_ru: [],
+    cities_en: [],
+    cities_turk: [],
     description_uz: "",
     description_ru: "",
     description_en: "",
@@ -211,21 +219,32 @@ function AdminTour() {
   };
 
   // === Handle Add City ===
-  const handleAddCity = () => {
-    if (cityInput.trim() && !formData.cities.includes(cityInput.trim())) {
-      setFormData((prev) => ({
-        ...prev,
-        cities: [...prev.cities, cityInput.trim()],
-      }));
-      setCityInput("");
-    }
-  };
+  const handleAddCity = (lang) => {
+    const value = cityInput[lang]?.trim();
+    if (!value) return;
 
-  // === Handle Remove City ===
-  const handleRemoveCity = (city) => {
+    const field = `cities_${lang}`;
+
+    setFormData((prev) => {
+      if (prev[field]?.includes(value)) return prev;
+
+      return {
+        ...prev,
+        [field]: [...(prev[field] || []), value],
+      };
+    });
+
+    setCityInput((prev) => ({
+      ...prev,
+      [lang]: "",
+    }));
+  };
+  const handleRemoveCity = (lang, city) => {
+    const field = `cities_${lang}`;
+
     setFormData((prev) => ({
       ...prev,
-      cities: prev.cities.filter((c) => c !== city),
+      [field]: prev[field].filter((c) => c !== city),
     }));
   };
 
@@ -320,7 +339,10 @@ function AdminTour() {
       endDate: tour.endDate || "",
       price: tour.price || "",
       currency: tour.currency || "USD",
-      cities: tour.cities || [],
+      cities_uz: tour.cities_uz || [],
+      cities_ru: tour.cities_ru || [],
+      cities_en: tour.cities_en || [],
+      cities_turk: tour.cities_turk || [],
       description_uz: tour.description_uz || "",
       description_ru: tour.description_ru || "",
       description_en: tour.description_en || "",
@@ -386,7 +408,10 @@ function AdminTour() {
       endDate: "",
       price: "",
       currency: "USD",
-      cities: [],
+      cities_uz: [],
+      cities_ru: [],
+      cities_en: [],
+      cities_turk: [],
       description_uz: "",
       description_ru: "",
       description_en: "",
@@ -860,7 +885,7 @@ function AdminTour() {
                             className="mr-1 text-gray-500 mt-0.5"
                           />
                           <p className="text-sm text-gray-600 truncate">
-                            {tour.cities?.join(" • ")}
+                            {tour[`cities_${selectedLanguage}`]?.join(" • ")}
                           </p>
                         </div>
 
@@ -1176,57 +1201,75 @@ function AdminTour() {
               </div>
 
               {/* Cities */}
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <h3 className="text-xl font-bold text-gray-800">Tour Cities</h3>
-                <div className="space-y-3">
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={cityInput}
-                      onChange={(e) => setCityInput(e.target.value)}
-                      onKeyPress={(e) =>
-                        e.key === "Enter" &&
-                        (e.preventDefault(), handleAddCity())
-                      }
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                      placeholder="Enter city name"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleAddCity}
-                      className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
-                    >
-                      Add City
-                    </button>
-                  </div>
 
-                  {/* Cities List */}
-                  <div className="flex flex-wrap gap-2">
-                    {formData.cities.map((city, index) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm"
+                {["uz", "ru", "en", "turk"].map((lang) => (
+                  <div
+                    key={lang}
+                    className="space-y-3 border p-4 rounded-xl bg-gray-50"
+                  >
+                    {/* Title */}
+                    <h4 className="font-semibold text-gray-700">
+                      Cities ({lang.toUpperCase()})
+                    </h4>
+
+                    {/* Input */}
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={cityInput[lang] || ""}
+                        onChange={(e) =>
+                          setCityInput((prev) => ({
+                            ...prev,
+                            [lang]: e.target.value,
+                          }))
+                        }
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleAddCity(lang);
+                          }
+                        }}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        placeholder={`Enter city (${lang.toUpperCase()})`}
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => handleAddCity(lang)}
+                        className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
                       >
-                        <MapPin size={12} className="mr-1" />
-                        {city}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveCity(city)}
-                          className="ml-2 text-emerald-700 hover:text-red-600"
-                        >
-                          <X size={14} />
-                        </button>
-                      </span>
-                    ))}
-                    {formData.cities.length === 0 && (
-                      <p className="text-sm text-gray-500">
-                        No cities added yet
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
+                        Add
+                      </button>
+                    </div>
 
+                    {/* Cities List */}
+                    <div className="flex flex-wrap gap-2">
+                      {formData[`cities_${lang}`]?.map((city, index) => (
+                        <span
+                          key={index}
+                          className="inline-flex items-center px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm"
+                        >
+                          <MapPin size={12} className="mr-1" />
+                          {city}
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveCity(lang, city)}
+                            className="ml-2 text-emerald-700 hover:text-red-600"
+                          >
+                            <X size={14} />
+                          </button>
+                        </span>
+                      ))}
+
+                      {formData[`cities_${lang}`]?.length === 0 && (
+                        <p className="text-sm text-gray-500">No cities added</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
               {/* Images */}
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-gray-800">Tour Images</h3>
