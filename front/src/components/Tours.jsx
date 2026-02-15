@@ -455,7 +455,7 @@ function Tours() {
     <>
       <section
         ref={sectionRef}
-        className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden"
+        className="py-10 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden"
       >
         {/* Background Decorations */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -492,11 +492,7 @@ function Tours() {
         <div className="container mx-auto px-4 relative z-10">
           {/* Section Header with Animation */}
           <div
-            className={`text-center mb-16 transition-all duration-1000 transform ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
+            className={`text-center mb-4 transition-all duration-1000 transform`}
           >
             <div className="inline-block mb-4">
               <div className="relative">

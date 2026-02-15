@@ -60,12 +60,10 @@ public class GalleryServiceImpl implements GalleryService {
     public HttpEntity<?> delete(Integer id) {
 
         Gallery gallery = getById(id);
-        galleryRepo.delete(gallery);
+        galleryRepo.deleteById(gallery.getId());
         if (gallery.getMedia() != null) {
             deleteAttachment(gallery.getMedia());
         }
-
-
         return ResponseEntity.ok().build();
     }
 

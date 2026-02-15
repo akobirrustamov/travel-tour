@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import ApiCall, { baseUrl } from "../../config/index";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
 
 function Tours() {
   const [tours, setTours] = useState([]);
@@ -190,9 +191,9 @@ function Tours() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative"
+      className="pt-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative"
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 pb-10">
         <h2 className="text-center text-5xl font-bold mb-6">
           {translations.title}
         </h2>
@@ -420,6 +421,7 @@ function Tours() {
           </div>
         )}
       </div>
+      <Footer />
     </section>
   );
 }

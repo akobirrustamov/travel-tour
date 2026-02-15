@@ -23,6 +23,7 @@ import {
   Check,
   HelpCircle,
 } from "lucide-react";
+import Footer from "../../components/Footer";
 
 function Details() {
   const { id } = useParams();
@@ -322,7 +323,7 @@ function Details() {
         </div>
 
         {/* Top Navigation */}
-        <div className="absolute top-0 left-0 right-0 p-6 z-20">
+        <div className="absolute top-8 left-0 right-0 p-6 z-20">
           <div className="container mx-auto flex justify-between items-center">
             <button
               onClick={() => navigate("/tours")}
@@ -799,6 +800,8 @@ function Details() {
           </div>
         </div>
       )}
+
+      <Footer />
     </div>
   );
 }

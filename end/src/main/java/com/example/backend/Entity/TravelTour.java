@@ -51,7 +51,10 @@ public class TravelTour {
             joinColumns = @JoinColumn(name = "tour_id")
     )
     @Column(name = "city")
-    private List<String> cities;
+    private List<String> cities_uz;
+    private List<String> cities_ru;
+    private List<String> cities_en;
+    private List<String> cities_turk;
 
     /* ================= DESCRIPTIONS ================= */
     @Column(columnDefinition = "TEXT")

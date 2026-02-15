@@ -150,11 +150,11 @@ function Header() {
   };
 
   const navItems = [
-    { label: t("header.home"), id: "home", icon: "🏡" },
-    { label: t("header.about"), id: "about", icon: "ℹ️" },
-    { label: t("header.tours"), id: "tours", icon: "✈️" },
-    { label: t("header.media"), id: "media", icon: "📸" },
-    { label: t("header.contacts"), id: "contacts", icon: "📞" },
+    { label: t("header.home"), id: "home" },
+    { label: t("header.about"), id: "about" },
+    { label: t("header.tours"), id: "tours" },
+    { label: t("header.media"), id: "media" },
+    { label: t("header.contacts"), id: "contacts" },
   ];
 
   const languages = [

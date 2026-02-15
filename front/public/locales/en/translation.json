@@ -44,6 +44,9 @@
     "text": "Since 2019, we have been offering successful tours and excellent services in Islamic countries based on the principles of pilgrimage and religious tourism, with the support of qualified specialists.",
     "text1": "Our company provides services in religious tourism, academic tourism, business tourism, and health tourism.",
     "text2": "Our travel services are mainly based on the preferences of participants. As we primarily provide hotel and restaurant services aligned with religious values, many of our guests choose us for pilgrimage and religious tourism.",
+    "text3": "Our main priority is to provide services aligned with religious values. Our hotels and dining facilities are either directly owned by us or strictly supervised through partnerships. Therefore, our prices are significantly more affordable than market rates, and even our standard packages match the premium level of other companies.",
+    "text4": "We ensure maximum comfort for our travelers: dinner service is included, and accommodation and meals are provided free of charge for children under the age of two.",
+    "text5": "Additionally, within the framework of international scientific conferences, academic visits, and religious events, we organize large-scale trips in cooperation with scholars, researchers, and delegations from Turkey and other countries.",
     "button": "Book Your Room"
   },
   "home": {
@@ -91,20 +94,20 @@
       "book": "Book Now"
     },
     "features": {
-      "title": "Why Choose Us",
-      "subtitle": "Unique advantages that make your stay special",
+      "title": "Why Choose Us?",
+      "subtitle": "We offer you not just a journey — but trust, quality, and comfort.",
       "list": {
         "1": {
-          "title": "Premium Service",
-          "desc": "Personalized top-class hospitality"
+          "title": "Price and Quality Balance",
+          "desc": "Since our hotel and dining services are under direct supervision, we offer affordable prices while maintaining high-quality standards. Even our standard packages match the premium level of other companies."
         },
         "2": {
-          "title": "Art Gallery",
-          "desc": "Exclusive artworks in the hotel lobby"
+          "title": "Services Aligned with Religious Values",
+          "desc": "Our tours are organized in accordance with religious principles. Halal dining, convenient locations, and prayer-friendly environments strengthen our travelers' trust."
         },
         "3": {
-          "title": "Top Quality",
-          "desc": "High-quality materials and perfect comfort"
+          "title": "International Experience and Trust",
+          "desc": "Since 2019, we have successfully cooperated with delegations, scholars, and organizations from Turkey and other countries. Traveling with us means reliable partnership."
         }
       }
     },

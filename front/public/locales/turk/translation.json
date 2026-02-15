@@ -13,6 +13,9 @@
     "text": "2019 yılından itibaren, çeşitli İslam ülkelerinde kutsal turizm (dini turizm) ilkeleriyle başarılı bir şekilde turlar ve olağanüstü hizmetler sunuyoruz, nitelikli uzmanların yardımıyla.",
     "text1": "Şirketimiz, yurttaşlarımız ve komşu ülkelerden gelen vatandaşlar için dini turizm, akademik turizm, iş turizmi ve sağlık turizmi konularında her türlü talebe karşılık gelen hizmetler sunmaktadır.",
     "text2": "Tur hizmeti genellikle katılımcıların isteklerine göre sunulmaktadır. Çoğunlukla dini değerlere dayalı olarak otel ve restoran hizmetleri sunduğumuz için yolcularımızın çoğu bizi dini/kutsal turizm için tercih etmektedir.",
+    "text3": "Temel önceliğimiz, dini değerlere uygun hizmet sunmaktır. Otel ve yemek hizmetlerimiz doğrudan tarafımızdan işletilmekte veya iş birliği kapsamında sıkı şekilde denetlenmektedir. Bu nedenle fiyatlarımız piyasa değerinin oldukça altında olup, standart paketlerimiz bile diğer firmaların premium hizmet seviyesine eşdeğerdir.",
+    "text4": "Misafirlerimiz için maksimum konfor sağlanmaktadır: akşam yemeği hizmeti sunulmakta ve 2 yaş altı çocuklar için konaklama ile yemek ücretsizdir.",
+    "text5": "Ayrıca uluslararası bilimsel konferanslar, akademik ziyaretler ve dini etkinlikler kapsamında Türkiye ve diğer ülkelerden gelen akademisyenler, araştırmacılar ve delegasyonlarla iş birliği içinde büyük organizasyonlar düzenlemekteyiz.",
     "button": "Oda Rezervasyonu Yap"
   },
   "tours": {
@@ -85,34 +88,34 @@
       "book": "Şimdi Rezervasyon Yap"
     },
     "features": {
-      "title": "Neden Bizi Seçmelisiniz",
-      "subtitle": "Konaklamanızı özel kılan benzersiz avantajlar",
+      "title": "Neden Bizi Seçmelisiniz?",
+      "subtitle": "Size sadece bir seyahat değil — güven, kalite ve konfor sunuyoruz.",
       "list": {
         "1": {
-          "title": "Premium Hizmet",
-          "desc": "Özelleştirilmiş yüksek kaliteli misafirperverlik"
+          "title": "Fiyat ve Kalite Dengesi",
+          "desc": "Otel ve yemek hizmetlerimiz doğrudan kontrolümüz altında olduğu için uygun fiyatlarla yüksek kalite sunuyoruz. Standart paketlerimiz bile diğer firmaların premium hizmet seviyesine eşdeğerdir."
         },
         "2": {
-          "title": "Sanat Galerisi",
-          "desc": "Otel lobisinde özel sanat eserleri"
+          "title": "Dini Değerlere Uygun Hizmet",
+          "desc": "Turlarımız dini prensiplere uygun şekilde organize edilmektedir. Helal yemek, uygun konum ve ibadet için elverişli ortamlar misafirlerimizin güvenini artırır."
         },
         "3": {
-          "title": "Yüksek Kalite",
-          "desc": "Yüksek kaliteli malzemeler ve mükemmel konfor"
+          "title": "Uluslararası Deneyim ve Güven",
+          "desc": "2019 yılından bu yana Türkiye ve diğer ülkelerden gelen delegasyonlar, akademisyenler ve kurumlarla başarılı iş birlikleri gerçekleştirmekteyiz. Bizimle seyahat güvenilir bir ortaklık demektir."
         }
+      },
+
+      "footer": {
+        "desc": "Sanat Galerisi ve Eşsiz Hizmet — Buhara'nın kalbinde konfor, stil ve ilham.",
+        "contacts": "İletişim",
+        "phone": "Telefon",
+        "email": "E-posta",
+        "address": "Adres",
+        "rights": "Tüm hakları saklıdır",
+        "back": "↑ Yukarıya dön"
       }
     },
-
-    "footer": {
-      "desc": "Sanat Galerisi ve Eşsiz Hizmet — Buhara'nın kalbinde konfor, stil ve ilham.",
-      "contacts": "İletişim",
-      "phone": "Telefon",
-      "email": "E-posta",
-      "address": "Adres",
-      "rights": "Tüm hakları saklıdır",
-      "back": "↑ Yukarıya dön"
-    }
-  },
-  "bookingDisabledTitle": "Rezervasyon geçici olarak kullanılamıyor",
-  "bookingDisabledSubtitle": "Daha fazla bilgi için lütfen telefonla ya da sosyal medya üzerinden bizimle iletişime geçin"
+    "bookingDisabledTitle": "Rezervasyon geçici olarak kullanılamıyor",
+    "bookingDisabledSubtitle": "Daha fazla bilgi için lütfen telefonla ya da sosyal medya üzerinden bizimle iletişime geçin"
+  }
 }

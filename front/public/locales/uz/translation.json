@@ -44,6 +44,9 @@
     "text": "2019-yildan beri biz malakali mutaxassislar yordamida islomiy davlatlarda tabarruk turizm (diniy turizm) asosida muvaffaqiyatli turlarni va ajoyib xizmatlarni taklif etib kelmoqdamiz.",
     "text1": "Bizning kompaniya diniy turizm, akademik turizm, biznes turizm va sog'liq turizmi sohalarida xizmatlar taqdim etadi.",
     "text2": "Sayohat xizmati asosan ishtirokchilarning xohishlariga asoslanadi. Ko'pincha diniy qiymatlarga asoslangan mehmonxona va restoran xizmatlarini taqdim etamiz.",
+    "text3": "Bizning asosiy ustuvorligimiz — diniy qadriyatlarga mos xizmat ko‘rsatishdir. Mehmonxona va ovqatlanish maskanlarimiz bevosita bizga tegishli yoki hamkorlik asosida qat'iy nazorat qilinadi. Shu sababli narxlarimiz bozor qiymatidan ancha arzon bo‘lib, oddiy paketlarimiz ham boshqa kompaniyalarning premium darajasiga teng xizmatni taqdim etadi.",
+    "text4": "Yo‘lovchilarimiz uchun qulayliklar maksimal darajada yaratilgan: kechgi ovqat xizmati joriy etilgan, 2 yoshgacha bo‘lgan bolalar uchun mehmonxona va ovqatlanish bepul taqdim etiladi.",
+    "text5": "Shuningdek, xalqaro ilmiy konferensiyalar, akademik tashriflar va diniy tadbirlar doirasida Turkiya hamda boshqa davlatlardan kelgan olimlar, tadqiqotchilar va delegatsiyalar bilan hamkorlikda yirik safarlar tashkil etib kelmoqdamiz.",
     "button": "Xonani bron qilish"
   },
 
@@ -92,20 +95,20 @@
       "book": "Hoziroq bron qiling"
     },
     "features": {
-      "title": "Nima uchun bizni tanlashingiz kerak",
-      "subtitle": "Sizning qolishingizni maxsus qiladigan noyob afzalliklar",
+      "title": "Nega aynan biz?",
+      "subtitle": "Biz sizga shunchaki sayohat emas — ishonch, sifat va qulaylikni taklif qilamiz.",
       "list": {
         "1": {
-          "title": "Premium Xizmat",
-          "desc": "Maxsus yuqori darajadagi mehmondo‘stlik"
+          "title": "Narx va sifat muvozanati",
+          "desc": "Mehmonxona va ovqatlanish xizmatlarimiz bevosita nazoratimiz ostida bo‘lgani sababli narxlarimiz arzon, xizmat sifati esa yuqori darajada. Oddiy paketlarimiz ham premium xizmat darajasiga teng."
         },
         "2": {
-          "title": "San'at Galereyasi",
-          "desc": "Mehmonxona lobisida eksklyuziv san'at asarlari"
+          "title": "Diniy qadriyatlarga mos xizmat",
+          "desc": "Safarlarimiz diniy qadriyatlar asosida tashkil etiladi. Halol ovqatlanish, qulay joylashuv va ibodat uchun mos sharoitlar yo‘lovchilarimizning ishonchini mustahkamlaydi."
         },
         "3": {
-          "title": "Yuqori Sifat",
-          "desc": "Yuqori sifatli materiallar va mukammal qulaylik"
+          "title": "Xalqaro tajriba va ishonch",
+          "desc": "2019-yildan buyon Turkiya va boshqa davlatlardan kelgan delegatsiyalar, olimlar va tashkilotlar bilan muvaffaqiyatli hamkorlik qilib kelmoqdamiz. Biz bilan safar — bu ishonchli hamkorlik demakdir."
         }
       }
     },
