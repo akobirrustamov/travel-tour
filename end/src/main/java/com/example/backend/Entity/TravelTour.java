@@ -45,15 +45,37 @@ public class TravelTour {
     private String currency;
 
     /* ================= CITIES ================= */
+
     @ElementCollection
     @CollectionTable(
-            name = "travel_tour_cities",
+            name = "travel_tour_cities_uz",
             joinColumns = @JoinColumn(name = "tour_id")
     )
     @Column(name = "city")
     private List<String> cities_uz;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "travel_tour_cities_ru",
+            joinColumns = @JoinColumn(name = "tour_id")
+    )
+    @Column(name = "city")
     private List<String> cities_ru;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "travel_tour_cities_en",
+            joinColumns = @JoinColumn(name = "tour_id")
+    )
+    @Column(name = "city")
     private List<String> cities_en;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "travel_tour_cities_turk",
+            joinColumns = @JoinColumn(name = "tour_id")
+    )
+    @Column(name = "city")
     private List<String> cities_turk;
 
     /* ================= DESCRIPTIONS ================= */
