@@ -206,7 +206,7 @@ function AdminDashboard() {
       )}
 
       {/* === Основной контент === */}
-      <main className="flex-1 p-4 lg:p-6 bg-gray-100 overflow-hidden">
+      <main className="flex-1 p-4 lg:p-6 bg-gray-100  overflow-auto overflow-y-auto h-screen scroll-smooth">
         <h1 className="text-2xl text-center font-bold mb-6 ml-8">
           📋 Онлайн-заявки с сайта
         </h1>

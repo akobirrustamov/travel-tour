@@ -424,32 +424,34 @@ function AdminGallery() {
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <ToastContainer position="top-right" autoClose={2000} />
+      <div>
 
-      {/* === Mobile Menu Button === */}
-      <button
-        onClick={() => setSidebarOpen(true)}
-        className="lg:hidden fixed top-6 left-6 z-50 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-      >
-        ☰
-      </button>
+        {/* === Mobile Menu Button === */}
+        <button
+            onClick={() => setSidebarOpen(true)}
+            className="lg:hidden fixed top-6 left-6 z-50 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+        >
+          ☰
+        </button>
 
-      {/* === Sidebar === */}
-      <div
-        className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 fixed lg:static inset-y-0 left-0 z-40 w-72 transition-transform duration-300 ease-in-out`}
-      >
-        <Sidebar onLogout={handleLogout} />
+        {/* === Sidebar === */}
+        <div
+            className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 fixed lg:static inset-y-0 left-0 z-40 w-72 transition-transform duration-300 ease-in-out`}
+        >
+          <Sidebar onLogout={handleLogout} />
+        </div>
+
+        {/* === Overlay === */}
+        {sidebarOpen && (
+            <div
+                className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+                onClick={() => setSidebarOpen(false)}
+            ></div>
+        )}
       </div>
 
-      {/* === Overlay === */}
-      {sidebarOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
-          onClick={() => setSidebarOpen(false)}
-        ></div>
-      )}
-
       {/* === Main Content === */}
-      <main className="flex-1 p-4 lg:p-8 overflow-auto">
+      <main className="flex-1 p-4 lg:p-8 overflow-auto overflow-y-auto h-screen scroll-smooth border-2">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-10">

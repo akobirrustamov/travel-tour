@@ -78,7 +78,7 @@ function AdminBron() {
         <Sidebar onLogout={handleLogout} />
       </div>
 
-      <main className="flex-1 p-4 lg:p-8 overflow-auto">
+      <main className="flex-1 p-4 lg:p-8  overflow-auto overflow-y-auto h-screen scroll-smooth">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl font-bold mb-6 text-gray-700">
             Bronlar ro'yxati
