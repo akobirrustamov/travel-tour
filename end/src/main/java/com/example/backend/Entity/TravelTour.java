@@ -51,7 +51,7 @@ public class TravelTour {
             name = "travel_tour_cities_uz",
             joinColumns = @JoinColumn(name = "tour_id")
     )
-    @Column(name = "city")
+    @Column(name = "cities_uz")
     private List<String> cities_uz;
 
     @ElementCollection
@@ -59,7 +59,7 @@ public class TravelTour {
             name = "travel_tour_cities_ru",
             joinColumns = @JoinColumn(name = "tour_id")
     )
-    @Column(name = "city")
+    @Column(name = "cities_ru")
     private List<String> cities_ru;
 
     @ElementCollection
@@ -67,7 +67,7 @@ public class TravelTour {
             name = "travel_tour_cities_en",
             joinColumns = @JoinColumn(name = "tour_id")
     )
-    @Column(name = "city")
+    @Column(name = "cities_en")
     private List<String> cities_en;
 
     @ElementCollection
@@ -75,7 +75,7 @@ public class TravelTour {
             name = "travel_tour_cities_turk",
             joinColumns = @JoinColumn(name = "tour_id")
     )
-    @Column(name = "city")
+    @Column(name = "cities_turk")
     private List<String> cities_turk;
 
     /* ================= DESCRIPTIONS ================= */
@@ -101,6 +101,10 @@ public class TravelTour {
 
     /* ================= DISPLAY ================= */
     private Boolean active = true;
+
+    @ManyToOne
+    private Attachment file;
+
 
     @CreationTimestamp
     private LocalDateTime createdAt;

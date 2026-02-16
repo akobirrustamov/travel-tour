@@ -28,7 +28,10 @@ public class TravelTourDto {
     private String currency;
 
     /* ================= CITIES ================= */
-    private List<String> cities;
+    private List<String> cities_uz;
+    private List<String> cities_ru;
+    private List<String> cities_en;
+    private List<String> cities_turk;
 
     /* ================= DESCRIPTIONS ================= */
     private String description_uz;
@@ -41,6 +44,6 @@ public class TravelTourDto {
 
     /* ================= IMAGES ================= */
     private List<UUID> imageIds;
-
+    private UUID fileId;
     private Boolean active;
 }

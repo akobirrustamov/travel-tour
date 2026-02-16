@@ -286,7 +286,7 @@ function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-16 overflow-hidden min-h-screen flex items-center"
+      className="relative py-6 overflow-hidden min-h-screen flex items-center"
       style={{
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       }}
@@ -330,14 +330,14 @@ function About() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Header qismi */}
         <div
-          className="text-center mb-16"
+          className="text-center mb-8"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? "translateY(0)" : "translateY(50px)",
             transition: "all 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-3">
             <span className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">
               {t("about.title")}
             </span>
