@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface TourDayRepo extends JpaRepository<TourDay, Integer> {
-    List<TourDay> findByTravelTourId(Integer tourId, Sort sort);
+    List<TourDay> findByTravelTourIdOrderByPositionAsc(Integer tourId);
     boolean existsByTravelTourIdAndPosition(Integer tourId, Integer order);
 }

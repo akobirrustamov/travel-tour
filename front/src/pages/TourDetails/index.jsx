@@ -166,9 +166,7 @@ function Tours() {
 
   const getDescription = (tour) => {
     const lang = getCurrentLang();
-    const description =
-      tour[`description_${lang}`] || tour.description_uz || "";
-    return description.replace(/<\/?[^>]+(>|$)/g, "");
+    return tour?.[`description_${lang}`] || tour?.description_uz || "";
   };
 
   const calculateDuration = (start, end) => {
@@ -187,6 +185,11 @@ function Tours() {
       </section>
     );
   }
+
+  const getCities = (tour) => {
+    const lang = getCurrentLang();
+    return tour?.[`cities_${lang}`] || tour?.cities_uz || [];
+  };
 
   return (
     <section
@@ -293,11 +296,20 @@ function Tours() {
                       {title}
                     </h3>
                     <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                      {description}
+                      <div
+                        className="prose prose-sm max-w-none text-gray-600 mb-3 line-clamp-2"
+                        dangerouslySetInnerHTML={{
+                          __html: getDescription(tour),
+                        }}
+                      />{" "}
                     </p>
                     <div className="flex items-center mb-3 text-sm text-gray-600">
                       <MapPin className="w-4 h-4 mr-1 text-emerald-500" />
-                      <span>{tour.cities?.join(" • ")}</span>
+                      <span>
+                        {getCities(tour)?.length > 0
+                          ? getCities(tour).join(" • ")
+                          : ""}
+                      </span>{" "}
                     </div>
                     <div className="flex items-center text-sm text-gray-600 mb-4">
                       <Calendar className="w-4 h-4 mr-1 text-emerald-500" />

@@ -3,12 +3,14 @@ import ApiCall, { baseUrl } from "../../config";
 import Footer from "../../components/Footer";
 import { Calendar, ChevronRight, Clock, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function Index() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedNews, setExpandedNews] = useState(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 0,
   );
@@ -89,7 +91,7 @@ function Index() {
               <div className="absolute inset-0 border-4 border-emerald-200 rounded-full animate-ping"></div>
               <div className="absolute inset-2 border-4 border-emerald-500 rounded-full animate-spin border-t-transparent"></div>
             </div>
-            <p className="text-gray-500 text-lg">Yuklanmoqda...</p>
+            <p className="text-gray-500 text-lg">{t("news.loading")}</p>
           </div>
         </section>
         <Footer />
@@ -104,11 +106,11 @@ function Index() {
           {/* Header */}
           <div className="text-center mb-8 ">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2 sm:mb-3">
-              Yangiliklar
+              {t("news.title")}
             </h2>
 
             <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-              Eng so'nggi yangiliklar va e'lonlar bilan tanishing
+              {t("news.subtitle")}{" "}
             </p>
           </div>
 
@@ -130,10 +132,10 @@ function Index() {
                 </svg>
               </div>
               <h3 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">
-                Hozircha yangiliklar mavjud emas
+                {t("news.empty_title")}
               </h3>
               <p className="text-sm sm:text-base text-gray-500">
-                Tez orada yangiliklar qo'shiladi
+                {t("news.empty_subtitle")}
               </p>
             </div>
           ) : (
@@ -193,7 +195,7 @@ function Index() {
                         onClick={() => navigate("/news/" + item.id)}
                         className="mt-auto inline-flex items-center gap-1 text-xs sm:text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors group/btn"
                       >
-                        {isExpanded ? "Yopish" : "Batafsil"}
+                        {isExpanded ? t("news.close") : t("news.read_more")}
                         <ChevronRight
                           className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 ${
                             isExpanded
@@ -244,7 +246,7 @@ function Index() {
 
       <Footer />
 
-      <style jsx>{`
+      <style>{`
         @keyframes fadeInUp {
           from {
             opacity: 0;

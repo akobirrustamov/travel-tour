@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ApiCall, { baseUrl } from "../../config";
+
+import { useTranslation } from "react-i18next";
 import {
   Calendar,
   ArrowLeft,
@@ -18,7 +20,7 @@ function NewsDetails() {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState(null);
-
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     fetchNewsDetails();
   }, [id]);
@@ -41,18 +43,27 @@ function NewsDetails() {
     }
   };
 
-  // Get title based on language
-  const getTitle = () => {
-    if (!news) return "";
-    return news.title_uz || news.title_ru || news.title_en || "Yangilik";
+  const getCurrentLang = () => {
+    const map = {
+      uz: "uz",
+      ru: "ru",
+      en: "en",
+      tr: "turk",
+      turk: "turk",
+    };
+    return map[i18n.language] || "uz";
   };
 
-  // Get description based on language
+  const getTitle = () => {
+    if (!news) return "";
+    const lang = getCurrentLang();
+    return news[`title_${lang}`] || news.title_uz;
+  };
+
   const getDescription = () => {
     if (!news) return "";
-    return (
-      news.description_uz || news.description_ru || news.description_en || ""
-    );
+    const lang = getCurrentLang();
+    return news[`description_${lang}`] || news.description_uz;
   };
 
   // Format date
@@ -88,7 +99,7 @@ function NewsDetails() {
     } else {
       // Fallback - copy to clipboard
       navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
+      alert(t("newsDetails.copied"));
     }
   };
 
@@ -119,7 +130,7 @@ function NewsDetails() {
               <div className="absolute inset-0 border-4 border-emerald-200 rounded-full animate-ping"></div>
               <div className="absolute inset-2 border-4 border-emerald-500 rounded-full animate-spin border-t-transparent"></div>
             </div>
-            <p className="text-gray-500 text-lg">Yuklanmoqda...</p>
+            <p className="text-gray-500 text-lg">{t("newsDetails.loading")}</p>
           </div>
         </section>
         <Footer />
@@ -148,14 +159,14 @@ function NewsDetails() {
               </svg>
             </div>
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">
-              {error || "Yangilik topilmadi"}
+              {t("newsDetails.loading")}{" "}
             </h3>
             <button
               onClick={() => navigate("/news")}
               className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
-              Yangiliklar sahifasiga qaytish
+              {t("newsDetails.back_page")}
             </button>
           </div>
         </section>
@@ -187,7 +198,7 @@ function NewsDetails() {
             className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-emerald-600 transition-colors mb-4 sm:mb-6 group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Barcha yangiliklar
+            {t("newsDetails.back_all")}{" "}
           </button>
 
           {/* Main content */}
@@ -204,7 +215,9 @@ function NewsDetails() {
                   className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm bg-gray-100 hover:bg-emerald-100 text-gray-700 hover:text-emerald-700 rounded-lg transition-colors self-start sm:self-center"
                 >
                   <Share2 className="w-4 h-4" />
-                  <span className="hidden sm:inline">Ulashish</span>
+                  <span className="hidden sm:inline">
+                    {t("newsDetails.share")}
+                  </span>
                 </button>
               </div>
 
@@ -239,7 +252,7 @@ function NewsDetails() {
                 <div className="mt-8 sm:mt-10 md:mt-12">
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <ImageIcon className="w-5 h-5 text-emerald-500" />
-                    Galereya ({allImages.length})
+                    {t("newsDetails.gallery")} ({allImages.length}){" "}
                   </h3>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
@@ -271,7 +284,7 @@ function NewsDetails() {
                         {/* Main badge */}
                         {image.isMain && (
                           <div className="absolute top-2 left-2 bg-emerald-500 text-white text-xs px-2 py-1 rounded-full">
-                            Asosiy
+                            {t("newsDetails.main_image")}
                           </div>
                         )}
                       </div>

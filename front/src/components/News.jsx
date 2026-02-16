@@ -360,10 +360,10 @@ function News() {
           onClick={() => navigate("/news")}
           className="bg-yellow-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-yellow-600 transition-all duration-300 ease-in-out transform hover:scale-105"
         >
-          Ko'proq ko'rish
+          {t("gallery.more")}
         </button>
       </div>
-      <style jsx>{`
+      <style>{`
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;

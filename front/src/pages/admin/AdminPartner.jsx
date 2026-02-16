@@ -212,6 +212,7 @@ function AdminPartner() {
                 toast.success("Partner deleted successfully");
                 fetchPartners();
             } else {
+                fetchPartners();
                 toast.error("Failed to delete partner");
             }
         } catch (error) {

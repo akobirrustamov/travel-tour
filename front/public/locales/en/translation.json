@@ -1,10 +1,39 @@
 {
   "header": {
     "home": "Home",
-    "about": "About Us",
     "tours": "Tours",
     "media": "Media",
-    "contacts": "Contact"
+    "about": "News"
+  },
+  "headerExtra": {
+    "selectLanguage": "Select Language",
+    "logoAlt": "Logo",
+    "brandAlt": "Diyar El-Salam Travel",
+    "copyright": "© 2024 DIYAR EL-SALAM TRAVEL",
+    "slogan": "Travel with comfort"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "more": "View More",
+    "loading": "Loading...",
+    "videoTitle": "Video Highlights",
+    "moreVideos": "More Videos",
+    "imageAlt": "Gallery image"
+  },
+  "galleryPage": {
+    "title": "Gallery",
+    "subtitle": "The brightest moments from our journeys",
+    "loading": "Loading...",
+    "imageAlt": "Gallery image",
+    "previewAlt": "Image preview"
+  },
+  "videoPage": {
+    "title": "Video Highlights",
+    "subtitle": "The brightest videos from our journeys",
+    "loading": "Loading...",
+    "notAvailable": "Video not available",
+    "thumbnailAlt": "Video thumbnail",
+    "iframeTitle": "YouTube video player"
   },
   "tours": {
     "title": "Travel Packages",
@@ -17,8 +46,8 @@
     "itinerary_available": "Detailed itinerary available",
     "read_more": "Read More",
     "book_now": "Book Now",
-    "from": "from",
-    "to": "to",
+    "from": "Start",
+    "to": "End",
     "participants": "participants",
     "share": "Share",
     "details": "Details",
@@ -30,7 +59,43 @@
     "email": "Email",
     "enter_email": "Enter your email address",
     "phone": "Phone Number",
-    "enter_phone": "Enter your phone number"
+    "enter_phone": "Enter your phone number",
+    "full_name": "Full Name",
+    "confirm_booking": "Confirm Booking",
+    "cancel": "Cancel",
+    "overview": "Overview",
+    "itinerary": "Itinerary",
+    "gallery": "Gallery",
+    "duration": "Duration",
+    "cities": "Cities",
+    "copy_link": "Copy Link",
+    "copied": "Copied!",
+    "share_tour": "Share Tour",
+    "call": "Call",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp"
+  },
+
+  "news": {
+    "title": "News",
+    "subtitle": "Discover the latest news and announcements",
+    "empty_title": "No news available yet",
+    "empty_subtitle": "New updates will be added soon",
+    "loading": "Loading...",
+    "read_more": "Read More",
+    "close": "Close"
+  },
+
+  "newsDetails": {
+    "loading": "Loading...",
+    "not_found": "News not found",
+    "error": "An error occurred",
+    "back_all": "All news",
+    "share": "Share",
+    "gallery": "Gallery",
+    "main_image": "Main",
+    "copied": "Link copied!",
+    "back_page": "Back to news page"
   },
   "partners": {
     "title": "Our Achievements",
@@ -113,7 +178,7 @@
     },
 
     "footer": {
-      "desc": "Art Gallery & Exceptional Service — comfort, style, and inspiration in the heart of Bukhara.",
+      "desc": "Travel with us and discover every destination with trust, comfort, and premium service.",
       "contacts": "Contacts",
       "phone": "Phone",
       "email": "Email",

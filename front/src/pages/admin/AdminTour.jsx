@@ -40,9 +40,64 @@ function AdminTour() {
   const [totalPages, setTotalPages] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeDayIndex, setActiveDayIndex] = useState(0);
   const [uploading, setUploading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("uz");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [isDaysModalOpen, setIsDaysModalOpen] = useState(false);
+  const [selectedTourForDays, setSelectedTourForDays] = useState(null);
+  const [tourDays, setTourDays] = useState([]);
+  const openDaysModal = async (tour) => {
+    setSelectedTourForDays(tour);
+
+    try {
+      const res = await requestWithRefresh(
+        `/api/v1/tour-days/by-tour/${tour.id}`,
+        "GET",
+      );
+      console.log(res.data);
+
+      if (res && res.data.length > 0) {
+        const mappedDays = res.data.map((day) => ({
+          id: day.id,
+          position: day.order,
+          title_uz: day.title_uz || "",
+          title_ru: day.title_ru || "",
+          title_en: day.title_en || "",
+          title_turk: day.title_turk || "",
+          description_uz: day.description_uz || "",
+          description_ru: day.description_ru || "",
+          description_en: day.description_en || "",
+          description_turk: day.description_turk || "",
+          tourId: day.tourId,
+        }));
+
+        setTourDays(mappedDays);
+      } else {
+        const duration = calculateDuration(tour.startDate, tour.endDate);
+
+        const daysArray = Array.from({ length: duration }, (_, index) => ({
+          position: index + 1,
+          title_uz: "",
+          title_ru: "",
+          title_en: "",
+          title_turk: "",
+          description_uz: "",
+          description_ru: "",
+          description_en: "",
+          description_turk: "",
+          tourId: tour.id,
+        }));
+
+        setTourDays(daysArray);
+      }
+
+      setActiveDayIndex(0);
+      setIsDaysModalOpen(true);
+    } catch (error) {
+      toast.error("Error loading tour days");
+    }
+  };
   const [cityInput, setCityInput] = useState({
     uz: "",
     ru: "",
@@ -52,6 +107,48 @@ function AdminTour() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const handleDayChange = (index, field, value) => {
+    const updated = [...tourDays];
+    updated[index][field] = value;
+    setTourDays(updated);
+  };
+
+  const handleSaveTourDays = async () => {
+    try {
+      for (let i = 0; i < tourDays.length; i++) {
+        const day = tourDays[i];
+
+        const payload = {
+          id: day.id,
+          order: i + 1,
+          title_uz: day.title_uz,
+          title_ru: day.title_ru,
+          title_en: day.title_en,
+          title_turk: day.title_turk,
+          description_uz: day.description_uz,
+          description_ru: day.description_ru,
+          description_en: day.description_en,
+          description_turk: day.description_turk,
+          tourId: selectedTourForDays.id,
+        };
+
+        if (day.id) {
+          await requestWithRefresh(
+            `/api/v1/tour-days/${day.id}`,
+            "PUT",
+            payload,
+          );
+        } else {
+          await requestWithRefresh("/api/v1/tour-days", "POST", payload);
+        }
+      }
+
+      toast.success("Tour days saved successfully");
+      setIsDaysModalOpen(false);
+    } catch (error) {
+      toast.error("Error saving tour days");
+    }
+  };
 
   const [formData, setFormData] = useState({
     title_uz: "",
@@ -320,6 +417,7 @@ function AdminTour() {
         toast.success("Tour deleted successfully");
         fetchTours();
       } else {
+        fetchTours();
         toast.error("Failed to delete tour");
       }
     } catch (error) {
@@ -880,14 +978,27 @@ function AdminTour() {
                         </div>
 
                         {/* Cities */}
-                        <div className="flex items-start mb-3">
-                          <MapPin
-                            size={14}
-                            className="mr-1 text-gray-500 mt-0.5"
-                          />
-                          <p className="text-sm text-gray-600 truncate">
-                            {tour[`cities_${selectedLanguage}`]?.join(" • ")}
-                          </p>
+                        <div className="flex justify-between items-start mb-3">
+                          <div className="flex items-center">
+                            <MapPin
+                              size={14}
+                              className="mr-1 text-gray-500 mt-0.5"
+                            />
+                            <p className="text-sm text-gray-600 truncate">
+                              {tour[`cities_${selectedLanguage}`]?.join(" • ")}
+                            </p>
+                          </div>
+
+                          <button
+                            onClick={() => openDaysModal(tour)}
+                            className="flex items-center text-emerald-600 hover:text-emerald-800 font-medium group"
+                          >
+                            <Calendar
+                              size={18}
+                              className="mr-2 group-hover:scale-110 transition-transform"
+                            />
+                            Reja
+                          </button>
                         </div>
 
                         {/* Dates and Duration */}
@@ -1059,6 +1170,147 @@ function AdminTour() {
           )}
         </div>
       </main>
+
+      {isDaysModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-6xl max-h-[95vh] overflow-hidden flex flex-col">
+            {/* ===== HEADER ===== */}
+            <div className="flex items-center justify-between px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-t-3xl">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Sayohat Rejasi
+                </h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  {selectedTourForDays?.title_uz}
+                </p>
+              </div>
+
+              <button
+                onClick={() => setIsDaysModalOpen(false)}
+                className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+              >
+                <X size={26} className="text-gray-600" />
+              </button>
+            </div>
+
+            {/* ===== BODY ===== */}
+            <div className="flex flex-col flex-1 overflow-hidden">
+              {/* ==== DAY TABS ==== */}
+              <div className="relative border-b border-gray-200 bg-gradient-to-r from-white to-gray-50 px-6 py-4">
+                <div className="flex overflow-x-auto gap-3 scrollbar-hide">
+                  {tourDays.map((_, index) => {
+                    const isActive = activeDayIndex === index;
+
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => setActiveDayIndex(index)}
+                        className={`relative flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all duration-300 whitespace-nowrap
+            ${
+              isActive
+                ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg scale-105"
+                : "bg-white border border-gray-200 text-gray-600 hover:bg-emerald-50 hover:border-emerald-300"
+            }`}
+                      >
+                        <span>{index + 1}-kun</span>
+
+                        {/* Active bottom glow */}
+                        {isActive && (
+                          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-10 h-1 bg-white rounded-full"></span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ==== ACTIVE DAY FORM ==== */}
+              <div className="overflow-y-auto p-8 flex-1">
+                {tourDays[activeDayIndex] && (
+                  <div className="space-y-8">
+                    {["uz", "ru", "en", "turk"].map((lang) => (
+                      <div
+                        key={lang}
+                        className="space-y-3 border p-6 rounded-2xl bg-gray-50 shadow-sm"
+                      >
+                        <h4 className="font-semibold text-gray-700 text-lg">
+                          {lang.toUpperCase()}
+                        </h4>
+
+                        <input
+                          type="text"
+                          placeholder={`Title (${lang})`}
+                          value={tourDays[activeDayIndex][`title_${lang}`]}
+                          onChange={(e) =>
+                            handleDayChange(
+                              activeDayIndex,
+                              `title_${lang}`,
+                              e.target.value,
+                            )
+                          }
+                          className="w-full border px-3 py-2 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                        />
+
+                        <textarea
+                          placeholder={`Description (${lang})`}
+                          value={
+                            tourDays[activeDayIndex][`description_${lang}`]
+                          }
+                          onChange={(e) =>
+                            handleDayChange(
+                              activeDayIndex,
+                              `description_${lang}`,
+                              e.target.value,
+                            )
+                          }
+                          className="resize-none w-full border px-3 py-2 rounded-lg h-28 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* ===== FOOTER ===== */}
+            <div className="flex justify-end gap-4 px-8 py-6 border-t border-gray-200 bg-gray-50 rounded-b-3xl">
+              <button
+                onClick={async () => {
+                  if (!tourDays[activeDayIndex].id) return;
+
+                  await requestWithRefresh(
+                    `/api/v1/tour-days/${tourDays[activeDayIndex].id}`,
+                    "DELETE",
+                  );
+
+                  const updated = [...tourDays];
+                  updated.splice(activeDayIndex, 1);
+                  setTourDays(updated);
+                  setActiveDayIndex(0);
+
+                  toast.success("Day deleted");
+                }}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg"
+              >
+                Delete Day
+              </button>
+              <button
+                onClick={() => setIsDaysModalOpen(false)}
+                className="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-100 transition"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleSaveTourDays}
+                className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl hover:shadow-lg transition"
+              >
+                Save All Days
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* === Modal === */}
       {isModalOpen && (

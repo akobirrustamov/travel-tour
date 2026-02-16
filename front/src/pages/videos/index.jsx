@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import ApiCall from "../../config/index";
 import { X, Play } from "lucide-react";
 import Footer from "../../components/Footer";
+import { useTranslation } from "react-i18next";
 
 function Index() {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const { t } = useTranslation();
   useEffect(() => {
     fetchVideos();
   }, []);
@@ -46,16 +47,14 @@ function Index() {
           {/* HEADER */}
           <div className="text-center mb-10">
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent mb-4">
-              Video Lavhalar
+              {t("videoPage.title")}
             </h2>
-            <p className="text-gray-600 text-lg">
-              Sayohatlarimizdan eng yorqin videolar
-            </p>
+            <p className="text-gray-600 text-lg">{t("videoPage.subtitle")}</p>
           </div>
 
           {loading ? (
             <div className="text-center py-20 text-gray-500">
-              Yuklanmoqda...
+              {t("videoPage.loading")}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -80,7 +79,7 @@ function Index() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-800 text-gray-400">
-                        Video not available
+                        {t("videoPage.notAvailable")}
                       </div>
                     )}
 

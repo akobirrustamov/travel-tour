@@ -1,11 +1,39 @@
 {
   "header": {
-    "testMode": "🧪 Site test modunda. Bazı özellikler mevcut olmayabilir.",
     "home": "Ana Sayfa",
-    "about": "Hakkımızda",
     "tours": "Turlar",
     "media": "Medya",
-    "contacts": "İletişim"
+    "about": "Haberler"
+  },
+  "headerExtra": {
+    "selectLanguage": "Dil seçin",
+    "logoAlt": "Logo",
+    "brandAlt": "Diyar El-Salam Travel",
+    "copyright": "© 2024 DIYAR EL-SALAM TRAVEL",
+    "slogan": "Konforlu seyahat"
+  },
+  "gallery": {
+    "title": "Galeri",
+    "more": "Daha Fazla Gör",
+    "loading": "Yükleniyor...",
+    "videoTitle": "Video Bölümleri",
+    "moreVideos": "Daha Fazla Video",
+    "imageAlt": "Galeri görseli"
+  },
+  "galleryPage": {
+    "title": "Galeri",
+    "subtitle": "Seyahatlerimizin en parlak anları",
+    "loading": "Yükleniyor...",
+    "imageAlt": "Galeri görseli",
+    "previewAlt": "Görsel önizleme"
+  },
+  "videoPage": {
+    "title": "Video Bölümleri",
+    "subtitle": "Seyahatlerimizin en parlak videoları",
+    "loading": "Yükleniyor...",
+    "notAvailable": "Video mevcut değil",
+    "thumbnailAlt": "Video küçük resmi",
+    "iframeTitle": "YouTube video oynatıcı"
   },
   "about": {
     "title": "Hakkımızda",
@@ -28,14 +56,55 @@
     "days": "gün",
     "itinerary_available": "Program mevcut",
     "read_more": "Daha fazla",
-    "leave_request": "Talep bırak",
+    "book_now": "Rezervasyon Yap",
+    "from": "Başlangıç",
+    "to": "Bitiş",
+    "participants": "katılımcılar",
+    "share": "Paylaş",
+    "details": "Detaylar",
+    "close": "Kapat",
+    "loading": "Turlar yükleniyor...",
     "book_details": "Rezervasyon Bilgileri",
     "name": "Ad",
     "enter_name": "Adınızı girin",
     "email": "E-posta",
     "enter_email": "E-posta adresinizi girin",
     "phone": "Telefon numarası",
-    "enter_phone": "Telefon numaranızı girin"
+    "enter_phone": "Telefon numaranızı girin",
+    "full_name": "Ad Soyad",
+    "confirm_booking": "Rezervasyonu Onayla",
+    "cancel": "İptal",
+    "overview": "Genel Bilgi",
+    "itinerary": "Tur Programı",
+    "gallery": "Galeri",
+    "duration": "Süre",
+    "cities": "Şehirler",
+    "copy_link": "Bağlantıyı Kopyala",
+    "copied": "Kopyalandı!",
+    "share_tour": "Turu Paylaş",
+    "call": "Ara",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp"
+  },
+  "news": {
+    "title": "Haberler",
+    "subtitle": "En son haberler ve duyurularla tanışın",
+    "empty_title": "Henüz haber bulunmamaktadır",
+    "empty_subtitle": "Yakında yeni haberler eklenecek",
+    "loading": "Yükleniyor...",
+    "read_more": "Devamını Oku",
+    "close": "Kapat"
+  },
+  "newsDetails": {
+    "loading": "Yükleniyor...",
+    "not_found": "Haber bulunamadı",
+    "error": "Bir hata oluştu",
+    "back_all": "Tüm haberler",
+    "share": "Paylaş",
+    "gallery": "Galeri",
+    "main_image": "Ana Görsel",
+    "copied": "Bağlantı kopyalandı!",
+    "back_page": "Haberler sayfasına dön"
   },
   "partners": {
     "title": "Başarılarımız",
@@ -106,7 +175,7 @@
       },
 
       "footer": {
-        "desc": "Sanat Galerisi ve Eşsiz Hizmet — Buhara'nın kalbinde konfor, stil ve ilham.",
+        "desc": "Bizimle seyahat edin ve her destinasyonu güven, konfor ve yüksek hizmet kalitesiyle keşfedin.",
         "contacts": "İletişim",
         "phone": "Telefon",
         "email": "E-posta",

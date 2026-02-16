@@ -8,7 +8,6 @@ import {
   Heart,
   Calendar,
   DollarSign,
-  Users,
   Share2,
   MapPin,
   Clock,
@@ -22,18 +21,18 @@ import {
   Navigation,
   Check,
   HelpCircle,
+  MessageSquareMoreIcon,
 } from "lucide-react";
 import Footer from "../../components/Footer";
 
 function Details() {
+  const [tourDays, setTourDays] = useState([]);
   const { id } = useParams();
   const [tour, setTour] = useState(null);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [expandedSection, setExpandedSection] = useState("overview");
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [activeDay, setActiveDay] = useState(1);
@@ -90,44 +89,69 @@ function Details() {
     return tour[`title_${lang}`] || tour.title_uz || "Sayohat";
   };
 
+  useEffect(() => {
+    const fetchTourDetails = async () => {
+      try {
+        setLoading(true);
+
+        const response = await ApiCall(`/api/v1/travel-tours/${id}`);
+
+        if (response && !response.error) {
+          setTour(response.data);
+
+          // 🔥 TOUR DAYS FETCH
+          const daysRes = await ApiCall(`/api/v1/tour-days/by-tour/${id}`);
+
+          if (daysRes && !daysRes.error) {
+            setTourDays(daysRes.data || []);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching tour details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTourDetails();
+  }, [id]);
+
   // Get description based on language
   const getDescription = (tour) => {
     if (!tour) return "";
     const lang = getCurrentLang();
-    const description =
-      tour[`description_${lang}`] || tour.description_uz || "";
-    // Remove HTML tags
-    return description.replace(/<\/?[^>]+(>|$)/g, "");
+
+    return tour?.[`description_${lang}`] || tour?.description_uz || "";
   };
 
   // Translations
   const translations = {
-    loading: t("tours.loading", "Sayohat yuklanmoqda..."),
-    no_tours: t("tours.no_tours", "Sayohat topilmadi"),
-    from: t("tours.from", "Boshlanish"),
-    to: t("tours.to", "Tugash"),
-    participants: t("tours.participants", "Ishtirokchilar soni"),
-    price: t("tours.price", "Narxi"),
-    per_person: t("tours.per_person", "kishi uchun"),
-    book_now: t("tours.book_now", "Hoziroq bron qilish"),
-    back_to_list: t("tours.back_to_list", "Barcha sayohatlar"),
-    share: t("tours.share", "Ulashish"),
-    copy_link: t("tours.copy_link", "Havolani nusxalash"),
-    copied: t("tours.copied", "Nusxalandi!"),
-    overview: t("tours.overview", "Umumiy ma'lumot"),
-    itinerary: t("tours.itinerary", "Sayohat rejasi"),
-    gallery: t("tours.gallery", "Galereya"),
-    duration: t("tours.duration", "Davomiyligi"),
-    days: t("tours.days", "kun"),
-    nights: t("tours.nights", "tun"),
-    cities: t("tours.cities", "Shaharlar"),
-    contact: t("tours.contact", "Bog'lanish"),
-    call: t("tours.call", "Qo'ng'iroq qilish"),
-    telegram: t("tours.telegram", "Telegram"),
-    whatsapp: t("tours.whatsapp", "WhatsApp"),
-    read_more: t("tours.read_more", "Batafsil"),
-    hide: t("tours.hide", "Yopish"),
-    share_tour: t("tours.share_tour", "Sayohatni ulashish"),
+    loading: t("tours.loading"),
+    no_tours: t("tours.no_tours"),
+    from: t("tours.from"),
+    to: t("tours.to"),
+    participants: t("tours.participants"),
+    price: t("tours.price"),
+    per_person: t("tours.per_person"),
+    book_now: t("tours.book_now"),
+    back_to_list: t("tours.back_to_list"),
+    share: t("tours.share"),
+    copy_link: t("tours.copy_link"),
+    copied: t("tours.copied"),
+    overview: t("tours.overview"),
+    itinerary: t("tours.itinerary"),
+    gallery: t("tours.gallery"),
+    duration: t("tours.duration"),
+    days: t("tours.days"),
+    nights: t("tours.nights"),
+    cities: t("tours.cities"),
+    contact: t("tours.contact"),
+    call: t("tours.call"),
+    telegram: t("tours.telegram"),
+    whatsapp: t("tours.whatsapp"),
+    read_more: t("tours.read_more"),
+    hide: t("tours.hide"),
+    share_tour: t("tours.share_tour"),
   };
 
   // Fetch tour details
@@ -136,14 +160,9 @@ function Details() {
       try {
         setLoading(true);
         const response = await ApiCall(`/api/v1/travel-tours/${id}`);
-
+        console.log(response.data);
         if (response && !response.error) {
           setTour(response.data);
-          if (response.data.images?.length > 0) {
-            setSelectedImage(
-              `${baseUrl}/api/v1/file/getFile/${response.data.images[0].id}`,
-            );
-          }
         } else {
           console.error("Failed to fetch tour details");
         }
@@ -158,15 +177,25 @@ function Details() {
   }, [id]);
 
   // Format date
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+  const formatDate = (date) => {
+    if (!date) return "";
+
+    const lang = i18n.language;
+
+    const langMap = {
+      uz: "uz-UZ",
+      ru: "ru-RU",
+      en: "en-US",
+      turk: "tr-TR",
     };
-    return date.toLocaleDateString(i18n.language || "uz", options);
+
+    const locale = langMap[lang] || "uz-UZ";
+
+    return new Date(date).toLocaleDateString(locale, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
   };
 
   // Calculate duration
@@ -181,9 +210,18 @@ function Details() {
   // Format price
   const formatPrice = (price) => {
     if (!price) return "0";
-    return new Intl.NumberFormat(i18n.language || "uz").format(price);
-  };
 
+    const langMap = {
+      uz: "uz-UZ",
+      ru: "ru-RU",
+      en: "en-US",
+      turk: "tr-TR",
+    };
+
+    const locale = langMap[i18n.language] || "uz-UZ";
+
+    return new Intl.NumberFormat(locale).format(price);
+  };
   // Toggle like
   const toggleLike = () => {
     setLiked(!liked);
@@ -237,6 +275,13 @@ function Details() {
     const text = `${title}\n${window.location.href}`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank");
+  };
+
+  const getCities = (tour) => {
+    if (!tour) return [];
+
+    const lang = getCurrentLang();
+    return tour?.[`cities_${lang}`] || tour?.cities_uz || [];
   };
 
   // Handle book now
@@ -303,7 +348,6 @@ function Details() {
 
   const duration = calculateDuration(tour.startDate, tour.endDate);
   const title = getTitle(tour);
-  const description = getDescription(tour);
   const mainImage = tour.images?.[0]
     ? `${baseUrl}/api/v1/file/getFile/${tour.images[0].id}`
     : "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800";
@@ -366,9 +410,11 @@ function Details() {
                       className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 transition-colors"
                     >
                       <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                        <MessageCircle className="w-4 h-4 text-blue-600" />
+                        <MessageSquareMoreIcon className="w-4 h-4 text-blue-600" />
                       </div>
-                      <span className="text-sm font-medium">Telegram</span>
+                      <span className="text-sm font-medium">
+                        {translations.telegram}
+                      </span>
                     </button>
 
                     <button
@@ -378,7 +424,9 @@ function Details() {
                       <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
                         <MessageCircle className="w-4 h-4 text-green-600" />
                       </div>
-                      <span className="text-sm font-medium">WhatsApp</span>
+                      <span className="text-sm font-medium">
+                        {translations.whatsapp}
+                      </span>
                     </button>
 
                     <button
@@ -388,7 +436,9 @@ function Details() {
                       <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                         <Share2 className="w-4 h-4 text-blue-600" />
                       </div>
-                      <span className="text-sm font-medium">Facebook</span>
+                      <span className="text-sm font-medium">
+                        {translations.whatsapp}
+                      </span>
                     </button>
 
                     <button
@@ -422,20 +472,20 @@ function Details() {
             <div className="flex items-center gap-2 mb-4">
               <MapPin className="w-5 h-5 text-emerald-400" />
               <div className="flex flex-wrap gap-2">
-                {tour.cities?.map((city, index) => (
-                  <React.Fragment key={index}>
-                    <span className="text-sm font-light">{city}</span>
-                    {index < tour.cities.length - 1 && (
-                      <span className="text-emerald-400">•</span>
-                    )}
-                  </React.Fragment>
+                {getCities(tour).map((city, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-600"
+                  >
+                    {city}
+                  </span>
                 ))}
               </div>
             </div>
 
             {/* Title */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl">
-              {title}
+              {translations.title}
             </h1>
 
             {/* Quick Info Chips */}
@@ -475,7 +525,11 @@ function Details() {
                 {translations.overview}
               </h2>
               <p className="text-gray-600 leading-relaxed">
-                {description || "Tavsif mavjud emas"}
+                <div className="prose prose-lg prose-indigo max-w-none text-gray-600 leading-relaxed">
+                  <div
+                    dangerouslySetInnerHTML={{ __html: getDescription(tour) }}
+                  />
+                </div>
               </p>
             </div>
 
@@ -487,20 +541,22 @@ function Details() {
               </h2>
 
               {/* Timeline */}
-              <div className="space-y-4">
-                {[1, 2, 3, 4, 5].map((day) => (
+              {tourDays.map((day, index) => {
+                const lang = getCurrentLang();
+
+                return (
                   <div
-                    key={day}
+                    key={day.id}
                     className={`relative pl-8 pb-4 border-l-2 ${
-                      day === activeDay
+                      activeDay === index
                         ? "border-emerald-500"
                         : "border-gray-200"
-                    } last:border-l-2 last:pb-0`}
-                    onClick={() => setActiveDay(day)}
+                    } last:pb-0`}
+                    onClick={() => setActiveDay(index)}
                   >
                     <div
                       className={`absolute left-[-9px] top-0 w-4 h-4 rounded-full ${
-                        day === activeDay
+                        activeDay === index
                           ? "bg-emerald-500 ring-4 ring-emerald-100"
                           : "bg-gray-300"
                       }`}
@@ -508,33 +564,26 @@ function Details() {
 
                     <div className="mb-1 flex items-center gap-2">
                       <span className="text-sm font-medium text-emerald-600">
-                        Kun {day}
+                        {index + 1}-{t("tours.days")}
                       </span>
                     </div>
 
                     <h3 className="font-semibold text-gray-800 mb-1">
-                      {day === 1 && "Buxoro - Shahar bilan tanishuv"}
-                      {day === 2 && "Buxoro - Tarixiy obidalar"}
-                      {day === 3 && "Buxorodan Xivaga yo'l"}
-                      {day === 4 && "Xiva - Ichan-Qal'a"}
-                      {day === 5 && "Xiva - Qaytish"}
+                      {day[`title_${lang}`] || day.title_uz}
                     </h3>
 
-                    <p className="text-sm text-gray-600">
-                      {day === 1 &&
-                        "Buxoroga kelish, mehmonxonaga joylashish. Ark qal'asi va Buxoro eski shahar bo'ylab sayr."}
-                      {day === 2 &&
-                        "Ismoil Somoniy maqbarasi, Kalon minorasi va Poi-Kalon ansambli ziyorati."}
-                      {day === 3 &&
-                        "Ertalab Buxorodan Xivaga jo'nash. Yo'l davomida qiziqarli manzaralar."}
-                      {day === 4 &&
-                        "Ichan-Qal'a muzey-shaharchasi, Tosh Xovli va Juma masjidi ziyorati."}
-                      {day === 5 &&
-                        "Xivadan Urganch aeroportiga transfer. Uyga qaytish."}
-                    </p>
+                    <div
+                      className="text-sm text-gray-600"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          day[`description_${lang}`] ||
+                          day.description_uz ||
+                          "",
+                      }}
+                    />
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
 
             {/* Gallery Card */}
@@ -609,7 +658,7 @@ function Details() {
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                {/* <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-emerald-500" />
                     <span className="text-sm text-gray-600">
@@ -617,7 +666,7 @@ function Details() {
                     </span>
                   </div>
                   <span className="text-sm font-medium">1-20 kishi</span>
-                </div>
+                </div> */}
 
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                   <div className="flex items-center gap-2">
@@ -644,21 +693,22 @@ function Details() {
               {/* Contact Buttons */}
               <div className="grid grid-cols-2 gap-2">
                 <a
-                  href="tel:+998901234567"
+                  href="tel:+998992724994"
                   className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl transition-all"
                 >
                   <Phone className="w-4 h-4" />
-                  <span className="text-sm">Qo'ng'iroq</span>
+                  <span className="text-sm">{translations.call}</span>
                 </a>
 
                 <a
-                  href="https://t.me/username"
+                  href="https://t.me/+gnFA3UzwI5o4OWMy"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-600 py-3 rounded-xl transition-all"
                 >
-                  <MessageCircle className="w-4 h-4" />
-                  <span className="text-sm">Telegram</span>
+                  <MessageSquareMoreIcon className="w-4 h-4" />
+
+                  <span className="text-sm">{translations.telegram}</span>
                 </a>
               </div>
 
@@ -671,14 +721,16 @@ function Details() {
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {tour.cities?.map((city, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-600"
-                    >
-                      {city}
-                    </span>
-                  ))}
+                  <div className="flex flex-wrap gap-2">
+                    {getCities(tour).map((city, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-600"
+                      >
+                        {city}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -714,7 +766,7 @@ function Details() {
               <div className="space-y-4">
                 <input
                   type="text"
-                  placeholder="Full name"
+                  placeholder={t("tours.enter_name")}
                   value={bron.name}
                   onChange={(e) => setBron({ ...bron, name: e.target.value })}
                   className="w-full border p-3 rounded-lg"
@@ -722,7 +774,7 @@ function Details() {
 
                 <input
                   type="email"
-                  placeholder="Email"
+                  placeholder={t("tours.enter_email")}
                   value={bron.email}
                   onChange={(e) => setBron({ ...bron, email: e.target.value })}
                   className="w-full border p-3 rounded-lg"
@@ -730,7 +782,7 @@ function Details() {
 
                 <input
                   type="text"
-                  placeholder="Phone"
+                  placeholder={t("tours.enter_phone")}
                   value={bron.phone}
                   onChange={(e) => setBron({ ...bron, phone: e.target.value })}
                   className="w-full border p-3 rounded-lg"
@@ -742,14 +794,14 @@ function Details() {
                   onClick={() => setShowBookingModal(false)}
                   className="flex-1 border py-3 rounded-lg"
                 >
-                  Cancel
+                  {t("tours.cancel")}
                 </button>
 
                 <button
                   onClick={handleBookingSubmit}
                   className="flex-1 bg-emerald-500 text-white py-3 rounded-lg"
                 >
-                  Confirm Booking
+                  {t("tours.confirm_booking")}
                 </button>
               </div>
             </div>

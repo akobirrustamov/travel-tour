@@ -263,7 +263,7 @@ function Hero() {
       </section>
 
       {/* Add animation styles */}
-      <style jsx>{`
+      <style>{`
         @keyframes fade-in {
           from {
             opacity: 0;

@@ -1,10 +1,39 @@
 {
   "header": {
     "home": "Bosh sahifa",
-    "about": "Biz haqimizda",
     "tours": "Sayohatlar",
     "media": "Media",
-    "contacts": "Aloqa"
+    "about": "Yangiliklar"
+  },
+  "headerExtra": {
+    "selectLanguage": "Tilni tanlang",
+    "logoAlt": "Logo",
+    "brandAlt": "Diyar El-Salam Travel",
+    "copyright": "© 2024 DIYAR EL-SALAM TRAVEL",
+    "slogan": "Sayohat qulaylik bilan"
+  },
+  "gallery": {
+    "title": "Galereya",
+    "more": "Ko'proq ko'rish",
+    "loading": "Yuklanmoqda...",
+    "videoTitle": "Video lavhalar",
+    "moreVideos": "Ko'proq videolar",
+    "imageAlt": "Galereya rasmi"
+  },
+  "galleryPage": {
+    "title": "Galereya",
+    "subtitle": "Sayohatlarimizdan eng yorqin lavhalar",
+    "loading": "Yuklanmoqda...",
+    "imageAlt": "Galereya rasmi",
+    "previewAlt": "Rasm ko'rinishi"
+  },
+  "videoPage": {
+    "title": "Video lavhalar",
+    "subtitle": "Sayohatlarimizdan eng yorqin videolar",
+    "loading": "Yuklanmoqda...",
+    "notAvailable": "Video mavjud emas",
+    "thumbnailAlt": "Video rasmi",
+    "iframeTitle": "YouTube video pleyer"
   },
   "tours": {
     "title": "Sayohat Paketlari",
@@ -17,8 +46,8 @@
     "itinerary_available": "Batafsil marshrut mavjud",
     "read_more": "Batafsil",
     "book_now": "Bron qilish",
-    "from": "dan",
-    "to": "gacha",
+    "from": "Boshlanish",
+    "to": "Tugash",
     "participants": "ishtirokchilar",
     "share": "Ulashish",
     "details": "Tafsilotlar",
@@ -30,7 +59,43 @@
     "email": "Elektron pochta",
     "enter_email": "Elektron pochtangizni kiriting",
     "phone": "Telefon raqam",
-    "enter_phone": "Telefon raqamingizni kiriting"
+    "enter_phone": "Telefon raqamingizni kiriting",
+    "full_name": "To‘liq ism",
+    "confirm_booking": "Bronni tasdiqlash",
+    "cancel": "Bekor qilish",
+    "overview": "Umumiy ma'lumot",
+    "itinerary": "Sayohat rejasi",
+    "gallery": "Galereya",
+    "duration": "Davomiyligi",
+    "cities": "Shaharlar",
+    "copy_link": "Havolani nusxalash",
+    "copied": "Nusxalandi!",
+    "share_tour": "Sayohatni ulashish",
+    "call": "Qo‘ng‘iroq",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp"
+  },
+
+  "news": {
+    "title": "Yangiliklar",
+    "subtitle": "Eng so'nggi yangiliklar va e'lonlar bilan tanishing",
+    "empty_title": "Hozircha yangiliklar mavjud emas",
+    "empty_subtitle": "Tez orada yangiliklar qo'shiladi",
+    "loading": "Yuklanmoqda...",
+    "read_more": "Batafsil",
+    "close": "Yopish"
+  },
+
+  "newsDetails": {
+    "loading": "Yuklanmoqda...",
+    "not_found": "Yangilik topilmadi",
+    "error": "Xatolik yuz berdi",
+    "back_all": "Barcha yangiliklar",
+    "share": "Ulashish",
+    "gallery": "Galereya",
+    "main_image": "Asosiy",
+    "copied": "Havola nusxalandi!",
+    "back_page": "Yangiliklar sahifasiga qaytish"
   },
   "partners": {
     "title": "Bizning Yutuqlarimiz",
@@ -114,7 +179,7 @@
     },
 
     "footer": {
-      "desc": "San'at Galereyasi va Noyob Xizmat — Buxoradagi qulaylik, uslub va ilhom markazida.",
+      "desc": "Biz bilan sayohat qiling va har bir manzilni ishonch, qulaylik hamda yuqori xizmat bilan kashf eting.",
       "contacts": "Aloqa",
       "phone": "Telefon",
       "email": "Elektron pochta",

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -110,7 +111,6 @@ public class TravelTourServiceImpl implements TravelTourService {
     @Transactional
     public HttpEntity<?> update(Integer id, TravelTourDto dto) {
         try {
-            System.out.println("=== Updating Travel Tour ID: " + id + " ===");
 
             TravelTour tour = getById(id);
 
@@ -129,11 +129,29 @@ public class TravelTourServiceImpl implements TravelTourService {
             tour.setCurrency(dto.getCurrency());
 
             /* cities - ensure not null */
-            tour.setCities_uz(dto.getCities_uz() != null ? dto.getCities_uz() : List.of());
-            tour.setCities_en(dto.getCities_en() != null ? dto.getCities_en() : List.of());
-            tour.setCities_ru(dto.getCities_ru() != null ? dto.getCities_ru() : List.of());
-            tour.setCities_turk(dto.getCities_turk() != null ? dto.getCities_turk() : List.of());
+            tour.setCities_uz(
+                    dto.getCities_uz() != null
+                            ? new ArrayList<>(dto.getCities_uz())
+                            : new ArrayList<>()
+            );
 
+            tour.setCities_ru(
+                    dto.getCities_ru() != null
+                            ? new ArrayList<>(dto.getCities_ru())
+                            : new ArrayList<>()
+            );
+
+            tour.setCities_en(
+                    dto.getCities_en() != null
+                            ? new ArrayList<>(dto.getCities_en())
+                            : new ArrayList<>()
+            );
+
+            tour.setCities_turk(
+                    dto.getCities_turk() != null
+                            ? new ArrayList<>(dto.getCities_turk())
+                            : new ArrayList<>()
+            );
             /* descriptions */
             tour.setDescription_uz(dto.getDescription_uz());
             tour.setDescription_ru(dto.getDescription_ru());
@@ -151,14 +169,13 @@ public class TravelTourServiceImpl implements TravelTourService {
             }
 
             /* images (optional update) */
-            if (dto.getImageIds() != null) {
-                List<Attachment> images = dto.getImageIds().stream()
-                        .filter(Objects::nonNull)
-                        .map(id2 -> attachmentRepo.findById(id2)
-                                .orElseThrow(() -> new RuntimeException("Image not found with id: " + id2)))
-                        .toList();
-                tour.setImages(images);
-            }
+            List<Attachment> images = dto.getImageIds().stream()
+                    .filter(Objects::nonNull)
+                    .map(id2 -> attachmentRepo.findById(id2)
+                            .orElseThrow(() -> new RuntimeException("Image not found with id: " + id2)))
+                    .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+
+            tour.setImages(images);
 
             /* active status */
             tour.setActive(dto.getActive());

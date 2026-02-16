@@ -259,7 +259,7 @@ function Footer() {
           {/* ===== MAP ===== */}
           <div className="lg:col-span-5 animate-on-scroll delay-2">
             <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-yellow-400 mb-4 sm:mb-6 relative inline-block">
-              {t("home.footer.location", "Manzil")}
+              {t("home.footer.address")}
               <span className="absolute -bottom-2 left-0 w-8 sm:w-10 md:w-12 h-0.5 bg-yellow-400 rounded-full"></span>
             </h3>
 

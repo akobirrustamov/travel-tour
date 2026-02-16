@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import ApiCall, { baseUrl } from "../../config/index";
 import { Eye, X } from "lucide-react";
 import Footer from "../../components/Footer";
+import { useTranslation } from "react-i18next";
 
 function Index() {
   const [gallery, setGallery] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchGallery();
@@ -23,23 +25,23 @@ function Index() {
     }
   };
 
-  return (  
+  return (
     <>
       <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           {/* HEADER */}
           <div className="text-center mb-4">
             <h2 className="text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent mb-4">
-              Galereya
+              {t("galleryPage.title")}
             </h2>
             <p className="text-gray-600 text-lg">
-              Sayohatlarimizdan eng yorqin lavhalar
+              {t("galleryPage.subtitle")}{" "}
             </p>
           </div>
 
           {loading ? (
             <div className="text-center py-20 text-gray-500">
-              Yuklanmoqda...
+              {t("galleryPage.loading")}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

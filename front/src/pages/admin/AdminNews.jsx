@@ -235,6 +235,7 @@ function AdminNews() {
         toast.success("News deleted successfully");
         fetchNews();
       } else {
+        fetchNews();
         toast.error("Failed to delete news");
       }
     } catch (error) {

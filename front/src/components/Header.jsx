@@ -150,12 +150,22 @@ function Header() {
   };
 
   const navItems = [
-    { label: t("header.home"), id: "home" },
-    { label: t("header.about"), id: "about" },
-    { label: t("header.tours"), id: "tours" },
-    { label: t("header.media"), id: "media" },
-    { label: t("header.contacts"), id: "contacts" },
+    { label: t("header.home"), path: "/" },
+    { label: t("header.about"), path: "/news" },
+    { label: t("header.tours"), path: "/tours" },
+    {
+      label: t("header.media"),
+      children: [
+        { label: "YouTube", path: "/youtube" },
+        { label: "Gallery", path: "/gallery" },
+      ],
+    },
   ];
+
+  const handleNavigate = (path) => {
+    setIsMobileMenuOpen(false);
+    navigate(path);
+  };
 
   const languages = [
     { code: "uz", label: "O'zbek" },
@@ -210,39 +220,52 @@ function Header() {
 
           {/* Desktop navigatsiya */}
           <div className="hidden lg:flex items-center gap-6">
-            <nav className="flex items-center space-x-2">
+            <nav className="flex items-center space-x-4">
               {navItems.map((item, index) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleScroll(item.id)}
-                  onMouseEnter={() => setHoveredItem(item.id)}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  className="relative group nav-item-hover"
-                  style={{
-                    animation: `slideDown 0.5s ease ${index * 0.1}s both`,
-                  }}
-                >
-                  <div
-                    className={`
-                    relative px-4 py-2.5 font-medium transition-all duration-300 flex text-gray-300 hover:text-yellow-400`}
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      <span className="text-lg opacity-100 group-hover:opacity-100 transition-opacity duration-300">
-                        {item.icon}
-                      </span>
+                <div key={index} className="relative group">
+                  {/* Oddiy link */}
+                  {!item.children ? (
+                    <button
+                      onClick={() => handleNavigate(item.path)}
+                      className={`px-4 py-2 rounded-lg transition-all duration-300
+      ${
+        location.pathname === item.path
+          ? "text-yellow-400 bg-yellow-400/10 border border-yellow-400/40 shadow-md"
+          : "text-gray-300 hover:text-yellow-400 hover:bg-white/5"
+      }
+    `}
+                    >
                       {item.label}
-                    </span>
+                    </button>
+                  ) : (
+                    <>
+                      {/* Media button */}
+                      <button className="px-4 py-2 text-gray-300 hover:text-yellow-400 flex items-center gap-1">
+                        {item.label}
+                        <ChevronDown className="w-4 h-4" />
+                      </button>
 
-                    {/* Hover effekti */}
-                    <div
-                      className={`
-                      absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-yellow-400/10 to-yellow-400/0
-                      transition-transform duration-500
-                      ${hoveredItem === item.id ? "translate-x-full" : "-translate-x-full"}
-                    `}
-                    ></div>
-                  </div>
-                </button>
+                      {/* Dropdown */}
+                      <div className="absolute left-0 mt-2 w-40 bg-green-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                        {item.children.map((child, i) => (
+                          <button
+                            key={i}
+                            onClick={() => handleNavigate(child.path)}
+                            className={`block w-full text-left px-4 py-2 text-sm transition
+    ${
+      location.pathname === child.path
+        ? "bg-green-800 text-yellow-400"
+        : "text-gray-300 hover:bg-green-800 hover:text-yellow-400"
+    }
+  `}
+                          >
+                            {child.label}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
               ))}
             </nav>
 
@@ -271,7 +294,7 @@ function Header() {
 
               {/* Tooltip */}
               <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                Tilni tanlang
+                {t("headerExtra.selectLanguage")}
               </div>
             </div>
           </div>
@@ -344,26 +367,43 @@ function Header() {
             {/* Navigation items */}
             <nav className="flex flex-col space-y-3">
               {navItems.map((item, index) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleScroll(item.id)}
-                  className={`
-                    group relative overflow-hidden text-lg font-medium py-4 px-6 rounded-2xl text-left
-                    transition-all duration-300 transform hover:scale-105
-                        text-gray-100 hover:text-yellow-400 bg-white/5 hover:bg-white/10
-                  `}
-                  style={{
-                    animation: `slideDown 0.5s ease ${index * 0.1}s both`,
-                  }}
-                >
-                  <span className="relative z-10 flex items-center gap-3">
-                    <span className="text-2xl">{item.icon}</span>
-                    {item.label}
-                  </span>
-
-                  {/* Hover effekti */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-yellow-400/10 to-yellow-400/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                </button>
+                <div key={index}>
+                  {!item.children ? (
+                    <button
+                      onClick={() => handleNavigate(item.path)}
+                      className={`block w-full text-left py-3 px-3 rounded-lg transition
+    ${
+      location.pathname === item.path
+        ? "bg-yellow-400/20 text-yellow-400"
+        : "text-gray-100 hover:text-yellow-400"
+    }
+  `}
+                    >
+                      {item.label}
+                    </button>
+                  ) : (
+                    <>
+                      <div className="text-yellow-400 font-semibold mt-4 mb-2">
+                        {item.label}
+                      </div>
+                      {item.children.map((child, i) => (
+                        <button
+                          key={i}
+                          onClick={() => handleNavigate(child.path)}
+                          className={`block w-full text-left py-2 pl-4 rounded-lg transition
+    ${
+      location.pathname === child.path
+        ? "bg-yellow-400/10 text-yellow-400"
+        : "text-gray-300 hover:text-yellow-400"
+    }
+  `}
+                        >
+                          {child.label}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                </div>
               ))}
             </nav>
 
@@ -371,7 +411,7 @@ function Header() {
             <div className="mt-8">
               <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 border border-yellow-400/30">
                 <label className="text-yellow-400/70 text-sm mb-2 block">
-                  Tilni tanlang
+                  {t("headerExtra.selectLanguage")}{" "}
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   {languages.map((lang) => (
@@ -400,8 +440,10 @@ function Header() {
 
             {/* Additional info */}
             <div className="mt-6 text-center text-gray-400 text-sm">
-              <p>© 2024 DIYAR EL-SALAM TRAVEL</p>
-              <p className="text-yellow-400/60 mt-1">Sayohat qulaylik bilan</p>
+              <p>{t("headerExtra.copyright")}</p>
+              <p className="text-yellow-400/60 mt-1">
+                {t("headerExtra.slogan")}
+              </p>
             </div>
           </div>
         </div>

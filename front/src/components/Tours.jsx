@@ -451,6 +451,11 @@ function Tours() {
     );
   }
 
+  const getCities = (tour) => {
+    const lang = getCurrentLang();
+    return tour?.[`cities_${lang}`] || tour?.cities_uz || [];
+  };
+
   return (
     <>
       <section
@@ -687,15 +692,23 @@ function Tours() {
                           <div className="flex items-center text-gray-600 mb-2">
                             <MapPin className="w-4 h-4 mr-1.5 text-emerald-500 flex-shrink-0" />
                             <span className="text-sm truncate">
-                              {tour.cities?.slice(0, 3).join(" • ")}
-                              {tour.cities?.length > 3 && " • ..."}
+                              {getCities(tour)?.slice(0, 3).join(" • ")}
+                              {getCities(tour)?.length > 3 && " • ..."}
                             </span>
                           </div>
 
                           {/* Description (if available) */}
                           {description && (
                             <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                              {description}
+                              <div
+                                className="prose prose-sm max-w-none text-gray-600 mb-3 line-clamp-2"
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    tour[`description_${getCurrentLang()}`] ||
+                                    tour.description_uz ||
+                                    "",
+                                }}
+                              />
                             </p>
                           )}
 
@@ -708,7 +721,7 @@ function Tours() {
                           </div>
 
                           {/* Tour Info Grid */}
-                          <div className="grid grid-cols-3 gap-2 mb-4">
+                          <div className="grid grid-cols-2  gap-2 mb-4">
                             {/* Duration */}
                             <div className="text-center bg-gradient-to-b from-gray-50 to-white p-2 rounded-lg">
                               <Clock className="w-4 h-4 mx-auto text-emerald-500 mb-1" />
@@ -729,12 +742,12 @@ function Tours() {
                             </div>
 
                             {/* Capacity */}
-                            <div className="text-center bg-gradient-to-b from-gray-50 to-white p-2 rounded-lg">
+                            {/* <div className="text-center bg-gradient-to-b from-gray-50 to-white p-2 rounded-lg">
                               <Users className="w-4 h-4 mx-auto text-emerald-500 mb-1" />
                               <span className="text-xs font-medium text-gray-700">
-                                {20} {translations.max}
+                                {50} 
                               </span>
-                            </div>
+                            </div> */}
                           </div>
 
                           {/* Itinerary Badge */}
@@ -764,8 +777,6 @@ function Tours() {
 
                             <button
                               onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
                                 setSelectedTour(tour);
                                 setShowModal(true);
                               }}
@@ -808,7 +819,7 @@ function Tours() {
             onClick={() => navigate("/tours")}
             className="bg-emerald-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:scale-105"
           >
-            Ko'proq ko'rish
+            {t("gallery.more")}
           </button>
         </div>
       </section>
@@ -849,12 +860,21 @@ function Tours() {
                 {/* Cities */}
                 <div className="flex items-center text-gray-600 mb-3">
                   <MapPin className="w-4 h-4 mr-2 text-emerald-500" />
-                  <span>{selectedTour.cities?.join(" → ")}</span>
+                  <span>{getCities(selectedTour)?.join(" → ")}</span>
                 </div>
 
                 {/* Description */}
                 <p className="text-gray-600 mb-4">
-                  {getDescription(selectedTour)} {/* Display the description */}
+                  <div
+                    className="prose max-w-none text-gray-600 mb-4"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        selectedTour[`description_${getCurrentLang()}`] ||
+                        selectedTour.description_uz ||
+                        "",
+                    }}
+                  />
+                  {/* Display the description */}
                 </p>
 
                 {/* Booking Form */}

@@ -86,10 +86,11 @@ public class TourDayServiceImpl implements TourDayService {
 
     @Override
     public HttpEntity<?> delete(Integer id) {
-        if (!tourDayRepo.existsById(id)) {
-            throw new RuntimeException("Tour day not found with id: " + id);
-        }
+        TourDay tourDay = tourDayRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tour day not found with id: " + id));
+        Integer tourId = tourDay.getTravelTour().getId();
         tourDayRepo.deleteById(id);
+        reindex(tourId);  // ✅ TO‘G‘RI
         return ResponseEntity.ok().build();
     }
 
@@ -116,11 +117,22 @@ public class TourDayServiceImpl implements TourDayService {
             throw new RuntimeException("Travel tour not found with id: " + tourId);
         }
 
-        List<TourDay> tourDays = tourDayRepo.findByTravelTourId(tourId, Sort.by("order").ascending());
-        List<TourDayDto> dtos = tourDays.stream()
+        List<TourDay> tourDays =
+                tourDayRepo.findByTravelTourIdOrderByPositionAsc(tourId);        List<TourDayDto> dtos = tourDays.stream()
                 .map(this::convertToDto)
                 .toList();
         return ResponseEntity.ok(dtos);
+    }
+
+    private void reindex(Integer tourId) {
+        List<TourDay> days =
+                tourDayRepo.findByTravelTourIdOrderByPositionAsc(tourId);
+
+        for (int i = 0; i < days.size(); i++) {
+            days.get(i).setPosition(i + 1);
+        }
+
+        tourDayRepo.saveAll(days);
     }
 
     private TourDayDto convertToDto(TourDay tourDay) {
