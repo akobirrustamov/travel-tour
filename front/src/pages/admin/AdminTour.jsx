@@ -283,7 +283,7 @@ function AdminTour() {
       return;
     }
 
-    console.log(formData)
+    console.log(formData);
     try {
       const url = editingId
         ? `/api/v1/travel-tours/${editingId}`
