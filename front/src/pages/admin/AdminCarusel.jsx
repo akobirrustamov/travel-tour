@@ -360,7 +360,7 @@ function AdminCarusel() {
             )}
 
             {/* === Main Content === */}
-            <main className="flex-1 p-4 lg:p-8 overflow-auto">
+            <main className="flex-1 p-4 lg:p-8  overflow-auto overflow-y-auto h-screen scroll-smooth">
                 <div className="max-w-7xl mx-auto">
                     {/* Header */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between mb-10">

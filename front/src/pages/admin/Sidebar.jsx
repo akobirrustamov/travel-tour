@@ -28,7 +28,7 @@ function Sidebar({ onLogout }) {
   ];
 
   return (
-    <aside className="w-72 fixed bg-gradient-to-b from-gray-900 to-gray-950 border-r border-gray-800 text-white p-6 flex flex-col justify-between">
+    <aside className="w-72 fixed h-screen bg-gradient-to-b from-gray-900 to-gray-950 border-r border-gray-800 text-white p-6 flex flex-col justify-between">
       {/* Header */}
       <div className="flex flex-col">
         <div className="flex items-center space-x-3 mb-10 px-2">
