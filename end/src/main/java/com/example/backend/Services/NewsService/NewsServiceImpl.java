@@ -76,7 +76,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public HttpEntity<?> deleteNews(Integer id) {
         News news = getNewsById(id);
-
+        newsRepo.delete(news);
         // files delete
         if (news.getPhotos() != null) {
             news.getPhotos().forEach(this::deleteAttachment);
@@ -125,7 +125,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     private void deleteAttachment(Attachment attachment) {
-        File file = new File("backend/files" + attachment.getPrefix() + "/" + attachment.getName());
+        File file = new File("backend/files/" + attachment.getPrefix() + "/" + attachment.getName());
         if (file.exists()) file.delete();
         attachmentRepo.deleteById(attachment.getId());
     }

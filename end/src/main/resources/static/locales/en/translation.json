@@ -1,83 +1,192 @@
 {
-    "header": {
-        "testMode": "🧪 The site is in test mode. Some features may be unavailable.",
-        "home": "Home",
-        "rooms": "Rooms",
-        "about": "About us",
-        "contacts": "Contacts",
-        "book": "Book now"
+  "header": {
+    "home": "Home",
+    "tours": "Tours",
+    "media": "Media",
+    "about": "News"
+  },
+  "headerExtra": {
+    "selectLanguage": "Select Language",
+    "logoAlt": "Logo",
+    "brandAlt": "Diyar El-Salam Travel",
+    "copyright": "© 2024 DIYAR EL-SALAM TRAVEL",
+    "slogan": "Travel with comfort"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "more": "View More",
+    "loading": "Loading...",
+    "videoTitle": "Video Highlights",
+    "moreVideos": "More Videos",
+    "imageAlt": "Gallery image"
+  },
+  "galleryPage": {
+    "title": "Gallery",
+    "subtitle": "The brightest moments from our journeys",
+    "loading": "Loading...",
+    "imageAlt": "Gallery image",
+    "previewAlt": "Image preview"
+  },
+  "videoPage": {
+    "title": "Video Highlights",
+    "subtitle": "The brightest videos from our journeys",
+    "loading": "Loading...",
+    "notAvailable": "Video not available",
+    "thumbnailAlt": "Video thumbnail",
+    "iframeTitle": "YouTube video player"
+  },
+  "tours": {
+    "title": "Travel Packages",
+    "subtitle": "Discover our amazing travel packages",
+    "no_tours": "No tours available at the moment",
+    "check_back": "Please check back later for new tours",
+    "best_seller": "Best Seller",
+    "per_person": "per person",
+    "days": "days",
+    "itinerary_available": "Detailed itinerary available",
+    "read_more": "Read More",
+    "book_now": "Book Now",
+    "from": "Start",
+    "to": "End",
+    "participants": "participants",
+    "share": "Share",
+    "details": "Details",
+    "close": "Close",
+    "loading": "Loading tours...",
+    "book_details": "Booking Details",
+    "name": "Full Name",
+    "enter_name": "Enter your full name",
+    "email": "Email",
+    "enter_email": "Enter your email address",
+    "phone": "Phone Number",
+    "enter_phone": "Enter your phone number",
+    "full_name": "Full Name",
+    "confirm_booking": "Confirm Booking",
+    "cancel": "Cancel",
+    "overview": "Overview",
+    "itinerary": "Itinerary",
+    "gallery": "Gallery",
+    "duration": "Duration",
+    "cities": "Cities",
+    "copy_link": "Copy Link",
+    "copied": "Copied!",
+    "share_tour": "Share Tour",
+    "call": "Call",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp"
+  },
+
+  "news": {
+    "title": "News",
+    "subtitle": "Discover the latest news and announcements",
+    "empty_title": "No news available yet",
+    "empty_subtitle": "New updates will be added soon",
+    "loading": "Loading...",
+    "read_more": "Read More",
+    "close": "Close"
+  },
+
+  "newsDetails": {
+    "loading": "Loading...",
+    "not_found": "News not found",
+    "error": "An error occurred",
+    "back_all": "All news",
+    "share": "Share",
+    "gallery": "Gallery",
+    "main_image": "Main",
+    "copied": "Link copied!",
+    "back_page": "Back to news page"
+  },
+  "partners": {
+    "title": "Our Achievements",
+    "trusted": "Our Trusted Partners",
+    "subtitle": "We collaborate with the best companies in the industry",
+    "no_partners": "No partners available"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "High Quality",
+    "text": "Since 2019, we have been offering successful tours and excellent services in Islamic countries based on the principles of pilgrimage and religious tourism, with the support of qualified specialists.",
+    "text1": "Our company provides services in religious tourism, academic tourism, business tourism, and health tourism.",
+    "text2": "Our travel services are mainly based on the preferences of participants. As we primarily provide hotel and restaurant services aligned with religious values, many of our guests choose us for pilgrimage and religious tourism.",
+    "text3": "Our main priority is to provide services aligned with religious values. Our hotels and dining facilities are either directly owned by us or strictly supervised through partnerships. Therefore, our prices are significantly more affordable than market rates, and even our standard packages match the premium level of other companies.",
+    "text4": "We ensure maximum comfort for our travelers: dinner service is included, and accommodation and meals are provided free of charge for children under the age of two.",
+    "text5": "Additionally, within the framework of international scientific conferences, academic visits, and religious events, we organize large-scale trips in cooperation with scholars, researchers, and delegations from Turkey and other countries.",
+    "button": "Book Your Room"
+  },
+  "home": {
+    "news": {
+      "title": "News & Updates",
+      "subtitle": "Stay updated with our latest news",
+      "read_more": "Read More",
+      "no_news": "No news available",
+      "check_back": "Please check back later for updates"
     },
-    "home": {
-        "carousel": {
-            "title": "Miniature Hotel",
-            "subtitle": "Art Gallery & Exceptional Service"
+    "carousel": {
+      "title": "Miniature Hotel",
+      "subtitle": "Art Gallery & Exceptional Service"
+    },
+    "booking": {
+      "title": "Book Your Perfect Stay",
+      "subtitle": "Choose your dates and guests for an unforgettable experience",
+      "roomType": "Room Type",
+      "chooseType": "Select Type",
+      "guests": "Guests",
+      "guestLabel": "{{count}} guest(s)",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "addRoom": "Add Room",
+      "continue": "Continue Booking",
+      "error": "Please fill in all fields for each room"
+    },
+    "rooms": {
+      "sectionTitle": "Our Rooms",
+      "sectionSubtitle": "Choose the perfect room and feel the atmosphere of comfort and art",
+      "types": {
+        "TWIN": {
+          "title": "TWIN Room",
+          "desc": "Perfect for those who want to relax peacefully with friends"
         },
-        "booking": {
-            "title": "Book Your Perfect Stay",
-            "subtitle": "Choose your dates and guests for an unforgettable experience",
-            "roomType": "Room Type",
-            "chooseType": "Select Type",
-            "guests": "Guests",
-            "guestLabel": "{{count}} guest(s)",
-            "checkIn": "Check-in",
-            "checkOut": "Check-out",
-            "addRoom": "Add Room",
-            "continue": "Continue Booking",
-            "error": "Please fill in all fields for each room"
+        "DOUBLE": {
+          "title": "DOUBLE Room",
+          "desc": "Ideal for romantic getaways and special moments"
         },
-        "rooms": {
-            "sectionTitle": "Our Rooms",
-            "sectionSubtitle": "Choose the perfect room and feel the atmosphere of comfort and art",
-            "types": {
-                "TWIN": {
-                    "title": "TWIN Room",
-                    "desc": "Perfect for those who want to relax peacefully with friends"
-                },
-                "DOUBLE": {
-                    "title": "DOUBLE Room",
-                    "desc": "Ideal for romantic getaways and special moments"
-                },
-                "TRIPLE": {
-                    "title": "TRIPLE Room",
-                    "desc": "Spacious room for family or friends with maximum comfort"
-                }
-            },
-            "book": "Book Now"
-        },
-        "features": {
-            "title": "Why Choose Us",
-            "subtitle": "Unique advantages that make your stay special",
-            "list": {
-                "1": {
-                    "title": "Premium Service",
-                    "desc": "Personalized top-class hospitality"
-                },
-                "2": {
-                    "title": "Art Gallery",
-                    "desc": "Exclusive artworks in the hotel lobby"
-                },
-                "3": {
-                    "title": "Top Quality",
-                    "desc": "High-quality materials and perfect comfort"
-                }
-            }
-        },
-        "about": {
-            "title": "About Us",
-            "subtitle": "High Quality",
-            "text": "The Miniature Hotel was reopened in 2016 after renovation and modernization to meet the highest standards. We offer luxurious rooms, many facilities, and exceptional service.",
-            "button": "Book a Room"
-        },
-        "footer": {
-            "desc": "Art Gallery & Exceptional Service — comfort, style, and inspiration in the heart of Bukhara.",
-            "contacts": "Contacts",
-            "phone": "Phone",
-            "email": "Email",
-            "address": "Address",
-            "rights": "All rights reserved",
-            "back": "↑ Back to top"
+        "TRIPLE": {
+          "title": "TRIPLE Room",
+          "desc": "Spacious room for family or friends with maximum comfort"
         }
+      },
+      "book": "Book Now"
     },
-    "bookingDisabledTitle": "Booking is temporarily unavailable",
-    "bookingDisabledSubtitle": "Please contact us by phone or social networks for more information"
+    "features": {
+      "title": "Why Choose Us?",
+      "subtitle": "We offer you not just a journey — but trust, quality, and comfort.",
+      "list": {
+        "1": {
+          "title": "Price and Quality Balance",
+          "desc": "Since our hotel and dining services are under direct supervision, we offer affordable prices while maintaining high-quality standards. Even our standard packages match the premium level of other companies."
+        },
+        "2": {
+          "title": "Services Aligned with Religious Values",
+          "desc": "Our tours are organized in accordance with religious principles. Halal dining, convenient locations, and prayer-friendly environments strengthen our travelers' trust."
+        },
+        "3": {
+          "title": "International Experience and Trust",
+          "desc": "Since 2019, we have successfully cooperated with delegations, scholars, and organizations from Turkey and other countries. Traveling with us means reliable partnership."
+        }
+      }
+    },
+
+    "footer": {
+      "desc": "Travel with us and discover every destination with trust, comfort, and premium service.",
+      "contacts": "Contacts",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "rights": "All rights reserved",
+      "back": "↑ Back to top"
+    }
+  },
+  "bookingDisabledTitle": "Booking is temporarily unavailable",
+  "bookingDisabledSubtitle": "Please contact us by phone or social networks for more information"
 }

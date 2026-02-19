@@ -1,7 +1,7 @@
 import axios from "axios";
 export let baseUrl;
-baseUrl = "http://localhost:8080";
-// baseUrl = "";
+// baseUrl = "http://localhost:8080";
+baseUrl = "";
 export default function (url, method, data, param) {
   let token = localStorage.getItem("access_token");
   // const navigate = useNavigate()
