@@ -27,7 +27,7 @@ target/
 build/
 *.class
 *.log
-
+end/backend/files/
 ####################################
 # Maven / Gradle
 ####################################
