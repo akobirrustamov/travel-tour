@@ -36,7 +36,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private class PushStateResourceResolver implements ResourceResolver {
         private Resource index = new ClassPathResource("/static/index.html");
-        private List<String> handledExtensions = Arrays.asList("html", "js", "json", "csv", "css", "png", "svg", "eot", "ttf", "otf", "woff", "appcache", "jpg", "jpeg", "gif", "ico" );
+        private List<String> handledExtensions = Arrays.asList("html", "js", "json", "csv", "css", "png", "svg", "eot", "ttf", "otf", "woff", "appcache", "jpg", "jpeg", "gif", "mp3", "mp4", "ico" );
         private List<String> ignoredPaths = Arrays.asList("api");
 
         @Override
@@ -66,7 +66,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         .map(loc -> createRelative(loc, requestPath))
                         .filter(resource -> resource != null && resource.exists())
                         .findFirst()
-                        .orElseGet(null);
+                        .orElse(null);
             }
             return index;
         }
