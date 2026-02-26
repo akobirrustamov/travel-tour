@@ -114,21 +114,6 @@ function AdminYoutube() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.iframe.trim()) {
-      toast.error("Please enter YouTube embed iframe code");
-      return;
-    }
-
-    // Validate iframe
-    if (
-      !formData.iframe.includes("iframe") ||
-      !formData.iframe.includes("youtube.com") ||
-      !formData.iframe.includes("src=")
-    ) {
-      toast.error("Please enter a valid YouTube embed iframe code");
-      return;
-    }
-
     try {
       const url = editingId
         ? `/api/v1/youtube/${editingId}`
@@ -247,6 +232,16 @@ function AdminYoutube() {
     if (!videoId) return null;
 
     return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+  };
+
+  // === Extract Instagram ID ===
+  const getInstagramEmbed = (url) => {
+    if (!url) return null;
+
+    const match = url.match(/instagram\.com\/(reel|p)\/([^/?]+)/);
+    if (!match) return null;
+
+    return `https://www.instagram.com/${match[1]}/${match[2]}/embed`;
   };
 
   // === Reset Form ===
@@ -470,10 +465,10 @@ function AdminYoutube() {
           <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-10">
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-                YouTube Videos
+                Instagram Videos
               </h1>
               <p className="text-gray-600 mt-2">
-                Manage embedded YouTube videos with descriptions
+                Manage embedded Instagram videos with descriptions
               </p>
             </div>
 
@@ -511,7 +506,7 @@ function AdminYoutube() {
           {loading ? (
             <div className="flex flex-col justify-center items-center h-96">
               <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-red-500"></div>
-              <p className="mt-4 text-gray-600">Loading YouTube videos...</p>
+              <p className="mt-4 text-gray-600">Loading Instagram videos...</p>
             </div>
           ) : (
             <>
@@ -520,6 +515,7 @@ function AdminYoutube() {
                 {filteredVideos.map((video) => {
                   const thumbnail = getYouTubeThumbnail(video.iframe);
                   const displayDescription = getDisplayDescription(video);
+                  const embedUrl = getInstagramEmbed(video.iframe);
 
                   return (
                     <div
@@ -529,23 +525,25 @@ function AdminYoutube() {
                       {/* Video Preview */}
                       <div className="relative h-56 overflow-hidden bg-gradient-to-br from-gray-900 to-black">
                         {thumbnail ? (
-                          <img
-                            src={thumbnail}
-                            alt="YouTube thumbnail"
-                            className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
-                            onError={(e) => {
-                              e.target.src =
-                                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%2322292e'/%3E%3Cpath d='M156.5 100.5v50l40-25z' fill='%23ff0000'/%3E%3C/svg%3E";
-                            }}
+                          <iframe
+                            src={embedUrl}
+                            className="w-full h-full"
+                            frameBorder="0"
+                            scrolling="no"
+                            allow="autoplay; encrypted-media"
+                            allowFullScreen
                           />
                         ) : (
+                          // <video >
+                          //   <source src={embedUrl} type="text/html" />
+                          // </video>
                           <div className="w-full h-full flex flex-col items-center justify-center p-4">
                             <YoutubeIcon
                               className="text-red-500 mb-2"
                               size={48}
                             />
                             <span className="text-gray-300 text-sm">
-                              YouTube Video
+                              Instagram Video
                             </span>
                           </div>
                         )}
@@ -637,12 +635,12 @@ function AdminYoutube() {
                     <YoutubeIcon className="text-gray-400" size={48} />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-800 mb-3">
-                    No YouTube videos found
+                    No Instagram videos found
                   </h3>
                   <p className="text-gray-600 max-w-md mx-auto mb-8">
                     {searchTerm
                       ? "No results found for your search. Try a different search term."
-                      : "Get started by adding your first YouTube video embed."}
+                      : "Get started by adding your first Instagram video embed."}
                   </p>
                   <button
                     onClick={() => {
@@ -748,12 +746,12 @@ function AdminYoutube() {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-3xl font-bold text-gray-800">
-                    {editingId ? "Edit YouTube Video" : "Add YouTube Video"}
+                    {editingId ? "Edit Instagram Video" : "Add Instagram Video"}
                   </h2>
                   <p className="text-gray-600 mt-1">
                     {editingId
                       ? "Update video embed and descriptions"
-                      : "Add a new YouTube video embed with descriptions"}
+                      : "Add a new Instagram video embed with descriptions"}
                   </p>
                 </div>
                 <button
@@ -773,10 +771,10 @@ function AdminYoutube() {
               {/* YouTube Embed Section */}
               <div className="mb-8">
                 <label className="block text-lg font-semibold text-gray-800 mb-6">
-                  YouTube Embed Code <span className="text-red-500">*</span>
+                  Instagram Embed Code <span className="text-red-500">*</span>
                   <span className="block text-sm font-normal text-gray-500 mt-1">
-                    Paste the embed iframe code from YouTube. Click "Share" →
-                    "Embed" on YouTube to get the code.
+                    Paste the embed iframe code from Instagram. Click "Share" →
+                    "Embed" on Instagram to get the code.
                   </span>
                 </label>
 

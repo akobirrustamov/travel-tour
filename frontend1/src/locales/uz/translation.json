@@ -3,7 +3,7 @@
     "home": "Bosh sahifa",
     "tours": "Sayohatlar",
     "media": "Media",
-    "about": "Yangiliklar"
+    "about": "Yakunlangan safarlar"
   },
   "headerExtra": {
     "selectLanguage": "Tilni tanlang",
@@ -77,10 +77,10 @@
   },
 
   "news": {
-    "title": "Yangiliklar",
-    "subtitle": "Eng so'nggi yangiliklar va e'lonlar bilan tanishing",
-    "empty_title": "Hozircha yangiliklar mavjud emas",
-    "empty_subtitle": "Tez orada yangiliklar qo'shiladi",
+    "title": "Yakunlangan safarlar",
+    "subtitle": "Amalga oshirilgan safarlar bilan tanishing",
+    "empty_title": "Hozircha yakunlangan safarlar mavjud emas",
+    "empty_subtitle": "Tez orada yangi safarlar qo‘shiladi",
     "loading": "Yuklanmoqda...",
     "read_more": "Batafsil",
     "close": "Yopish"
@@ -88,14 +88,14 @@
 
   "newsDetails": {
     "loading": "Yuklanmoqda...",
-    "not_found": "Yangilik topilmadi",
+    "not_found": "Safar topilmadi",
     "error": "Xatolik yuz berdi",
-    "back_all": "Barcha yangiliklar",
+    "back_all": "Barcha yakunlangan safarlar",
     "share": "Ulashish",
     "gallery": "Galereya",
     "main_image": "Asosiy",
     "copied": "Havola nusxalandi!",
-    "back_page": "Yangiliklar sahifasiga qaytish"
+    "back_page": "Yakunlangan safarlar sahifasiga qaytish"
   },
   "partners": {
     "title": "Bizning Yutuqlarimiz",
@@ -117,11 +117,11 @@
 
   "home": {
     "news": {
-      "title": "Yangiliklar",
-      "subtitle": "So'nggi yangiliklardan xabardor bo'ling",
+      "title": "Yakunlangan safarlar",
+      "subtitle": "Amalga oshirilgan safarlar bilan tanishing",
       "read_more": "Batafsil",
-      "no_news": "Yangiliklar mavjud emas",
-      "check_back": "Yangi yangiliklar uchun keyinroq tekshiring"
+      "no_news": "Hozircha yakunlangan safarlar mavjud emas",
+      "check_back": "Yangi safarlar tez orada qo‘shiladi"
     },
     "carousel": {
       "title": "Miniatürli Mehmonxona",
@@ -185,7 +185,8 @@
       "email": "Elektron pochta",
       "address": "Manzil",
       "rights": "Barcha huquqlar himoyalangan",
-      "back": "↑ Yuqoriga qaytish"
+      "back": "↑ Yuqoriga qaytish",
+      "manzil": "Samarqand, Yalangtoʻsh Bahodir mahalla fuqarolar yigʻini"
     }
   },
   "bookingDisabledTitle": "Bron qilish vaqtincha mavjud emas",

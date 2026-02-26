@@ -825,6 +825,43 @@ function AdminTour() {
     );
   };
 
+  const handleAddDay = () => {
+    const newDay = {
+      position: tourDays.length + 1,
+      title_uz: "",
+      title_ru: "",
+      title_en: "",
+      title_turk: "",
+      description_uz: "",
+      description_ru: "",
+      description_en: "",
+      description_turk: "",
+      tourId: selectedTourForDays?.id,
+    };
+
+    setTourDays((prev) => [...prev, newDay]);
+    setActiveDayIndex(tourDays.length); // yangi kunni ochadi
+  };
+  const handleDeleteDay = async () => {
+    const day = tourDays[activeDayIndex];
+
+    if (day.id) {
+      await requestWithRefresh(`/api/v1/tour-days/${day.id}`, "DELETE");
+    }
+
+    const updated = tourDays.filter((_, i) => i !== activeDayIndex);
+
+    // orderlarni qayta beramiz
+    const reordered = updated.map((d, index) => ({
+      ...d,
+      position: index + 1,
+    }));
+
+    setTourDays(reordered);
+    setActiveDayIndex(0);
+
+    toast.success("Day deleted");
+  };
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-emerald-50">
       <ToastContainer position="top-right" autoClose={2000} />
@@ -1221,6 +1258,15 @@ function AdminTour() {
                       </button>
                     );
                   })}
+                  {/* Add Day Button */}
+                  <button
+                    onClick={handleAddDay}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-semibold 
+             bg-emerald-100 text-emerald-700 border border-emerald-300
+             hover:bg-emerald-200 transition-all duration-300 whitespace-nowrap"
+                  >
+                    + Kun
+                  </button>
                 </div>
               </div>
 
@@ -1275,21 +1321,7 @@ function AdminTour() {
             {/* ===== FOOTER ===== */}
             <div className="flex justify-end gap-4 px-8 py-6 border-t border-gray-200 bg-gray-50 rounded-b-3xl">
               <button
-                onClick={async () => {
-                  if (!tourDays[activeDayIndex].id) return;
-
-                  await requestWithRefresh(
-                    `/api/v1/tour-days/${tourDays[activeDayIndex].id}`,
-                    "DELETE",
-                  );
-
-                  const updated = [...tourDays];
-                  updated.splice(activeDayIndex, 1);
-                  setTourDays(updated);
-                  setActiveDayIndex(0);
-
-                  toast.success("Day deleted");
-                }}
+                onClick={handleDeleteDay}
                 className="px-4 py-2 bg-red-500 text-white rounded-lg"
               >
                 Delete Day

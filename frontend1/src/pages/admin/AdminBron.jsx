@@ -10,6 +10,41 @@ function AdminBron() {
   const [brons, setBrons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTour, setSelectedTour] = useState(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editingBron, setEditingBron] = useState(null);
+
+  const [editData, setEditData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    status: 1,
+    description: "",
+  });
+  const handleEditOpen = (bron) => {
+    setEditingBron(bron);
+
+    setEditData({
+      name: bron.name || "",
+      email: bron.email || "",
+      phone: bron.phone || "",
+      status: bron.status || 1,
+      description: bron.description || "",
+    });
+
+    setIsEditOpen(true);
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await ApiCall(`/api/v1/bron/${editingBron.id}`, "PUT", editData);
+
+      toast.success("Bron yangilandi");
+      setIsEditOpen(false);
+      getAllBrons();
+    } catch (error) {
+      toast.error("Yangilashda xatolik!");
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -90,7 +125,7 @@ function AdminBron() {
               options={tourOptions}
               value={selectedTour}
               onChange={setSelectedTour}
-              placeholder="Tur bo‘yicha filter..."
+              placeholder="Tur bo'yicha filter..."
               isSearchable
               className="text-sm"
             />
@@ -111,6 +146,8 @@ function AdminBron() {
                     <th className="px-6 py-3">Email</th>
                     <th className="px-6 py-3">Tur nomi</th>
                     <th className="px-6 py-3">Sana</th>
+                    <th className="px-6 py-3">Holati</th>
+                    <th className="px-6 py-3">Izoh</th>
                     <th className="px-6 py-3">Amallar</th>
                   </tr>
                 </thead>
@@ -128,6 +165,27 @@ function AdminBron() {
                         {new Date(bron.createDate).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4">
+                        {bron.status === 1
+                          ? "Yangi"
+                          : bron.status === 2
+                            ? "Sotib oldi"
+                            : bron.status === 3
+                              ? "O'ylab ko'radi"
+                              : bron.status === 4
+                                ? "Rad etdi"
+                                : "Bog'lanib bo'lmadi"}
+                      </td>
+                      <td className="px-6 py-4">
+                        {bron.description ? bron.description : "-"}
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleEditOpen(bron)}
+                          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-xs mr-2"
+                        >
+                          ✏
+                        </button>
                         <button
                           onClick={() => handleDelete(bron.id)}
                           className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs"
@@ -143,6 +201,64 @@ function AdminBron() {
           )}
         </div>
       </main>
+      {isEditOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl p-6 space-y-4">
+            <h3 className="text-xl font-bold text-gray-700">
+              Bronni tahrirlash
+            </h3>
+
+            {/* Status Select */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Status</label>
+              <select
+                value={editData.status}
+                onChange={(e) =>
+                  setEditData({ ...editData, status: Number(e.target.value) })
+                }
+                className="w-full border px-3 py-2 rounded-lg"
+              >
+                <option value={1}>Yangi</option>
+                <option value={2}>Sotib oldi</option>
+                <option value={3}>O'ylab ko'radi</option>
+                <option value={4}>Rad etdi</option>
+                <option value={5}>Bog'lanib bo'lmadi</option>
+              </select>
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Izoh (Description)
+              </label>
+              <textarea
+                value={editData.description}
+                onChange={(e) =>
+                  setEditData({ ...editData, description: e.target.value })
+                }
+                className="w-full border px-3 py-2 rounded-lg h-24 resize-none"
+              />
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-end gap-3 pt-4">
+              <button
+                onClick={() => setIsEditOpen(false)}
+                className="px-4 py-2 border rounded-lg"
+              >
+                Bekor qilish
+              </button>
+
+              <button
+                onClick={handleUpdate}
+                className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700"
+              >
+                Saqlash
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

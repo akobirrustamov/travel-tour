@@ -814,7 +814,7 @@ function Tours() {
           </svg>
         </div>
 
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-8 relative z-10">
           <button
             onClick={() => navigate("/tours")}
             className="bg-emerald-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-emerald-600 transition-all duration-300 ease-in-out transform hover:scale-105"

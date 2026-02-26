@@ -358,7 +358,7 @@ function News() {
       <div className="flex justify-center">
         <button
           onClick={() => navigate("/news")}
-          className="bg-yellow-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-yellow-600 transition-all duration-300 ease-in-out transform hover:scale-105"
+          className="bg-yellow-500 relative z-10 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-yellow-600 transition-all duration-300 ease-in-out transform hover:scale-105"
         >
           {t("gallery.more")}
         </button>

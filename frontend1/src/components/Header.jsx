@@ -15,6 +15,7 @@ function Header() {
   );
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [isLangOpen, setIsLangOpen] = useState(false);
   const navigate = useNavigate();
   // Fon rasmi uchun gradient animatsiyasi
   const backgroundStyle = {
@@ -111,7 +112,7 @@ function Header() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      setIsMobileMenuOpen(false);
+      // setIsMobileMenuOpen(false);
       const sections = ["home", "about", "tours", "media", "contacts"];
       const scrollY = window.scrollY + window.innerHeight / 3;
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -151,8 +152,8 @@ function Header() {
 
   const navItems = [
     { label: t("header.home"), path: "/" },
-    { label: t("header.about"), path: "/news" },
     { label: t("header.tours"), path: "/tours" },
+    { label: t("header.about"), path: "/news" },
     {
       label: t("header.media"),
       children: [
@@ -270,31 +271,46 @@ function Header() {
             </nav>
 
             {/* Language Selector */}
-            <div className="relative group">
-              <div className="flex items-center gap-2 bg-black/30 backdrop-blur-md px-4 py-2.5 rounded-xl border border-yellow-400/30 hover:border-yellow-400 transition-all duration-300 cursor-pointer group-hover:scale-105">
-                <Globe className="w-4 h-4 text-yellow-400 group-hover:rotate-12 transition-transform duration-300" />
-                <select
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
-                  className="bg-transparent text-yellow-300 font-medium focus:outline-none cursor-pointer appearance-none pr-6"
-                  style={{ backgroundImage: "none" }}
-                >
-                  {languages.map((lang) => (
-                    <option
-                      key={lang.code}
-                      value={lang.code}
-                      className="bg-green-900 text-white"
-                    >
-                      {lang.flag} {lang.label}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="w-4 h-4 text-yellow-400 group-hover:rotate-180 transition-transform duration-300" />
-              </div>
+            <div className="relative">
+              <button
+                onClick={() => setIsLangOpen((prev) => !prev)}
+                className="flex items-center gap-2 bg-black/30 backdrop-blur-md px-4 py-2.5 rounded-xl border border-yellow-400/30 hover:border-yellow-400 transition-all duration-300 cursor-pointer hover:scale-105"
+              >
+                <Globe className="w-4 h-4 text-yellow-400" />
+                <span className="text-yellow-300 font-medium">
+                  {languages.find((l) => l.code === language)?.label}
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 text-yellow-400 transition-transform duration-300 ${
+                    isLangOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
 
-              {/* Tooltip */}
-              <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                {t("headerExtra.selectLanguage")}
+              {/* Dropdown */}
+              <div
+                className={`absolute right-0 mt-2 w-40 bg-green-900 rounded-xl shadow-xl overflow-hidden transition-all duration-300 ${
+                  isLangOpen
+                    ? "opacity-100 visible translate-y-0"
+                    : "opacity-0 invisible -translate-y-2"
+                }`}
+              >
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => {
+                      setLanguage(lang.code);
+                      setIsLangOpen(false);
+                    }}
+                    className={`block w-full text-left px-4 py-2 text-sm transition ${
+                      language === lang.code
+                        ? "bg-green-800 text-yellow-400"
+                        : "text-gray-300 hover:bg-green-800 hover:text-yellow-400"
+                    }`}
+                  >
+                    {lang.label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -355,15 +371,6 @@ function Header() {
           </div>
 
           <div className="relative h-full p-6 pt-24 overflow-y-auto">
-            {/* Logo in menu */}
-            <div className="flex justify-center mb-8 animate-pulse">
-              <img
-                className="w-20 h-20 rounded-full border-4 border-yellow-400/50 shadow-2xl float-animation"
-                src={icon}
-                alt="Logo"
-              />
-            </div>
-
             {/* Navigation items */}
             <nav className="flex flex-col space-y-3">
               {navItems.map((item, index) => (

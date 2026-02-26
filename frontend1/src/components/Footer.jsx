@@ -148,13 +148,13 @@ function Footer() {
 
   const contacts = [
     { icon: <Phone />, value: "+998 99 272 49 94", href: "tel:+998992724994" },
-    { icon: <Phone />, value: "+998 93 535 24 51", href: "tel:+998935352451" },
+    { icon: <Phone />, value: "+998 99 951 33 77", href: "tel:+998999513377" },
     { icon: <Phone />, value: "+90 537 716 27 22", href: "tel:+905377162722" },
     { icon: <Phone />, value: "+90 541 184 02 04", href: "tel:+905411840204" },
     {
       icon: <Mail />,
-      value: "1203jumayev@gmail.com",
-      href: "mailto:1203jumayev@gmail.com",
+      value: "diyarelselamtravel@gmail.com",
+      href: "mailto:diyarelselamtravel@gmail.com",
     },
   ];
 
@@ -250,7 +250,7 @@ function Footer() {
               <li className="flex items-start gap-2 sm:gap-3">
                 <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-yellow-400 mt-1 flex-shrink-0" />
                 <span className="text-xs sm:text-sm md:text-base text-gray-400">
-                  Саррафон 1-муйилиш 6-уй, 200100, Bukhara, Uzbekistan
+                  {t("home.footer.manzil")}
                 </span>
               </li>
             </ul>
@@ -266,14 +266,13 @@ function Footer() {
             <div className="map-container group">
               <div className="relative rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-xl border border-yellow-400/20 h-40 sm:h-44 md:h-48 lg:h-52">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d497.3581815147606!2d64.42017413802014!3d39.77234531434028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f5007f49a3880a1%3A0x4e6842e0ccd3fafa!2sMiniature%20boutique%20hotel!5e1!3m2!1sru!2s!4v1762249276429!5m2!1sru!2s"
+                  src="https://yandex.ru/map-widget/v1/-/CPeWQD4j"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
-                  allowFullScreen=""
+                  allowFullScreen
                   loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Miniature Hotel Map"
+                  title="Diyarel Selam Travel Map"
                   className="transition-transform duration-500 group-hover:scale-105"
                 ></iframe>
               </div>
@@ -282,14 +281,14 @@ function Footer() {
               <div className="hidden sm:block absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-xs text-white flex items-center gap-1">
                   <MapPin className="w-3 h-3 text-yellow-400" />
-                  Miniature Boutique Hotel, Bukhara
+                  DIYAR EL-SALAM
                 </p>
               </div>
             </div>
 
             {/* Direction button */}
             <a
-              href="https://maps.google.com/?q=Miniature+boutique+hotel+Bukhara"
+              href="https://yandex.com.tr/maps/-/CPeWQD4j"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 sm:mt-3 md:mt-4 inline-flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 transition-colors group"

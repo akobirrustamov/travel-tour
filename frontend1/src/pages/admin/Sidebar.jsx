@@ -24,7 +24,7 @@ function Sidebar({ onLogout }) {
     { path: "/admin/partner", label: "Travel Partner", emoji: "🤝" },
     { path: "/admin/tour", label: "Travel Tour", emoji: "✈️" },
     { path: "/admin/brons", label: "Brons", emoji: "📩" },
-    { path: "/admin/youtube", label: "Youtube Videos", emoji: "▶️" },
+    { path: "/admin/youtube", label: "Instagram Videos", emoji: "▶️" },
   ];
 
   return (

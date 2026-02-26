@@ -131,7 +131,7 @@ function Gallery() {
   };
 
   return (
-    <section className="py-6 sm:py-10 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+    <section className="py-6 sm:py-10 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden ">
       {/* Murakkab Okean To'lqinlari Animatsiyasi */}
       <div className="absolute inset-0 overflow-hidden">
         {/* 1-qatlam: Chuqur okean to'lqinlari */}

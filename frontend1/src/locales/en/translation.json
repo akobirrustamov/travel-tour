@@ -3,7 +3,7 @@
     "home": "Home",
     "tours": "Tours",
     "media": "Media",
-    "about": "News"
+    "about": "Completed Trips"
   },
   "headerExtra": {
     "selectLanguage": "Select Language",
@@ -77,25 +77,25 @@
   },
 
   "news": {
-    "title": "News",
-    "subtitle": "Discover the latest news and announcements",
-    "empty_title": "No news available yet",
-    "empty_subtitle": "New updates will be added soon",
+    "title": "Completed Tours",
+    "subtitle": "Explore our successfully completed tours",
+    "empty_title": "No completed tours available yet",
+    "empty_subtitle": "New tours will be added soon",
     "loading": "Loading...",
-    "read_more": "Read More",
+    "read_more": "Read more",
     "close": "Close"
   },
 
   "newsDetails": {
     "loading": "Loading...",
-    "not_found": "News not found",
+    "not_found": "Tour not found",
     "error": "An error occurred",
-    "back_all": "All news",
+    "back_all": "All completed tours",
     "share": "Share",
     "gallery": "Gallery",
     "main_image": "Main",
     "copied": "Link copied!",
-    "back_page": "Back to news page"
+    "back_page": "Back to completed tours"
   },
   "partners": {
     "title": "Our Achievements",
@@ -116,11 +116,11 @@
   },
   "home": {
     "news": {
-      "title": "News & Updates",
-      "subtitle": "Stay updated with our latest news",
+      "title": "Completed Tours",
+      "subtitle": "Explore our successfully completed journeys",
       "read_more": "Read More",
-      "no_news": "No news available",
-      "check_back": "Please check back later for updates"
+      "no_news": "No completed tours available yet",
+      "check_back": "New tours will be added soon"
     },
     "carousel": {
       "title": "Miniature Hotel",
@@ -184,7 +184,8 @@
       "email": "Email",
       "address": "Address",
       "rights": "All rights reserved",
-      "back": "↑ Back to top"
+      "back": "↑ Back to top",
+      "manzil": "Samarkand, Yalangtosh Bahodir Citizens’ Assembly"
     }
   },
   "bookingDisabledTitle": "Booking is temporarily unavailable",

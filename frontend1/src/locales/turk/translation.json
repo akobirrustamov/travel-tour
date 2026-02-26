@@ -3,7 +3,7 @@
     "home": "Ana Sayfa",
     "tours": "Turlar",
     "media": "Medya",
-    "about": "Haberler"
+    "about": "Tamamlanan Seyahatler"
   },
   "headerExtra": {
     "selectLanguage": "Dil seçin",
@@ -87,24 +87,24 @@
     "whatsapp": "WhatsApp"
   },
   "news": {
-    "title": "Haberler",
-    "subtitle": "En son haberler ve duyurularla tanışın",
-    "empty_title": "Henüz haber bulunmamaktadır",
-    "empty_subtitle": "Yakında yeni haberler eklenecek",
+    "title": "Tamamlanan Turlar",
+    "subtitle": "Gerçekleştirilen turları keşfedin",
+    "empty_title": "Henüz tamamlanan tur yok",
+    "empty_subtitle": "Yakında yeni turlar eklenecek",
     "loading": "Yükleniyor...",
-    "read_more": "Devamını Oku",
+    "read_more": "Detaylı",
     "close": "Kapat"
   },
   "newsDetails": {
     "loading": "Yükleniyor...",
-    "not_found": "Haber bulunamadı",
+    "not_found": "Tur bulunamadı",
     "error": "Bir hata oluştu",
-    "back_all": "Tüm haberler",
+    "back_all": "Tüm tamamlanan turlar",
     "share": "Paylaş",
     "gallery": "Galeri",
-    "main_image": "Ana Görsel",
+    "main_image": "Ana",
     "copied": "Bağlantı kopyalandı!",
-    "back_page": "Haberler sayfasına dön"
+    "back_page": "Tamamlanan turlar sayfasına dön"
   },
   "partners": {
     "title": "Başarılarımız",
@@ -114,11 +114,11 @@
   },
   "home": {
     "news": {
-      "title": "Haberler ve Güncellemeler",
-      "subtitle": "En son haberlerimizden haberdar olun",
-      "read_more": "Devamını Oku",
-      "no_news": "Haber bulunamadı",
-      "check_back": "Güncellemeler için daha sonra tekrar kontrol edin"
+      "title": "Tamamlanan Turlar",
+      "subtitle": "Gerçekleştirilen turları keşfedin",
+      "read_more": "Detaylar",
+      "no_news": "Henüz tamamlanan tur bulunmamaktadır",
+      "check_back": "Yeni turlar yakında eklenecek"
     },
     "carousel": {
       "title": "Minyatürlü Otel",
@@ -181,7 +181,8 @@
         "email": "E-posta",
         "address": "Adres",
         "rights": "Tüm hakları saklıdır",
-        "back": "↑ Yukarıya dön"
+        "back": "↑ Yukarıya dön",
+        "manzil": "Semerkant, Yalangtoş Bahadır Mahalle Vatandaşlar Toplantısı"
       }
     },
     "bookingDisabledTitle": "Rezervasyon geçici olarak kullanılamıyor",

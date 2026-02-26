@@ -57,6 +57,7 @@ function Details() {
 
     try {
       const res = await ApiCall("/api/v1/bron", "POST", bronData);
+      console.log(res.data);
 
       if (res && !res.error) {
         alert("Booking created successfully");
@@ -515,6 +516,9 @@ function Details() {
 
       {/* Main Content - Clean and modern */}
       <div className="container mx-auto px-4 py-12">
+        <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent mb-6">
+          {getTitle(tour)}
+        </h1>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Content */}
           <div className="lg:col-span-2 space-y-8">
@@ -627,9 +631,9 @@ function Details() {
                   {formatPrice(tour.price)}
                 </span>
                 <span className="text-gray-500 ml-2">{tour.currency}</span>
-                <p className="text-sm text-gray-500 mt-1">
+                {/* <p className="text-sm text-gray-500 mt-1">
                   / {translations.per_person}
-                </p>
+                </p> */}
               </div>
 
               {/* Quick Info */}

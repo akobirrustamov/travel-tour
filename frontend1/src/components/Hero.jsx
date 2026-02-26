@@ -167,7 +167,7 @@ function Hero() {
       {/* ===== HERO SECTION ===== */}
       <section
         id="home"
-        className="relative h-[95vh] w-full flex items-center justify-center overflow-hidden"
+        className="relative h-[60vh] md:h-[95vh] w-full flex items-center justify-center overflow-hidden"
       >
         {/* Background Slides */}
         {carouselSlides.map((slide, index) => (
@@ -221,7 +221,7 @@ function Hero() {
         {/*</div>*/}
 
         {/* Navigation Arrows */}
-        {carouselSlides.length > 1 && (
+        {/* {carouselSlides.length > 1 && (
           <>
             <button
               onClick={prevSlide}
@@ -236,7 +236,7 @@ function Hero() {
               <ChevronRight className="w-6 h-6" />
             </button>
           </>
-        )}
+        )} */}
 
         {/* Slide Indicators */}
         {carouselSlides.length > 1 && (
@@ -257,9 +257,9 @@ function Hero() {
         )}
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
+        {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
           <ChevronDown className="w-8 h-8 text-white" />
-        </div>
+        </div> */}
       </section>
 
       {/* Add animation styles */}
