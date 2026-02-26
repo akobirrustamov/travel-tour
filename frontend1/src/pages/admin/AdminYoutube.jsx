@@ -235,13 +235,32 @@ function AdminYoutube() {
   };
 
   // === Extract Instagram ID ===
-  const getInstagramEmbed = (url) => {
-    if (!url) return null;
+  const getInstagramEmbed = (iframeString) => {
+    if (!iframeString) return null;
 
-    const match = url.match(/instagram\.com\/(reel|p)\/([^/?]+)/);
-    if (!match) return null;
+    // Agar to‘liq iframe bo‘lsa
+    const match = iframeString.match(/src="([^"]+)"/);
+    if (match) return match[1];
 
-    return `https://www.instagram.com/${match[1]}/${match[2]}/embed`;
+    // Instagram link
+    const instaMatch = iframeString.match(/instagram\.com\/(reel|p)\/([^/?]+)/);
+    if (instaMatch) {
+      return `https://www.instagram.com/${instaMatch[1]}/${instaMatch[2]}/embed`;
+    }
+
+    // YouTube watch link
+    const ytMatch = iframeString.match(/v=([^&]+)/);
+    if (ytMatch) {
+      return `https://www.youtube.com/embed/${ytMatch[1]}`;
+    }
+
+    // youtu.be link
+    const shortMatch = iframeString.match(/youtu\.be\/([^?]+)/);
+    if (shortMatch) {
+      return `https://www.youtube.com/embed/${shortMatch[1]}`;
+    }
+
+    return null;
   };
 
   // === Reset Form ===
@@ -513,7 +532,6 @@ function AdminYoutube() {
               {/* Videos Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
                 {filteredVideos.map((video) => {
-                  const thumbnail = getYouTubeThumbnail(video.iframe);
                   const displayDescription = getDisplayDescription(video);
                   const embedUrl = getInstagramEmbed(video.iframe);
 
@@ -523,8 +541,8 @@ function AdminYoutube() {
                       className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
                     >
                       {/* Video Preview */}
-                      <div className="relative h-56 overflow-hidden bg-gradient-to-br from-gray-900 to-black">
-                        {thumbnail ? (
+                      <div className="relative aspect-video overflow-hidden bg-black min-hscreen ">
+                        {embedUrl ? (
                           <iframe
                             src={embedUrl}
                             className="w-full h-full"
@@ -534,30 +552,16 @@ function AdminYoutube() {
                             allowFullScreen
                           />
                         ) : (
-                          // <video >
-                          //   <source src={embedUrl} type="text/html" />
-                          // </video>
-                          <div className="w-full h-full flex flex-col items-center justify-center p-4">
+                          <div className="w-full h-full flex flex-col items-center justify-center">
                             <YoutubeIcon
                               className="text-red-500 mb-2"
                               size={48}
                             />
                             <span className="text-gray-300 text-sm">
-                              Instagram Video
+                              Video Preview Not Available
                             </span>
                           </div>
                         )}
-                        <div className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-md">
-                          #{video.id}
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                          <div className="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center">
-                            <Play className="text-white ml-1" size={28} />
-                          </div>
-                        </div>
-                        <div className="absolute bottom-3 left-3">
-                          {renderLanguageBadges(video)}
-                        </div>
                       </div>
 
                       {/* Content */}
