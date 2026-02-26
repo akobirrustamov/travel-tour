@@ -35,6 +35,15 @@ public class TravelTourController {
         return ResponseEntity.ok(tourService.getPage(page, size));
     }
 
+
+    @GetMapping("/old/page")
+    public ResponseEntity<?> getOldPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(tourService.getOldPage(page, size));
+    }
+
     /* ================= WEBSITE ================= */
     @GetMapping("/website")
     public ResponseEntity<?> getForWebsite(

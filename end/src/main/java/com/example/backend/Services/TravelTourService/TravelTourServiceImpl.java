@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -214,10 +215,40 @@ public class TravelTourServiceImpl implements TravelTourService {
     }
 
     /* ================= PAGINATION (ADMIN) ================= */
+
+
     @Override
     public Page<TravelTour> getPage(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        return tourRepo.findAll(pageable);
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by("createdAt").descending()
+        );
+
+        LocalDate today = LocalDate.now();
+
+        return tourRepo.findByEndDateGreaterThanEqualAndActiveTrue(
+                today,
+                pageable
+        );
+    }
+
+    @Override
+    public Page<TravelTour> getOldPage(int page, int size) {
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by("createdAt").descending()
+        );
+
+        LocalDate today = LocalDate.now();
+
+        return tourRepo.findByEndDateLessThanAndActiveTrue(
+                today,
+                pageable
+        );
     }
 
     /* ================= WEBSITE ================= */
@@ -226,4 +257,6 @@ public class TravelTourServiceImpl implements TravelTourService {
         Pageable pageable = PageRequest.of(page, size);
         return tourRepo.findAllByActiveTrueOrderByCreatedAtDesc(pageable);
     }
+
+
 }
