@@ -28,9 +28,13 @@ function Index() {
 
   const fetchNews = async () => {
     try {
-      const res = await ApiCall("/api/v1/news", "GET");
-      // Sort by date (newest first)
-      const sortedData = (res.data || []).sort(
+      const res = await ApiCall(
+        "/api/v1/travel-tours/old/page?page=0&size=50",
+        "GET",
+      );
+      console.log(res.data);
+
+      const sortedData = (res.data.content || []).sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
       setNews(sortedData);
@@ -157,10 +161,10 @@ function Index() {
                     }}
                   >
                     {/* Image */}
-                    {item.mainPhoto?.id && (
+                    {item.images?.length > 0 && (
                       <div className="relative overflow-hidden aspect-[16/9]">
                         <img
-                          src={`${baseUrl}/api/v1/file/getFile/${item.mainPhoto.id}`}
+                          src={`${baseUrl}/api/v1/file/getFile/${item.images[0].id}`}
                           alt={title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           onError={(e) => {
@@ -207,10 +211,10 @@ function Index() {
                     </div>
 
                     {/* Photos preview */}
-                    {item.photos?.length > 0 && !isExpanded && (
+                    {item.images?.length > 1 && !isExpanded && (
                       <div className="px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6">
                         <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                          {item.photos.slice(0, 3).map((photo) => (
+                          {item.images.slice(0, 3).map((photo) => (
                             <div
                               key={photo.id}
                               className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden border border-gray-200 hover:border-emerald-400 transition-colors cursor-pointer"
@@ -228,7 +232,7 @@ function Index() {
                               />
                             </div>
                           ))}
-                          {item.photos.length > 3 && (
+                          {item.images.length > 3 && (
                             <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-gray-100 flex items-center justify-center text-xs text-gray-600 font-medium border border-gray-200">
                               +{item.photos.length - 3}
                             </div>

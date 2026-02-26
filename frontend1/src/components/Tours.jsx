@@ -263,7 +263,6 @@ function Tours() {
 
   // === Get title based on language ===
   const getTitle = (tour) => {
-
     const lang = getCurrentLang();
 
     return (
@@ -675,8 +674,6 @@ function Tours() {
                             </div>
                           )}
 
-
-
                           {/* Shimmer Effect on Hover */}
                           <div
                             className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000`}
@@ -696,11 +693,11 @@ function Tours() {
 
                           {/* Description (if available) */}
                           {/* Title Overlay */}
-                                                   <div className=" my-1">
-                                                     <h3 className=" font-bold text-md drop-shadow-lg ">
-                                                       {title}
-                                                     </h3>
-                                                   </div>
+                          <div className=" my-1">
+                            <h3 className=" font-bold text-md drop-shadow-lg ">
+                              {title}
+                            </h3>
+                          </div>
 
                           {/* Date Range */}
                           <div className="flex items-center text-gray-600 mb-3 bg-gray-50 p-2 rounded-lg">

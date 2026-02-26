@@ -130,7 +130,7 @@ function Tours() {
     try {
       setLoading(true);
       const res = await ApiCall(
-        `/api/v1/travel-tours/website?page=${currentPage}&size=6`,
+        `/api/v1/travel-tours/page?page=${currentPage}&size=50`,
       );
       if (res && !res.error) {
         setTours(res.data.content || []);

@@ -28,7 +28,7 @@ function NewsDetails() {
   const fetchNewsDetails = async () => {
     try {
       setLoading(true);
-      const res = await ApiCall(`/api/v1/news/${id}`, "GET");
+      const res = await ApiCall(`/api/v1/travel-tours/${id}`, "GET");
 
       if (res && !res.error) {
         setNews(res.data);

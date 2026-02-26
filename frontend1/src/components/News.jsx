@@ -71,7 +71,8 @@ function News() {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const res = await ApiCall("/api/v1/news/page?page=0&size=10");
+      const res = await ApiCall("/api/v1/travel-tours/old/page?page=0&size=10");
+      console.log(res.data);
 
       if (res && !res.error) {
         setNews(res.data.content || []);
@@ -104,32 +105,29 @@ function News() {
   const newsToRoomFormat = () => {
     return news.map((item) => {
       const lang = getCurrentLang();
+
       const title =
         item[`title_${lang}`] || item.title_uz || item.title_en || "News";
+
       const description =
         item[`description_${lang}`] ||
         item.description_uz ||
         item.description_en ||
         "";
 
-      const mainPhotoUrl = item.mainPhoto
-        ? `${baseUrl}/api/v1/file/getFile/${item.mainPhoto.id}`
-        : icon;
-
-      const photos = [mainPhotoUrl];
-      if (item.photos && item.photos.length > 0) {
-        item.photos.forEach((photo) => {
-          photos.push(`${baseUrl}/api/v1/file/getFile/${photo.id}`);
-        });
-      }
+      // 🔥 API da images bor, mainPhoto yo‘q
+      const photos =
+        item.images && item.images.length > 0
+          ? item.images.map((img) => `${baseUrl}/api/v1/file/getFile/${img.id}`)
+          : [icon];
 
       return {
         id: item.id,
         key: item.id,
         title: title,
         subtitle:
-          description.substring(0, 80) + (description.length > 80 ? "..." : ""),
-        mainImage: mainPhotoUrl,
+          description.replace(/<[^>]+>/g, "").substring(0, 80) +
+          (description.length > 80 ? "..." : ""),
         images: photos,
         createdAt: item.createdAt,
         description: description,
@@ -299,56 +297,57 @@ function News() {
             return (
               <div
                 key={room.id}
-                className="absolute top-0 cursor-pointer bg-white rounded-xl sm:rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl"
+                className="absolute top-0 cursor-pointer group"
                 style={transformStyle}
                 onClick={() => setActiveNewsIndex(index)}
               >
-                <div
-                  className="relative w-full overflow-hidden"
-                  style={{ height: imageHeight }}
-                >
-                  <img
-                    key={`${room.id}-${roomImageIndexes[room.id] || 0}`}
-                    src={
-                      room.images[roomImageIndexes[room.id] || 0] ||
-                      room.mainImage
-                    }
-                    alt={room.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
-                    onError={(e) => {
-                      e.target.src = icon;
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-3xl blur opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
 
-                  {/* Date badge */}
-                  {room.createdAt && (
-                    <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-emerald-500 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-medium flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {new Date(room.createdAt).toLocaleDateString()}
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-3 sm:p-4 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 mb-1 sm:mb-2 line-clamp-2">
-                      {room.title}
-                    </h3>
-                    <div
-                      className="text-xs sm:text-sm text-gray-600 leading-relaxed line-clamp-2 sm:line-clamp-3"
-                      dangerouslySetInnerHTML={{ __html: room.subtitle }}
+                <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500 hover:-translate-y-2">
+                  <div
+                    className="relative w-full overflow-hidden rounded-t-3xl"
+                    style={{ height: imageHeight }}
+                  >
+                    <img
+                      key={`${room.id}-${roomImageIndexes[room.id] || 0}`}
+                      src={room.images[roomImageIndexes[room.id] || 0] || icon}
+                      alt={room.title}
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                      onError={(e) => {
+                        e.target.src = icon;
+                      }}
                     />
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+
+                    {room.createdAt && (
+                      <div className="absolute top-3 left-3 bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {new Date(room.createdAt).toLocaleDateString()}
+                      </div>
+                    )}
                   </div>
 
-                  {isCenter && (
-                    <button
-                      onClick={() => navigate("/news/" + room.id)}
-                      className="mt-3 sm:mt-4 w-full px-4 sm:px-6 py-2 sm:py-2.5 bg-yellow-400 text-black text-sm sm:text-base font-semibold rounded-lg hover:bg-yellow-500 transition-all shadow-md hover:shadow-lg"
-                    >
-                      {t("home.news.read_more", "Read More")}
-                    </button>
-                  )}
+                  <div className="p-3 sm:p-4 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 group-hover:text-emerald-600 transition-colors duration-300">
+                        {room.title}
+                      </h3>
+                      <div
+                        className="text-xs sm:text-sm text-gray-600 leading-relaxed line-clamp-2 sm:line-clamp-3"
+                        dangerouslySetInnerHTML={{ __html: room.subtitle }}
+                      />
+                    </div>
+
+                    {isCenter && (
+                      <button
+                        onClick={() => navigate("/news/" + room.id)}
+                        className="mt-3 sm:mt-4 w-full px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg hover:shadow-xl"
+                      >
+                        {t("home.news.read_more", "Read More")}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             );
