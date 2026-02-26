@@ -26,5 +26,13 @@ public class Bron {
     @ManyToOne
     private TravelTour  travelTour;
     private LocalDate createDate;
+    private Integer status;
+    private String description;
+    // status
+    // 1. yangi
+    // 2. sotib oldi
+    // 3. o'ylab ko'radi
+    // 4. rad etdi
+    // 5. bog'lanib bo'lmadi
 }
 

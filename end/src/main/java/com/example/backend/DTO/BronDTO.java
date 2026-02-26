@@ -15,4 +15,6 @@ public class BronDTO {
     private String email;
     private String phone;
     private Integer travelTourId;
+    private Integer status;
+    private String description;
 }

@@ -39,6 +39,7 @@ public class BronController {
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .phone(dto.getPhone())
+                .status(1)
                 .travelTour(travelTour.get())  // Get the TravelTour from the Optional
                 .createDate(LocalDate.now())
                 .build();
@@ -72,6 +73,8 @@ public class BronController {
         bron.setName(dto.getName());
         bron.setEmail(dto.getEmail());
         bron.setPhone(dto.getPhone());
+        bron.setStatus(dto.getStatus());
+        bron.setDescription(dto.getDescription());
         Bron save = bronRepo.save(bron);
         return new ResponseEntity<>(save, HttpStatus.OK);
     }
