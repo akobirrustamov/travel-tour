@@ -376,46 +376,7 @@ function Gallery() {
                   >
                     {Array.isArray(videos) &&
                       videos.map((video) => {
-                        let src = null;
-
-                        if (!video?.iframe) return null;
-
-                        const iframeString = video.iframe;
-
-                        // 1️⃣ Agar to‘liq iframe bo‘lsa
-                        const match = iframeString.match(/src="([^"]+)"/);
-                        if (match) {
-                          src = match[1];
-                        }
-
-                        // 2️⃣ Instagram reel oddiy link bo‘lsa
-                        else if (iframeString.includes("instagram.com")) {
-                          const reelMatch = iframeString.match(
-                            /instagram\.com\/(reel|p)\/([^/?]+)/,
-                          );
-                          if (reelMatch) {
-                            src = `https://www.instagram.com/${reelMatch[1]}/${reelMatch[2]}/embed`;
-                          }
-                        }
-
-                        // 3️⃣ YouTube watch link bo‘lsa
-                        else if (iframeString.includes("youtube.com/watch")) {
-                          const ytMatch = iframeString.match(/v=([^&]+)/);
-                          if (ytMatch) {
-                            src = `https://www.youtube.com/embed/${ytMatch[1]}`;
-                          }
-                        }
-
-                        // 4️⃣ youtu.be bo‘lsa
-                        else if (iframeString.includes("youtu.be")) {
-                          const shortMatch =
-                            iframeString.match(/youtu\.be\/([^?]+)/);
-                          if (shortMatch) {
-                            src = `https://www.youtube.com/embed/${shortMatch[1]}`;
-                          }
-                        }
-
-                        if (!src) return null;
+                        const src = extractSrc(video.iframe);
 
                         return (
                           <div
@@ -424,10 +385,10 @@ function Gallery() {
                             style={{ width: `${100 / itemsPerView}%` }}
                           >
                             <div className="rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 bg-black">
-                              <div className="relative w-full pt-[177.78%] ">
+                              <div className="relative w-full pt-[56.25%]">
                                 <iframe
                                   src={src}
-                                  title="Video"
+                                  title="YouTube video"
                                   className="absolute top-0 left-0 w-full h-full"
                                   frameBorder="0"
                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
