@@ -1,329 +1,865 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ApiCall, { baseUrl } from "../../config";
-
 import { useTranslation } from "react-i18next";
 import {
+  ChevronLeft,
+  ChevronRight,
+  Heart,
   Calendar,
-  ArrowLeft,
+  DollarSign,
   Share2,
-  Download,
-  Image as ImageIcon,
+  MapPin,
+  Clock,
+  Info,
   X,
+  Camera,
+  CheckCircle,
+  Sparkles,
+  Phone,
+  MessageCircle,
+  Navigation,
+  Check,
+  HelpCircle,
+  MessageSquareMoreIcon,
 } from "lucide-react";
 import Footer from "../../components/Footer";
 
-function NewsDetails() {
+function Details() {
+  const [tourDays, setTourDays] = useState([]);
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [news, setNews] = useState(null);
+  const [tour, setTour] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [error, setError] = useState(null);
+  const [liked, setLiked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+  const [activeDay, setActiveDay] = useState(1);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [bron, setBron] = useState({
+    phone: "",
+    email: "",
+    name: "",
+  });
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    fetchNewsDetails();
-  }, [id]);
+  const navigate = useNavigate();
 
-  const fetchNewsDetails = async () => {
+  const handleBookingSubmit = async () => {
+    if (!tour) return;
+
+    const bronData = {
+      phone: bron.phone,
+      email: bron.email,
+      name: bron.name,
+      travelTourId: tour.id,
+    };
+
     try {
-      setLoading(true);
-      const res = await ApiCall(`/api/v1/travel-tours/${id}`, "GET");
+      const res = await ApiCall("/api/v1/bron", "POST", bronData);
+      console.log(res.data);
 
       if (res && !res.error) {
-        setNews(res.data);
-      } else {
-        setError("Yangilik topilmadi");
+        alert("Booking created successfully");
+        setShowBookingModal(false);
+        setBron({ phone: "", email: "", name: "" });
       }
-    } catch (error) {
-      console.error("News details error:", error);
-      setError("Xatolik yuz berdi");
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      alert("Booking error");
     }
   };
 
+  // Get current language
   const getCurrentLang = () => {
-    const map = {
+    const lang = i18n.language || "uz";
+    const langMap = {
       uz: "uz",
       ru: "ru",
       en: "en",
       tr: "turk",
       turk: "turk",
     };
-    return map[i18n.language] || "uz";
+    return langMap[lang] || "uz";
   };
 
-  const getTitle = () => {
-    if (!news) return "";
+  // Get title based on language
+  const getTitle = (tour) => {
+    if (!tour) return "";
     const lang = getCurrentLang();
-    return news[`title_${lang}`] || news.title_uz;
+    return tour[`title_${lang}`] || tour.title_uz || "Sayohat";
   };
 
-  const getDescription = () => {
-    if (!news) return "";
+  useEffect(() => {
+    const fetchTourDetails = async () => {
+      try {
+        setLoading(true);
+
+        const response = await ApiCall(`/api/v1/travel-tours/${id}`);
+
+        if (response && !response.error) {
+          setTour(response.data);
+
+          // 🔥 TOUR DAYS FETCH
+          const daysRes = await ApiCall(`/api/v1/tour-days/by-tour/${id}`);
+
+          if (daysRes && !daysRes.error) {
+            setTourDays(daysRes.data || []);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching tour details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTourDetails();
+  }, [id]);
+
+  // Get description based on language
+  const getDescription = (tour) => {
+    if (!tour) return "";
     const lang = getCurrentLang();
-    return news[`description_${lang}`] || news.description_uz;
+
+    return tour?.[`description_${lang}`] || tour?.description_uz || "";
   };
+
+  // Translations
+  const translations = {
+    loading: t("tours.loading"),
+    no_tours: t("tours.no_tours"),
+    from: t("tours.from"),
+    to: t("tours.to"),
+    participants: t("tours.participants"),
+    price: t("tours.price"),
+    per_person: t("tours.per_person"),
+    book_now: t("tours.book_now"),
+    back_to_list: t("tours.back_to_list"),
+    share: t("tours.share"),
+    copy_link: t("tours.copy_link"),
+    copied: t("tours.copied"),
+    overview: t("tours.overview"),
+    itinerary: t("tours.itinerary"),
+    gallery: t("tours.gallery"),
+    duration: t("tours.duration"),
+    days: t("tours.days"),
+    nights: t("tours.nights"),
+    cities: t("tours.cities"),
+    contact: t("tours.contact"),
+    call: t("tours.call"),
+    telegram: t("tours.telegram"),
+    whatsapp: t("tours.whatsapp"),
+    read_more: t("tours.read_more"),
+    hide: t("tours.hide"),
+    share_tour: t("tours.share_tour"),
+  };
+
+  // Fetch tour details
+  useEffect(() => {
+    const fetchTourDetails = async () => {
+      try {
+        setLoading(true);
+        const response = await ApiCall(`/api/v1/travel-tours/${id}`);
+        console.log(response.data);
+        if (response && !response.error) {
+          setTour(response.data);
+        } else {
+          console.error("Failed to fetch tour details");
+        }
+      } catch (error) {
+        console.error("Error fetching tour details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTourDetails();
+  }, [id]);
 
   // Format date
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("uz-UZ", {
-      year: "numeric",
-      month: "long",
+  const formatDate = (date) => {
+    if (!date) return "";
+
+    const lang = i18n.language;
+
+    const langMap = {
+      uz: "uz-UZ",
+      ru: "ru-RU",
+      en: "en-US",
+      turk: "tr-TR",
+    };
+
+    const locale = langMap[lang] || "uz-UZ";
+
+    return new Date(date).toLocaleDateString(locale, {
       day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      month: "long",
+      year: "numeric",
     });
   };
 
-  // Handle image click
-  const handleImageClick = (imageUrl) => {
-    setSelectedImage(imageUrl);
+  // Calculate duration
+  const calculateDuration = (start, end) => {
+    if (!start || !end) return 0;
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = Math.abs(endDate - startDate);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
 
-  // Handle share
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: getTitle(),
-          text: getDescription().substring(0, 100),
-          url: window.location.href,
-        });
-      } catch (error) {
-        console.log("Sharing cancelled");
-      }
-    } else {
-      // Fallback - copy to clipboard
-      navigator.clipboard.writeText(window.location.href);
-      alert(t("newsDetails.copied"));
+  // Format price
+  const formatPrice = (price) => {
+    if (!price) return "0";
+
+    const langMap = {
+      uz: "uz-UZ",
+      ru: "ru-RU",
+      en: "en-US",
+      turk: "tr-TR",
+    };
+
+    const locale = langMap[i18n.language] || "uz-UZ";
+
+    return new Intl.NumberFormat(locale).format(price);
+  };
+  // Toggle like
+  const toggleLike = () => {
+    setLiked(!liked);
+  };
+
+  // Image modal functions
+  const openModal = (index) => {
+    setCurrentImageIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const nextImage = () => {
+    if (tour?.images) {
+      setCurrentImageIndex((prev) => (prev + 1) % tour.images.length);
     }
   };
 
-  // Handle download image
-  const handleDownload = async (imageUrl, index) => {
-    try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `news-image-${index + 1}.jpg`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Download error:", error);
+  const prevImage = () => {
+    if (tour?.images) {
+      setCurrentImageIndex(
+        (prev) => (prev - 1 + tour.images.length) % tour.images.length,
+      );
     }
   };
 
+  // Share functions
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
+  };
+
+  const shareToTelegram = () => {
+    const title = getTitle(tour);
+    const text = `${title}\n${window.location.href}`;
+    const url = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(title)}`;
+    window.open(url, "_blank");
+  };
+
+  const shareToFacebook = () => {
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+    window.open(url, "_blank");
+  };
+
+  const shareToWhatsApp = () => {
+    const title = getTitle(tour);
+    const text = `${title}\n${window.location.href}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+  };
+
+  const getCities = (tour) => {
+    if (!tour) return [];
+
+    const lang = getCurrentLang();
+    return tour?.[`cities_${lang}`] || tour?.cities_uz || [];
+  };
+
+  // Handle book now
+  const handleBookNow = () => {
+    setShowBookingModal(true);
+  };
+
+  // Loading state
   if (loading) {
     return (
-      <>
-        <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
-          <div className="text-center">
-            <div className="relative w-16 h-16 mx-auto mb-4">
-              <div className="absolute inset-0 border-4 border-emerald-200 rounded-full animate-ping"></div>
-              <div className="absolute inset-2 border-4 border-emerald-500 rounded-full animate-spin border-t-transparent"></div>
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-50 flex items-center justify-center">
+        <div className="text-center">
+          {/* Animated loader */}
+          <div className="relative w-32 h-32 mx-auto mb-8">
+            <div className="absolute inset-0 border-4 border-emerald-200 rounded-full animate-ping"></div>
+            <div className="absolute inset-2 border-4 border-emerald-400 rounded-full animate-spin border-t-transparent"></div>
+            <div className="absolute inset-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full animate-pulse"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Navigation className="w-8 h-8 text-white animate-bounce" />
             </div>
-            <p className="text-gray-500 text-lg">{t("newsDetails.loading")}</p>
           </div>
-        </section>
-        <Footer />
-      </>
+
+          <h3 className="text-2xl font-bold text-gray-800 mb-2">
+            {translations.loading}
+          </h3>
+          <p className="text-gray-500">Bir zumda...</p>
+        </div>
+      </div>
     );
   }
 
-  if (error || !news) {
+  // Not found state
+  if (!tour) {
     return (
-      <>
-        <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
-          <div className="text-center max-w-md mx-auto px-4">
-            <div className="text-gray-300 mb-4">
-              <svg
-                className="w-20 h-20 mx-auto"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-50 flex items-center justify-center px-4">
+        <div className="text-center max-w-md">
+          <div className="relative w-40 h-40 mx-auto mb-8">
+            <div className="absolute inset-0 bg-emerald-100 rounded-full animate-pulse"></div>
+            <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center">
+              <HelpCircle className="w-16 h-16 text-emerald-500" />
             </div>
-            <h3 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">
-              {t("newsDetails.loading")}{" "}
-            </h3>
-            <button
-              onClick={() => navigate("/news")}
-              className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              {t("newsDetails.back_page")}
-            </button>
           </div>
-        </section>
-        <Footer />
-      </>
+
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            {translations.no_tours}
+          </h2>
+
+          <p className="text-gray-600 mb-8">
+            Kechirasiz, siz izlagan sayohat topilmadi. Boshqa sayohatlarni
+            ko'ring.
+          </p>
+
+          <button
+            onClick={() => navigate("/tours")}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg hover:shadow-xl"
+          >
+            <ChevronLeft className="w-5 h-5" />
+            {translations.back_to_list}
+          </button>
+        </div>
+      </div>
     );
   }
 
-  const mainImage = news.mainPhoto?.id
-    ? `${baseUrl}/api/v1/file/getFile/${news.mainPhoto.id}`
-    : null;
-
-  const allImages = [
-    ...(mainImage ? [{ id: "main", url: mainImage, isMain: true }] : []),
-    ...(news.photos?.map((photo) => ({
-      id: photo.id,
-      url: `${baseUrl}/api/v1/file/getFile/${photo.id}`,
-      isMain: false,
-    })) || []),
-  ];
+  const duration = calculateDuration(tour.startDate, tour.endDate);
+  const title = getTitle(tour);
+  const mainImage = tour.images?.[0]
+    ? `${baseUrl}/api/v1/file/getFile/${tour.images[0].id}`
+    : "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800";
 
   return (
-    <>
-      <section className="py-12 md:py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Back button */}
-          <button
-            onClick={() => navigate("/news")}
-            className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-emerald-600 transition-colors mb-4 sm:mb-6 group"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            {t("newsDetails.back_all")}{" "}
-          </button>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+      {/* Hero Section - Minimal and elegant */}
+      <div className="relative h-[60vh] md:h-[70vh] overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0">
+          <img
+            src={mainImage}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30"></div>
+        </div>
 
-          {/* Main content */}
-          <article className="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden">
-            {/* Header with actions */}
-            <div className="p-4 sm:p-6 md:p-8 border-b border-gray-100">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4">
-                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
-                  {getTitle()}
-                </h1>
+        {/* Top Navigation */}
+        <div className="absolute top-8 left-0 right-0 p-6 z-20">
+          <div className="container mx-auto flex justify-between items-center">
+            <button
+              onClick={() => navigate("/tours")}
+              className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/20 transition-all border border-white/20"
+            >
+              <ChevronLeft className="w-5 h-5 text-white" />
+            </button>
 
+            <div className="flex gap-3">
+              <button
+                onClick={toggleLike}
+                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/20 transition-all border border-white/20"
+              >
+                <Heart
+                  className={`w-5 h-5 transition-colors ${
+                    liked ? "fill-red-500 text-red-500" : "text-white"
+                  }`}
+                />
+              </button>
+
+              <div className="relative">
                 <button
-                  onClick={handleShare}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-sm bg-gray-100 hover:bg-emerald-100 text-gray-700 hover:text-emerald-700 rounded-lg transition-colors self-start sm:self-center"
+                  onClick={() => setShowShareMenu(!showShareMenu)}
+                  className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/20 transition-all border border-white/20"
                 >
-                  <Share2 className="w-4 h-4" />
-                  <span className="hidden sm:inline">
-                    {t("newsDetails.share")}
-                  </span>
+                  <Share2 className="w-5 h-5 text-white" />
                 </button>
-              </div>
 
-              {/* Date */}
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Calendar className="w-4 h-4" />
-                {formatDate(news.createdAt)}
+                {/* Share Menu */}
+                {showShareMenu && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl z-30 py-2 border border-gray-100">
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-700">
+                        {translations.share_tour}
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={shareToTelegram}
+                      className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                    >
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <MessageSquareMoreIcon className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <span className="text-sm font-medium">
+                        {translations.telegram}
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={shareToWhatsApp}
+                      className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                    >
+                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                        <MessageCircle className="w-4 h-4 text-green-600" />
+                      </div>
+                      <span className="text-sm font-medium">
+                        {translations.whatsapp}
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={shareToFacebook}
+                      className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                    >
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <Share2 className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <span className="text-sm font-medium">
+                        {translations.whatsapp}
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={copyToClipboard}
+                      className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 transition-colors relative"
+                    >
+                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                        {copySuccess ? (
+                          <Check className="w-4 h-4 text-green-600" />
+                        ) : (
+                          <CheckCircle className="w-4 h-4 text-gray-600" />
+                        )}
+                      </div>
+                      <span className="text-sm font-medium">
+                        {copySuccess
+                          ? translations.copied
+                          : translations.copy_link}
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tour Info Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 text-white z-10">
+          <div className="container mx-auto">
+            {/* Cities */}
+            <div className="flex items-center gap-2 mb-4">
+              <MapPin className="w-5 h-5 text-emerald-400" />
+              <div className="flex flex-wrap gap-2">
+                {getCities(tour).map((city, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-600"
+                  >
+                    {city}
+                  </span>
+                ))}
               </div>
             </div>
 
-            {/* Main image */}
-            {mainImage && (
-              <div className="relative group">
-                <img
-                  src={mainImage}
-                  alt={getTitle()}
-                  className="w-full h-auto max-h-[500px] object-cover cursor-pointer"
-                  onClick={() => handleImageClick(mainImage)}
-                />
+            {/* Title */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl">
+              {translations.title}
+            </h1>
+
+            {/* Quick Info Chips */}
+            <div className="flex flex-wrap gap-3">
+              <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-emerald-400" />
+                <span className="text-sm">{formatDate(tour.startDate)}</span>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-emerald-400" />
+                <span className="text-sm">
+                  {duration} {translations.days}
+                </span>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 flex items-center gap-2">
+                <DollarSign className="w-4 h-4 text-emerald-400" />
+                <span className="text-sm">
+                  {formatPrice(tour.price)} {tour.currency}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content - Clean and modern */}
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent mb-6">
+          {getTitle(tour)}
+        </h1>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Content */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Overview Card */}
+            <div className="bg-white rounded-3xl shadow-sm p-8 border border-gray-100">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <Info className="w-6 h-6 text-emerald-500" />
+                {translations.overview}
+              </h2>
+              <p className="text-gray-600 leading-relaxed">
+                <div className="prose prose-lg prose-indigo max-w-none text-gray-600 leading-relaxed">
+                  <div
+                    dangerouslySetInnerHTML={{ __html: getDescription(tour) }}
+                  />
+                </div>
+              </p>
+            </div>
+
+            {/* Itinerary Card */}
+            <div className="bg-white rounded-3xl shadow-sm p-8 border border-gray-100">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <MapPin className="w-6 h-6 text-emerald-500" />
+                {translations.itinerary}
+              </h2>
+
+              {/* Timeline */}
+              {tourDays.map((day, index) => {
+                const lang = getCurrentLang();
+
+                return (
+                  <div
+                    key={day.id}
+                    className={`relative pl-8 pb-4 border-l-2 ${
+                      activeDay === index
+                        ? "border-emerald-500"
+                        : "border-gray-200"
+                    } last:pb-0`}
+                    onClick={() => setActiveDay(index)}
+                  >
+                    <div
+                      className={`absolute left-[-9px] top-0 w-4 h-4 rounded-full ${
+                        activeDay === index
+                          ? "bg-emerald-500 ring-4 ring-emerald-100"
+                          : "bg-gray-300"
+                      }`}
+                    ></div>
+
+                    <div className="mb-1 flex items-center gap-2">
+                      <span className="text-sm font-medium text-emerald-600">
+                        {index + 1}-{t("tours.days")}
+                      </span>
+                    </div>
+
+                    <h3 className="font-semibold text-gray-800 mb-1">
+                      {day[`title_${lang}`] || day.title_uz}
+                    </h3>
+
+                    <div
+                      className="text-sm text-gray-600"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          day[`description_${lang}`] ||
+                          day.description_uz ||
+                          "",
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Gallery Card */}
+            {tour.images && tour.images.length > 0 && (
+              <div className="bg-white rounded-3xl shadow-sm p-8 border border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                  <Camera className="w-6 h-6 text-emerald-500" />
+                  {translations.gallery}
+                </h2>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {tour.images.map((image, index) => (
+                    <div
+                      key={image.id}
+                      onClick={() => openModal(index)}
+                      className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group"
+                    >
+                      <img
+                        src={`${baseUrl}/api/v1/file/getFile/${image.id}`}
+                        alt={`${title} ${index + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        onError={(e) => {
+                          e.target.src =
+                            "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
+          </div>
 
-            {/* Description */}
-            <div className="p-4 sm:p-6 md:p-8">
-              <div
-                className="prose prose-sm sm:prose-base max-w-none text-gray-700 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: getDescription() }}
-              />
+          {/* Right Column - Booking Card */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-3xl shadow-xl p-6 sticky top-24 border border-gray-100">
+              {/* Price */}
+              <div className="text-center mb-6">
+                <span className="text-4xl font-bold text-emerald-600">
+                  {formatPrice(tour.price)}
+                </span>
+                <span className="text-gray-500 ml-2">{tour.currency}</span>
+                {/* <p className="text-sm text-gray-500 mt-1">
+                  / {translations.per_person}
+                </p> */}
+              </div>
 
-              {/* Additional images gallery */}
-              {allImages.length > 1 && (
-                <div className="mt-8 sm:mt-10 md:mt-12">
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <ImageIcon className="w-5 h-5 text-emerald-500" />
-                    {t("newsDetails.gallery")} ({allImages.length}){" "}
-                  </h3>
+              {/* Quick Info */}
+              <div className="space-y-3 mb-6">
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-emerald-500" />
+                    <span className="text-sm text-gray-600">
+                      {translations.from}
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium">
+                    {formatDate(tour.startDate)}
+                  </span>
+                </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                    {allImages.map((image, index) => (
-                      <div
-                        key={image.id}
-                        className="relative group aspect-square rounded-lg overflow-hidden bg-gray-100 cursor-pointer"
-                        onClick={() => handleImageClick(image.url)}
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-emerald-500" />
+                    <span className="text-sm text-gray-600">
+                      {translations.to}
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium">
+                    {formatDate(tour.endDate)}
+                  </span>
+                </div>
+
+                {/* <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-emerald-500" />
+                    <span className="text-sm text-gray-600">
+                      {translations.participants}
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium">1-20 kishi</span>
+                </div> */}
+
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-emerald-500" />
+                    <span className="text-sm text-gray-600">
+                      {translations.duration}
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium">
+                    {duration} {translations.days}
+                  </span>
+                </div>
+              </div>
+
+              {/* Book Button */}
+              {/* <button
+                onClick={handleBookNow}
+                className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-4 rounded-xl font-semibold hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg hover:shadow-xl mb-4 flex items-center justify-center gap-2"
+              >
+                <Sparkles className="w-5 h-5" />
+                {translations.book_now}
+              </button> */}
+
+              {/* Contact Buttons */}
+              <div className="grid grid-cols-2 gap-2">
+                <a
+                  href="tel:+998992724994"
+                  className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl transition-all"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span className="text-sm">{translations.call}</span>
+                </a>
+
+                <a
+                  href="https://t.me/+gnFA3UzwI5o4OWMy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-600 py-3 rounded-xl transition-all"
+                >
+                  <MessageSquareMoreIcon className="w-4 h-4" />
+
+                  <span className="text-sm">{translations.telegram}</span>
+                </a>
+              </div>
+
+              {/* Cities */}
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <MapPin className="w-4 h-4 text-emerald-500" />
+                  <span className="text-sm font-medium text-gray-700">
+                    {translations.cities}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2">
+                    {getCities(tour).map((city, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-600"
                       >
-                        <img
-                          src={image.url}
-                          alt={`Gallery ${index + 1}`}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                        />
-
-                        {/* Overlay with download button */}
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDownload(image.url, index);
-                            }}
-                            className="bg-white/90 hover:bg-white p-2 rounded-full transition-transform hover:scale-110"
-                          >
-                            <Download className="w-4 h-4 text-gray-700" />
-                          </button>
-                        </div>
-
-                        {/* Main badge */}
-                        {image.isMain && (
-                          <div className="absolute top-2 left-2 bg-emerald-500 text-white text-xs px-2 py-1 rounded-full">
-                            {t("newsDetails.main_image")}
-                          </div>
-                        )}
-                      </div>
+                        {city}
+                      </span>
                     ))}
                   </div>
                 </div>
-              )}
+              </div>
             </div>
-          </article>
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* Lightbox modal */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+      {showBookingModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden">
+            {/* Header */}
+            <div className="relative h-48">
+              <img
+                src={
+                  tour.images?.[0]
+                    ? `${baseUrl}/api/v1/file/getFile/${tour.images[0].id}`
+                    : "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800"
+                }
+                className="w-full h-full object-cover"
+                alt=""
+              />
+              <button
+                onClick={() => setShowBookingModal(false)}
+                className="absolute top-3 right-3 bg-white p-2 rounded-full"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6">
+              <h3 className="text-xl font-bold mb-4">{getTitle(tour)}</h3>
+
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder={t("tours.enter_name")}
+                  value={bron.name}
+                  onChange={(e) => setBron({ ...bron, name: e.target.value })}
+                  className="w-full border p-3 rounded-lg"
+                />
+
+                <input
+                  type="email"
+                  placeholder={t("tours.enter_email")}
+                  value={bron.email}
+                  onChange={(e) => setBron({ ...bron, email: e.target.value })}
+                  className="w-full border p-3 rounded-lg"
+                />
+
+                <input
+                  type="text"
+                  placeholder={t("tours.enter_phone")}
+                  value={bron.phone}
+                  onChange={(e) => setBron({ ...bron, phone: e.target.value })}
+                  className="w-full border p-3 rounded-lg"
+                />
+              </div>
+
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => setShowBookingModal(false)}
+                  className="flex-1 border py-3 rounded-lg"
+                >
+                  {t("tours.cancel")}
+                </button>
+
+                <button
+                  onClick={handleBookingSubmit}
+                  className="flex-1 bg-emerald-500 text-white py-3 rounded-lg"
+                >
+                  {t("tours.confirm_booking")}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Modal */}
+      {isModalOpen && tour?.images && (
+        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center">
+          {/* Close button */}
           <button
-            onClick={() => setSelectedImage(null)}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition z-10"
+            onClick={closeModal}
+            className="absolute top-6 right-6 text-white/70 hover:text-white z-20 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm"
           >
-            <X className="w-5 h-5 sm:w-6 sm:h-6" />
+            <X className="w-6 h-6" />
           </button>
 
+          {/* Navigation */}
+          <button
+            onClick={prevImage}
+            className="absolute left-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-20 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+
+          <button
+            onClick={nextImage}
+            className="absolute right-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-20 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Image */}
           <img
-            src={selectedImage}
-            alt="Preview"
-            className="max-h-[90vh] max-w-[95vw] rounded-lg shadow-2xl object-contain"
+            src={`${baseUrl}/api/v1/file/getFile/${tour.images[currentImageIndex]?.id}`}
+            alt={`${title} ${currentImageIndex + 1}`}
+            className="max-w-full max-h-[90vh] object-contain px-4"
+            onError={(e) => {
+              e.target.src =
+                "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800";
+            }}
           />
 
-          {/* Image counter */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white text-sm px-3 py-1.5 rounded-full">
-            {allImages.findIndex((img) => img.url === selectedImage) + 1} /{" "}
-            {allImages.length}
+          {/* Counter */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm">
+            {currentImageIndex + 1} / {tour.images.length}
           </div>
         </div>
       )}
 
       <Footer />
-    </>
+    </div>
   );
 }
 
-export default NewsDetails;
+export default Details;

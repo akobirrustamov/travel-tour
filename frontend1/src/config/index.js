@@ -1,8 +1,8 @@
 import axios from "axios";
 export let baseUrl;
- baseUrl = "http://localhost:8080";
-// baseUrl = "http://172.20.172.25";
-//baseUrl = "";
+//  baseUrl = "http://localhost:8080";
+// baseUrl = "https://diyarelsalam.uz";
+baseUrl = "";
 export default function (url, method, data, param) {
   let token = localStorage.getItem("access_token");
   // const navigate = useNavigate()
@@ -11,7 +11,7 @@ export default function (url, method, data, param) {
     url: baseUrl + url,
     method: method,
     data: data,
-    params:param,
+    params: param,
     headers: {
       Authorization: token,
     },
@@ -38,7 +38,7 @@ export default function (url, method, data, param) {
           url:
             baseUrl +
             `/api/v1/auth/refresh?refreshToken=${localStorage.getItem(
-              "refresh_token"
+              "refresh_token",
             )}`,
           method: "POST",
         })
