@@ -20,4 +20,6 @@ public interface TravelTourService {
     Page<TravelTour> getPage(int page, int size);
 
     Page<TravelTour> getForWebsite(int page, int size);
+
+    Page<TravelTour> getOldPage(int page, int size);
 }

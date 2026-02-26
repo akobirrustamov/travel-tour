@@ -11,7 +11,15 @@ import java.time.LocalDateTime;
 
 public interface TravelTourRepo extends JpaRepository<TravelTour, Integer> {
     Page<TravelTour> findAllByActiveTrueOrderByCreatedAtDesc(Pageable pageable);
+    Page<TravelTour> findByEndDateGreaterThanEqualAndActiveTrue(
+            LocalDate date,
+            Pageable pageable
+    );
 
+    Page<TravelTour> findByEndDateLessThanAndActiveTrue(
+            LocalDate date,
+            Pageable pageable
+    );
     long countByActiveTrue();
     long countByActiveFalse();
     long countByStartDateAfter(LocalDate date);

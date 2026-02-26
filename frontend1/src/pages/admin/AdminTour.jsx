@@ -216,10 +216,10 @@ function AdminTour() {
     try {
       setLoading(true);
       const res = await requestWithRefresh(
-        `/api/v1/travel-tours/page?page=${currentPage}&size=12`,
+        `/api/v1/travel-tours`,
       );
       if (res && !res.error) {
-        let filteredTours = res.data.content || [];
+        let filteredTours = res.data || [];
 
         // Apply status filter
         if (statusFilter === "active") {
