@@ -11,7 +11,6 @@ function Gallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
   const [likedImages, setLikedImages] = useState({});
-  const [isAutoPlay, setIsAutoPlay] = useState(true);
   const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
   const [videoIndex, setVideoIndex] = useState(0);
@@ -61,19 +60,7 @@ function Gallery() {
     }
   };
 
-  useEffect(() => {
-    let interval;
-    if (videos.length > 0) {
-      interval = setInterval(() => {
-        if (videoIndex < videos.length - itemsPerView) {
-          setVideoIndex(videoIndex + 1);
-        } else {
-          setVideoIndex(0);
-        }
-      }, 4000);
-    }
-    return () => clearInterval(interval);
-  }, [videoIndex, videos, itemsPerView]);
+  // Auto-scroll olib tashlandi (interval yo'q)
 
   const extractSrc = (iframeString) => {
     if (!iframeString) return null;
@@ -85,15 +72,7 @@ function Gallery() {
     fetchGallery();
   }, []);
 
-  useEffect(() => {
-    let interval;
-    if (isAutoPlay && gallery.length > 0) {
-      interval = setInterval(() => {
-        nextSlide();
-      }, 4000);
-    }
-    return () => clearInterval(interval);
-  }, [gallery, currentIndex, isAutoPlay, itemsPerView]);
+  // Auto-scroll olib tashlandi (interval yo'q)
 
   const fetchGallery = async () => {
     try {
@@ -295,9 +274,8 @@ function Gallery() {
           </div>
         ) : (
           <>
-            {/* Navigation buttons */}
+            {/* Rasm slayderi (auto‑scroll yo'q) */}
             <div className="relative">
-              {/* SLIDER */}
               <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl">
                 <div
                   className="flex transition-transform duration-700 ease-out"
@@ -342,8 +320,7 @@ function Gallery() {
               </div>
             </div>
 
-            {/* ================= VIDEO LAVHALAR ================= */}
-
+            {/* ================= VIDEO LAVHALAR (auto‑scroll yo'q) ================= */}
             <div className="mt-8 sm:mt-10 md:mt-12">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-10">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-red-600 to-rose-600 bg-clip-text text-transparent">
@@ -365,7 +342,7 @@ function Gallery() {
                 </div>
               </div>
 
-              {/* Video Navigation */}
+              {/* Video slayder (auto‑scroll yo'q) */}
               <div className="relative">
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl">
                   <div
@@ -417,6 +394,12 @@ function Gallery() {
 
                         if (!src) return null;
 
+                        // 🆕 Instagram uchun 9:16 nisbat, aks holda 16:9
+                        const isInstagram = src.includes("instagram.com");
+                        const aspectRatioClass = isInstagram
+                          ? "pt-[177.78%]"
+                          : "pt-[56.25%]";
+
                         return (
                           <div
                             key={video.id}
@@ -424,7 +407,7 @@ function Gallery() {
                             style={{ width: `${100 / itemsPerView}%` }}
                           >
                             <div className="rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 bg-black">
-                              <div className="relative w-full pt-[177.78%] ">
+                              <div className={`relative w-full ${aspectRatioClass}`}>
                                 <iframe
                                   src={src}
                                   title="Video"

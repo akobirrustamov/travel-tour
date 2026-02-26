@@ -227,7 +227,7 @@ function Tours() {
     try {
       setLoading(true);
       const res = await ApiCall(
-        `/api/v1/travel-tours/website?page=${currentPage}&size=6`,
+        `/api/v1/travel-tours/page?page=${currentPage}&size=6`,
       );
 
       if (res && !res.error) {
@@ -263,7 +263,9 @@ function Tours() {
 
   // === Get title based on language ===
   const getTitle = (tour) => {
+
     const lang = getCurrentLang();
+
     return (
       tour[`title_${lang}`] ||
       tour.title_uz ||
@@ -673,12 +675,7 @@ function Tours() {
                             </div>
                           )}
 
-                          {/* Title Overlay */}
-                          <div className="absolute bottom-3 left-3 right-3 z-10 opacity-0 group-hover:opacity-0">
-                            <h3 className="text-white font-bold text-xl drop-shadow-lg line-clamp-2">
-                              {title}
-                            </h3>
-                          </div>
+
 
                           {/* Shimmer Effect on Hover */}
                           <div
@@ -698,19 +695,12 @@ function Tours() {
                           </div>
 
                           {/* Description (if available) */}
-                          {description && (
-                            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                              <div
-                                className="prose prose-sm max-w-none text-gray-600 mb-3 line-clamp-2"
-                                dangerouslySetInnerHTML={{
-                                  __html:
-                                    tour[`description_${getCurrentLang()}`] ||
-                                    tour.description_uz ||
-                                    "",
-                                }}
-                              />
-                            </p>
-                          )}
+                          {/* Title Overlay */}
+                                                   <div className=" my-1">
+                                                     <h3 className=" font-bold text-md drop-shadow-lg ">
+                                                       {title}
+                                                     </h3>
+                                                   </div>
 
                           {/* Date Range */}
                           <div className="flex items-center text-gray-600 mb-3 bg-gray-50 p-2 rounded-lg">
