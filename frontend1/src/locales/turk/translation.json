@@ -1,0 +1,190 @@
+{
+  "header": {
+    "home": "Ana Sayfa",
+    "tours": "Turlar",
+    "media": "Medya",
+    "about": "Haberler"
+  },
+  "headerExtra": {
+    "selectLanguage": "Dil seçin",
+    "logoAlt": "Logo",
+    "brandAlt": "Diyar El-Salam Travel",
+    "copyright": "© 2024 DIYAR EL-SALAM TRAVEL",
+    "slogan": "Konforlu seyahat"
+  },
+  "gallery": {
+    "title": "Galeri",
+    "more": "Daha Fazla Gör",
+    "loading": "Yükleniyor...",
+    "videoTitle": "Video Bölümleri",
+    "moreVideos": "Daha Fazla Video",
+    "imageAlt": "Galeri görseli"
+  },
+  "galleryPage": {
+    "title": "Galeri",
+    "subtitle": "Seyahatlerimizin en parlak anları",
+    "loading": "Yükleniyor...",
+    "imageAlt": "Galeri görseli",
+    "previewAlt": "Görsel önizleme"
+  },
+  "videoPage": {
+    "title": "Video Bölümleri",
+    "subtitle": "Seyahatlerimizin en parlak videoları",
+    "loading": "Yükleniyor...",
+    "notAvailable": "Video mevcut değil",
+    "thumbnailAlt": "Video küçük resmi",
+    "iframeTitle": "YouTube video oynatıcı"
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "subtitle": "Yüksek Kalite",
+    "text": "2019 yılından itibaren, çeşitli İslam ülkelerinde kutsal turizm (dini turizm) ilkeleriyle başarılı bir şekilde turlar ve olağanüstü hizmetler sunuyoruz, nitelikli uzmanların yardımıyla.",
+    "text1": "Şirketimiz, yurttaşlarımız ve komşu ülkelerden gelen vatandaşlar için dini turizm, akademik turizm, iş turizmi ve sağlık turizmi konularında her türlü talebe karşılık gelen hizmetler sunmaktadır.",
+    "text2": "Tur hizmeti genellikle katılımcıların isteklerine göre sunulmaktadır. Çoğunlukla dini değerlere dayalı olarak otel ve restoran hizmetleri sunduğumuz için yolcularımızın çoğu bizi dini/kutsal turizm için tercih etmektedir.",
+    "text3": "Temel önceliğimiz, dini değerlere uygun hizmet sunmaktır. Otel ve yemek hizmetlerimiz doğrudan tarafımızdan işletilmekte veya iş birliği kapsamında sıkı şekilde denetlenmektedir. Bu nedenle fiyatlarımız piyasa değerinin oldukça altında olup, standart paketlerimiz bile diğer firmaların premium hizmet seviyesine eşdeğerdir.",
+    "text4": "Misafirlerimiz için maksimum konfor sağlanmaktadır: akşam yemeği hizmeti sunulmakta ve 2 yaş altı çocuklar için konaklama ile yemek ücretsizdir.",
+    "text5": "Ayrıca uluslararası bilimsel konferanslar, akademik ziyaretler ve dini etkinlikler kapsamında Türkiye ve diğer ülkelerden gelen akademisyenler, araştırmacılar ve delegasyonlarla iş birliği içinde büyük organizasyonlar düzenlemekteyiz.",
+    "button": "Oda Rezervasyonu Yap"
+  },
+  "tours": {
+    "title": "Seyahat Turları",
+    "subtitle": "Harika seyahat paketlerimizi keşfedin",
+    "no_tours": "Tur bulunamadı",
+    "check_back": "Yeni turlar için daha sonra tekrar kontrol edin",
+    "best_seller": "Çok Satan",
+    "per_person": "kişi",
+    "days": "gün",
+    "itinerary_available": "Program mevcut",
+    "read_more": "Daha fazla",
+    "book_now": "Rezervasyon Yap",
+    "from": "Başlangıç",
+    "to": "Bitiş",
+    "participants": "katılımcılar",
+    "share": "Paylaş",
+    "details": "Detaylar",
+    "close": "Kapat",
+    "loading": "Turlar yükleniyor...",
+    "book_details": "Rezervasyon Bilgileri",
+    "name": "Ad",
+    "enter_name": "Adınızı girin",
+    "email": "E-posta",
+    "enter_email": "E-posta adresinizi girin",
+    "phone": "Telefon numarası",
+    "enter_phone": "Telefon numaranızı girin",
+    "full_name": "Ad Soyad",
+    "confirm_booking": "Rezervasyonu Onayla",
+    "cancel": "İptal",
+    "overview": "Genel Bilgi",
+    "itinerary": "Tur Programı",
+    "gallery": "Galeri",
+    "duration": "Süre",
+    "cities": "Şehirler",
+    "copy_link": "Bağlantıyı Kopyala",
+    "copied": "Kopyalandı!",
+    "share_tour": "Turu Paylaş",
+    "call": "Ara",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp"
+  },
+  "news": {
+    "title": "Haberler",
+    "subtitle": "En son haberler ve duyurularla tanışın",
+    "empty_title": "Henüz haber bulunmamaktadır",
+    "empty_subtitle": "Yakında yeni haberler eklenecek",
+    "loading": "Yükleniyor...",
+    "read_more": "Devamını Oku",
+    "close": "Kapat"
+  },
+  "newsDetails": {
+    "loading": "Yükleniyor...",
+    "not_found": "Haber bulunamadı",
+    "error": "Bir hata oluştu",
+    "back_all": "Tüm haberler",
+    "share": "Paylaş",
+    "gallery": "Galeri",
+    "main_image": "Ana Görsel",
+    "copied": "Bağlantı kopyalandı!",
+    "back_page": "Haberler sayfasına dön"
+  },
+  "partners": {
+    "title": "Başarılarımız",
+    "trusted": "Güvenilir Ortaklarımız",
+    "subtitle": "Sektördeki en iyi şirketlerle işbirliği yapıyoruz",
+    "no_partners": "Ortak bulunamadı"
+  },
+  "home": {
+    "news": {
+      "title": "Haberler ve Güncellemeler",
+      "subtitle": "En son haberlerimizden haberdar olun",
+      "read_more": "Devamını Oku",
+      "no_news": "Haber bulunamadı",
+      "check_back": "Güncellemeler için daha sonra tekrar kontrol edin"
+    },
+    "carousel": {
+      "title": "Minyatürlü Otel",
+      "subtitle": "Sanat Galerisi ve Eşsiz Hizmet"
+    },
+    "booking": {
+      "title": "Mükemmel Konaklamanızı Rezerve Edin",
+      "subtitle": "Unutulmaz bir deneyim için tarihlerinizi ve misafir sayınızı seçin",
+      "roomType": "Oda Türü",
+      "chooseType": "Tür Seçin",
+      "guests": "Misafirler",
+      "guestLabel": "{{count}} misafir(ler)",
+      "checkIn": "Giriş",
+      "checkOut": "Çıkış",
+      "addRoom": "Oda Ekle",
+      "continue": "Rezervasyonu Devam Ettir",
+      "error": "Her oda için tüm alanları doldurduğunuzdan emin olun"
+    },
+    "rooms": {
+      "sectionTitle": "Odalarımız",
+      "sectionSubtitle": "Mükemmel odayı seçin ve rahatlık ve sanat atmosferini hissedin",
+      "types": {
+        "TWIN": {
+          "title": "TWIN Oda",
+          "desc": "Arkadaşlarınızla huzurlu bir şekilde dinlenmek isteyenler için mükemmel"
+        },
+        "DOUBLE": {
+          "title": "DOUBLE Oda",
+          "desc": "Romantik kaçamaklar ve özel anlar için ideal"
+        },
+        "TRIPLE": {
+          "title": "TRIPLE Oda",
+          "desc": "Aile veya arkadaşlar için maksimum rahatlıkla geniş odalar"
+        }
+      },
+      "book": "Şimdi Rezervasyon Yap"
+    },
+    "features": {
+      "title": "Neden Bizi Seçmelisiniz?",
+      "subtitle": "Size sadece bir seyahat değil — güven, kalite ve konfor sunuyoruz.",
+      "list": {
+        "1": {
+          "title": "Fiyat ve Kalite Dengesi",
+          "desc": "Otel ve yemek hizmetlerimiz doğrudan kontrolümüz altında olduğu için uygun fiyatlarla yüksek kalite sunuyoruz. Standart paketlerimiz bile diğer firmaların premium hizmet seviyesine eşdeğerdir."
+        },
+        "2": {
+          "title": "Dini Değerlere Uygun Hizmet",
+          "desc": "Turlarımız dini prensiplere uygun şekilde organize edilmektedir. Helal yemek, uygun konum ve ibadet için elverişli ortamlar misafirlerimizin güvenini artırır."
+        },
+        "3": {
+          "title": "Uluslararası Deneyim ve Güven",
+          "desc": "2019 yılından bu yana Türkiye ve diğer ülkelerden gelen delegasyonlar, akademisyenler ve kurumlarla başarılı iş birlikleri gerçekleştirmekteyiz. Bizimle seyahat güvenilir bir ortaklık demektir."
+        }
+      },
+
+      "footer": {
+        "desc": "Bizimle seyahat edin ve her destinasyonu güven, konfor ve yüksek hizmet kalitesiyle keşfedin.",
+        "contacts": "İletişim",
+        "phone": "Telefon",
+        "email": "E-posta",
+        "address": "Adres",
+        "rights": "Tüm hakları saklıdır",
+        "back": "↑ Yukarıya dön"
+      }
+    },
+    "bookingDisabledTitle": "Rezervasyon geçici olarak kullanılamıyor",
+    "bookingDisabledSubtitle": "Daha fazla bilgi için lütfen telefonla ya da sosyal medya üzerinden bizimle iletişime geçin"
+  }
+}
