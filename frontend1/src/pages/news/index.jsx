@@ -232,9 +232,9 @@ function Index() {
                               />
                             </div>
                           ))}
-                          {item.images.length > 3 && (
+                          {item.images?.length > 3 && (
                             <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-gray-100 flex items-center justify-center text-xs text-gray-600 font-medium border border-gray-200">
-                              +{item.photos.length - 3}
+                              +{item.images.length - 3}
                             </div>
                           )}
                         </div>

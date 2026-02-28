@@ -3,7 +3,8 @@
     "home": "Ana Sayfa",
     "tours": "Turlar",
     "media": "Medya",
-    "about": "Tamamlanan Seyahatler"
+    "about": "Tamamlanan Seyahatler",
+    "images": "Fotoğraf Galerisi"
   },
   "headerExtra": {
     "selectLanguage": "Dil seçin",
@@ -172,18 +173,18 @@
           "title": "Uluslararası Deneyim ve Güven",
           "desc": "2019 yılından bu yana Türkiye ve diğer ülkelerden gelen delegasyonlar, akademisyenler ve kurumlarla başarılı iş birlikleri gerçekleştirmekteyiz. Bizimle seyahat güvenilir bir ortaklık demektir."
         }
-      },
-
-      "footer": {
-        "desc": "Bizimle seyahat edin ve her destinasyonu güven, konfor ve yüksek hizmet kalitesiyle keşfedin.",
-        "contacts": "İletişim",
-        "phone": "Telefon",
-        "email": "E-posta",
-        "address": "Adres",
-        "rights": "Tüm hakları saklıdır",
-        "back": "↑ Yukarıya dön",
-        "manzil": "Semerkant, Yalangtoş Bahadır Mahalle Vatandaşlar Toplantısı"
       }
+    },
+
+    "footer": {
+      "desc": "Bizimle seyahat edin ve her destinasyonu güven, konfor ve yüksek hizmet kalitesiyle keşfedin.",
+      "contacts": "İletişim",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "address": "Adres",
+      "rights": "Tüm hakları saklıdır",
+      "back": "↑ Yukarıya dön",
+      "manzil": "Semerkant, Yalangtoş Bahadır Mahalle Vatandaşlar Toplantısı"
     },
     "bookingDisabledTitle": "Rezervasyon geçici olarak kullanılamıyor",
     "bookingDisabledSubtitle": "Daha fazla bilgi için lütfen telefonla ya da sosyal medya üzerinden bizimle iletişime geçin"

@@ -215,9 +215,7 @@ function AdminTour() {
   const fetchTours = async () => {
     try {
       setLoading(true);
-      const res = await requestWithRefresh(
-        `/api/v1/travel-tours`,
-      );
+      const res = await requestWithRefresh(`/api/v1/travel-tours`);
       if (res && !res.error) {
         let filteredTours = res.data || [];
 
@@ -1015,20 +1013,22 @@ function AdminTour() {
                         </div>
 
                         {/* Cities */}
-                        <div className="flex justify-between items-start mb-3">
-                          <div className="flex items-center">
+                        <div className="flex justify-between items-start mb-3 gap-3">
+                          {/* Cities */}
+                          <div className="flex items-center min-w-0 flex-1">
                             <MapPin
                               size={14}
-                              className="mr-1 text-gray-500 mt-0.5"
+                              className="mr-1 text-gray-500 mt-0.5 shrink-0"
                             />
                             <p className="text-sm text-gray-600 truncate">
                               {tour[`cities_${selectedLanguage}`]?.join(" • ")}
                             </p>
                           </div>
 
+                          {/* Reja button */}
                           <button
                             onClick={() => openDaysModal(tour)}
-                            className="flex items-center text-emerald-600 hover:text-emerald-800 font-medium group"
+                            className="flex items-center text-emerald-600 hover:text-emerald-800 font-medium shrink-0"
                           >
                             <Calendar
                               size={18}
@@ -1037,7 +1037,6 @@ function AdminTour() {
                             Reja
                           </button>
                         </div>
-
                         {/* Dates and Duration */}
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center text-sm text-gray-600">

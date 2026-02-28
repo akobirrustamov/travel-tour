@@ -1,6 +1,6 @@
 import axios from "axios";
 export let baseUrl;
-//  baseUrl = "http://localhost:8080";
+// baseUrl = "http://localhost:8080";
 // baseUrl = "https://diyarelsalam.uz";
 baseUrl = "";
 export default function (url, method, data, param) {

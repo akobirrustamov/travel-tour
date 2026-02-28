@@ -5,6 +5,8 @@ import com.example.backend.Entity.Gallery;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 
+import java.util.List;
+
 public interface GalleryService {
 
     HttpEntity<?> create(GalleryDto dto);
@@ -14,6 +16,7 @@ public interface GalleryService {
     HttpEntity<?> delete(Integer id);
 
     Gallery getById(Integer id);
+    List<Gallery> getByTravelTourId(Integer id);
 
     HttpEntity<?> getAll();
 

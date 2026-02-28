@@ -157,8 +157,8 @@ function Header() {
     {
       label: t("header.media"),
       children: [
-        { label: "YouTube", path: "/youtube" },
-        { label: "Gallery", path: "/gallery" },
+        { label: t("header.images"), path: "/gallery" },
+        { label: t("videoPage.title"), path: "/youtube" },
       ],
     },
   ];

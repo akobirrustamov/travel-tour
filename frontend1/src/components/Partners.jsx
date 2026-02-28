@@ -123,22 +123,22 @@ function Partners() {
 
   // === Partners carousel navigation ===
   const nextSlide = () => {
-    if (partners.length <= 6) return;
-    setCurrentSlide((prev) => (prev + 1) % Math.ceil(partners.length / 6));
+    if (partners.length <= 8) return;
+    setCurrentSlide((prev) => (prev + 1) % Math.ceil(partners.length / 8));
   };
 
   const prevSlide = () => {
-    if (partners.length <= 6) return;
+    if (partners.length <= 8) return;
     setCurrentSlide(
       (prev) =>
-        (prev - 1 + Math.ceil(partners.length / 6)) %
-        Math.ceil(partners.length / 6),
+        (prev - 1 + Math.ceil(partners.length / 8)) %
+        Math.ceil(partners.length / 8),
     );
   };
 
   // === Get current partners for carousel ===
   const getCurrentPartners = () => {
-    const itemsPerSlide = 6;
+    const itemsPerSlide = 8;
     const start = currentSlide * itemsPerSlide;
     return partners.slice(start, start + itemsPerSlide);
   };
@@ -292,7 +292,7 @@ function Partners() {
               </div>
 
               {/* Carousel Navigation */}
-              {partners.length > 6 && (
+              {partners.length > 8 && (
                 <>
                   <button
                     onClick={prevSlide}
@@ -309,7 +309,7 @@ function Partners() {
 
                   {/* Slide Indicators */}
                   <div className="flex justify-center mt-10 space-x-2">
-                    {[...Array(Math.ceil(partners.length / 6))].map(
+                    {[...Array(Math.ceil(partners.length / 8))].map(
                       (_, idx) => (
                         <button
                           key={idx}

@@ -35,6 +35,11 @@ public class GalleryController {
         return ResponseEntity.ok(galleryService.getPage(page, size));
     }
 
+    @GetMapping("/travel/{travelId}")
+    public ResponseEntity<?> getByTravelId(@PathVariable Integer travelId) {
+        return ResponseEntity.ok(galleryService.getByTravelTourId(travelId));
+    }
+
     /* ================= GET BY ID ================= */
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {

@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface TravelTourRepo extends JpaRepository<TravelTour, Integer> {
     Page<TravelTour> findAllByActiveTrueOrderByCreatedAtDesc(Pageable pageable);
@@ -33,4 +35,6 @@ public interface TravelTourRepo extends JpaRepository<TravelTour, Integer> {
     long countByImagesIsEmpty();
 
     long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+
+    Optional<TravelTour> findById(Integer travelTourId);
 }

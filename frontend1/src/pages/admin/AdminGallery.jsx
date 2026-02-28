@@ -1,3 +1,4 @@
+import Select from "react-select";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiCall, { baseUrl } from "../../config";
@@ -36,14 +37,29 @@ function AdminGallery() {
   const [selectedLanguage, setSelectedLanguage] = useState("all");
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const [travelTours, setTravelTours] = useState([]);
+  const [selectedTourOption, setSelectedTourOption] = useState(null);
 
   const [formData, setFormData] = useState({
     mediaId: null,
+    travelTourId: null,
     description_uz: "",
     description_ru: "",
     description_en: "",
     description_turk: "",
   });
+  const fetchTravelTours = async () => {
+    try {
+      const res = await requestWithRefresh("/api/v1/travel-tours");
+      if (res && !res.error) {
+        setTravelTours(res.data || []);
+        return res.data || [];
+      }
+    } catch (err) {
+      toast.error("Failed to load travel tours");
+    }
+    return [];
+  };
 
   // === Проверка токена ===
   useEffect(() => {
@@ -91,6 +107,8 @@ function AdminGallery() {
       const res = await requestWithRefresh(
         `/api/v1/gallery/page?page=${currentPage}&size=12`,
       );
+      console.log(res.data);
+
       if (res && !res.error) {
         setGalleries(res.data.content || []);
         setTotalPages(res.data.totalPages || 0);
@@ -219,31 +237,39 @@ function AdminGallery() {
     }
   };
 
-  // === Handle Edit ===
   const handleEdit = async (gallery) => {
+    const tours = await fetchTravelTours();
+
     setEditingId(gallery.id);
+
+    const travelId = gallery.travelTour?.id || null;
+
     setFormData({
       mediaId: gallery.media?.id || null,
+      travelTourId: travelId,
       description_uz: gallery.description_uz || "",
       description_ru: gallery.description_ru || "",
       description_en: gallery.description_en || "",
       description_turk: gallery.description_turk || "",
     });
 
-    // Set image preview for edit mode
-    if (gallery.media) {
-      setImagePreview({
-        url: `${baseUrl}/api/v1/file/getFile/${gallery.media.id}`,
-        file: null,
-        isNewUpload: false,
-        existingMediaId: gallery.media.id,
-      });
-    } else {
-      setImagePreview(null);
+    if (travelId) {
+      const found = tours.find((t) => t.id === travelId);
+
+      if (found) {
+        setSelectedTourOption({
+          value: found.id,
+          label: found.title_uz,
+        });
+      }
     }
 
     setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    fetchTravelTours();
+  }, []);
 
   // === Handle Remove Image ===
   const handleRemoveImage = () => {
@@ -258,13 +284,17 @@ function AdminGallery() {
   const resetForm = () => {
     setFormData({
       mediaId: null,
+      travelTourId: null,
       description_uz: "",
       description_ru: "",
       description_en: "",
       description_turk: "",
     });
+
+    setSelectedTourOption(null);
     setImagePreview(null);
     setEditingId(null);
+
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -370,6 +400,11 @@ function AdminGallery() {
       </div>
     );
   };
+
+  const tourOptions = travelTours.map((tour) => ({
+    value: tour.id,
+    label: `${tour.title_uz}`,
+  }));
 
   // === Render Language Inputs ===
   const renderLanguageInputs = () => {
@@ -482,8 +517,9 @@ function AdminGallery() {
 
               {/* Add New Button */}
               <button
-                onClick={() => {
+                onClick={async () => {
                   resetForm();
+                  await fetchTravelTours();
                   setIsModalOpen(true);
                 }}
                 className="flex items-center justify-center bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-5 py-3 rounded-xl hover:shadow-xl transition-all duration-300 shadow-lg"
@@ -552,6 +588,16 @@ function AdminGallery() {
                               gallery.description_en ||
                               gallery.description_turk ||
                               "No description provided"}
+                          </p>
+                        </div>
+                        <div className="mb-4 flex items-center text-gray-500 gap-3">
+                          Travel Title:
+                          <p className="text-gray-600 text-sm line-clamp-3">
+                            {gallery?.travelTour?.title_uz ||
+                              gallery?.travelTour?.title_ru ||
+                              gallery?.travelTour?.title_en ||
+                              gallery?.travelTour?.title_turk ||
+                              "No travel tour title provided"}
                           </p>
                         </div>
 
@@ -732,6 +778,30 @@ function AdminGallery() {
             <form onSubmit={handleSubmit} className="p-8">
               {/* File Upload Section */}
               <div className="mb-10">
+                <div className="mb-8">
+                  <label className="block text-lg font-semibold text-gray-800 mb-3">
+                    Related Travel Tour
+                  </label>
+
+                  <Select
+                    options={tourOptions}
+                    value={selectedTourOption}
+                    onChange={(selected) => {
+                      setSelectedTourOption(selected);
+                      setFormData((prev) => ({
+                        ...prev,
+                        travelTourId: selected ? selected.value : null,
+                      }));
+                    }}
+                    isClearable
+                    isSearchable
+                    placeholder="Search and select travel tour..."
+                    menuPortalTarget={document.body}
+                    styles={{
+                      menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    }}
+                  />
+                </div>
                 <label className="block text-lg font-semibold text-gray-800 mb-6">
                   Gallery Image <span className="text-red-500">*</span>
                   <span className="block text-sm font-normal text-gray-500 mt-1">

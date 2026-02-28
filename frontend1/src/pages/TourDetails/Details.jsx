@@ -37,6 +37,17 @@ function Details() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [activeDay, setActiveDay] = useState(1);
   const [showBookingModal, setShowBookingModal] = useState(false);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const fetchGallery = async () => {
+    try {
+      const res = await ApiCall(`/api/v1/gallery/travel/${id}`);
+      if (res && !res.error) {
+        setGalleryImages(res.data || []);
+      }
+    } catch (err) {
+      console.error("Gallery fetch error:", err);
+    }
+  };
   const [bron, setBron] = useState({
     phone: "",
     email: "",
@@ -91,30 +102,32 @@ function Details() {
   };
 
   useEffect(() => {
-    const fetchTourDetails = async () => {
+    const fetchAll = async () => {
       try {
         setLoading(true);
 
-        const response = await ApiCall(`/api/v1/travel-tours/${id}`);
-
-        if (response && !response.error) {
-          setTour(response.data);
-
-          // 🔥 TOUR DAYS FETCH
-          const daysRes = await ApiCall(`/api/v1/tour-days/by-tour/${id}`);
-
-          if (daysRes && !daysRes.error) {
-            setTourDays(daysRes.data || []);
-          }
+        const tourRes = await ApiCall(`/api/v1/travel-tours/${id}`);
+        if (tourRes && !tourRes.error) {
+          setTour(tourRes.data);
         }
-      } catch (error) {
-        console.error("Error fetching tour details:", error);
+
+        const daysRes = await ApiCall(`/api/v1/tour-days/by-tour/${id}`);
+        if (daysRes && !daysRes.error) {
+          setTourDays(daysRes.data || []);
+        }
+
+        const galleryRes = await ApiCall(`/api/v1/gallery/travel/${id}`);
+        if (galleryRes && !galleryRes.error) {
+          setGalleryImages(galleryRes.data || []);
+        }
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTourDetails();
+    fetchAll();
   }, [id]);
 
   // Get description based on language
@@ -154,28 +167,6 @@ function Details() {
     hide: t("tours.hide"),
     share_tour: t("tours.share_tour"),
   };
-
-  // Fetch tour details
-  useEffect(() => {
-    const fetchTourDetails = async () => {
-      try {
-        setLoading(true);
-        const response = await ApiCall(`/api/v1/travel-tours/${id}`);
-        console.log(response.data);
-        if (response && !response.error) {
-          setTour(response.data);
-        } else {
-          console.error("Failed to fetch tour details");
-        }
-      } catch (error) {
-        console.error("Error fetching tour details:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTourDetails();
-  }, [id]);
 
   // Format date
   const formatDate = (date) => {
@@ -239,17 +230,15 @@ function Details() {
   };
 
   const nextImage = () => {
-    if (tour?.images) {
-      setCurrentImageIndex((prev) => (prev + 1) % tour.images.length);
-    }
+    setCurrentImageIndex((prev) =>
+      prev === allImages.length - 1 ? 0 : prev + 1,
+    );
   };
 
   const prevImage = () => {
-    if (tour?.images) {
-      setCurrentImageIndex(
-        (prev) => (prev - 1 + tour.images.length) % tour.images.length,
-      );
-    }
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? allImages.length - 1 : prev - 1,
+    );
   };
 
   // Share functions
@@ -289,6 +278,17 @@ function Details() {
   const handleBookNow = () => {
     setShowBookingModal(true);
   };
+
+  const allImages = [
+    ...(tour?.images || []).map((img) => ({
+      id: img.id,
+      type: "tour",
+    })),
+    ...galleryImages.map((g) => ({
+      id: g.media?.id,
+      type: "gallery",
+    })),
+  ];
 
   // Loading state
   if (loading) {
@@ -499,7 +499,7 @@ function Details() {
               <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 flex items-center gap-2">
                 <Clock className="w-4 h-4 text-emerald-400" />
                 <span className="text-sm">
-                  {duration} {translations.days}
+                  {duration + 1} {translations.days}
                 </span>
               </div>
 
@@ -590,8 +590,7 @@ function Details() {
               })}
             </div>
 
-            {/* Gallery Card */}
-            {tour.images && tour.images.length > 0 && (
+            {(tour?.images?.length > 0 || galleryImages.length > 0) && (
               <div className="bg-white rounded-3xl shadow-sm p-8 border border-gray-100">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                   <Camera className="w-6 h-6 text-emerald-500" />
@@ -599,20 +598,19 @@ function Details() {
                 </h2>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {tour.images.map((image, index) => (
+                  {allImages.map((img, index) => (
                     <div
-                      key={image.id}
-                      onClick={() => openModal(index)}
+                      key={index}
+                      onClick={() => {
+                        setCurrentImageIndex(index);
+                        setIsModalOpen(true);
+                      }}
                       className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group"
                     >
                       <img
-                        src={`${baseUrl}/api/v1/file/getFile/${image.id}`}
-                        alt={`${title} ${index + 1}`}
+                        src={`${baseUrl}/api/v1/file/getFile/${img.id}`}
+                        alt=""
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        onError={(e) => {
-                          e.target.src =
-                            "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800";
-                        }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
@@ -680,7 +678,7 @@ function Details() {
                     </span>
                   </div>
                   <span className="text-sm font-medium">
-                    {duration} {translations.days}
+                    {duration + 1} {translations.days}
                   </span>
                 </div>
               </div>
@@ -814,7 +812,7 @@ function Details() {
       )}
 
       {/* Image Modal */}
-      {isModalOpen && tour?.images && (
+      {isModalOpen && allImages.length > 0 && (
         <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center">
           {/* Close button */}
           <button
@@ -841,7 +839,7 @@ function Details() {
 
           {/* Image */}
           <img
-            src={`${baseUrl}/api/v1/file/getFile/${tour.images[currentImageIndex]?.id}`}
+            src={`${baseUrl}/api/v1/file/getFile/${allImages[currentImageIndex]?.id}`}
             alt={`${title} ${currentImageIndex + 1}`}
             className="max-w-full max-h-[90vh] object-contain px-4"
             onError={(e) => {
@@ -852,7 +850,7 @@ function Details() {
 
           {/* Counter */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm">
-            {currentImageIndex + 1} / {tour.images.length}
+            {currentImageIndex + 1} / {allImages.length}
           </div>
         </div>
       )}

@@ -29,14 +29,6 @@ public class TravelTourServiceImpl implements TravelTourService {
     @Transactional
     public HttpEntity<?> create(TravelTourDto dto) {
         try {
-            System.out.println("=== Creating Travel Tour ===");
-            System.out.println("Title UZ: " + dto.getTitle_uz());
-            System.out.println("Cities UZ: " + dto.getCities_uz());
-            System.out.println("Cities RU: " + dto.getCities_ru());
-            System.out.println("Cities EN: " + dto.getCities_en());
-            System.out.println("Cities TURK: " + dto.getCities_turk());
-            System.out.println("Image IDs: " + dto.getImageIds());
-
             // Handle images
             List<Attachment> images = dto.getImageIds() == null || dto.getImageIds().isEmpty()
                     ? List.of()

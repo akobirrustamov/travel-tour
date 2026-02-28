@@ -319,7 +319,7 @@ function Tours() {
                     <div className="flex justify-between text-sm text-gray-600 mb-4">
                       <div className="flex items-center">
                         <Clock className="w-4 h-4 text-emerald-500 mr-1" />
-                        {duration} {translations.days}
+                        {duration + 1} {translations.days}
                       </div>
                       <div className="flex items-center">
                         <DollarSign className="w-4 h-4 text-emerald-500 mr-1" />

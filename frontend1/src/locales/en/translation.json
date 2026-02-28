@@ -3,7 +3,8 @@
     "home": "Home",
     "tours": "Tours",
     "media": "Media",
-    "about": "Completed Trips"
+    "about": "Completed Trips",
+    "images": "Photo Gallery"
   },
   "headerExtra": {
     "selectLanguage": "Select Language",

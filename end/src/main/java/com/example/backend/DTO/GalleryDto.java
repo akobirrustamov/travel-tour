@@ -17,4 +17,5 @@ public class GalleryDto {
     private String description_ru;
     private String description_en;
     private String description_turk;
+    private Integer travelTourId;
 }

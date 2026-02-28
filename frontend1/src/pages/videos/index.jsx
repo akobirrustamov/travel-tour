@@ -58,44 +58,71 @@ function Index() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {videos.map((video) => {
-                const src = extractSrc(video.iframe);
-                const videoId = extractVideoId(src);
+              {Array.isArray(videos) &&
+                videos.map((video) => {
+                  let src = null;
 
-                return (
-                  <div
-                    key={video.id}
-                    className="relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 aspect-video bg-black"
-                    onClick={() => setSelectedVideo(src)}
-                  >
-                    {videoId ? (
-                      <img
-                        src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-                        alt="Video thumbnail"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          e.target.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-                        }}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-800 text-gray-400">
-                        {t("videoPage.notAvailable")}
-                      </div>
-                    )}
+                  if (!video?.iframe) return null;
 
-                    {/* Play overlay */}
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
-                      <div className="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl">
-                        <Play className="w-6 h-6 text-white fill-white ml-1" />
+                  const iframeString = video.iframe.trim();
+
+                  // 1️⃣ Agar to‘liq iframe bo‘lsa
+                  const match = iframeString.match(/src="([^"]+)"/);
+                  if (match) {
+                    src = match[1];
+                  }
+
+                  // 2️⃣ Instagram reel yoki post link
+                  else if (iframeString.includes("instagram.com")) {
+                    const reelMatch = iframeString.match(
+                      /instagram\.com\/(reel|p)\/([^/?]+)/,
+                    );
+                    if (reelMatch) {
+                      src = `https://www.instagram.com/${reelMatch[1]}/${reelMatch[2]}/embed`;
+                    }
+                  }
+
+                  // 3️⃣ YouTube watch link
+                  else if (iframeString.includes("youtube.com/watch")) {
+                    const ytMatch = iframeString.match(/v=([^&]+)/);
+                    if (ytMatch) {
+                      src = `https://www.youtube.com/embed/${ytMatch[1]}`;
+                    }
+                  }
+
+                  // 4️⃣ youtu.be short link
+                  else if (iframeString.includes("youtu.be")) {
+                    const shortMatch = iframeString.match(/youtu\.be\/([^?]+)/);
+                    if (shortMatch) {
+                      src = `https://www.youtube.com/embed/${shortMatch[1]}`;
+                    }
+                  }
+
+                  if (!src) return null;
+
+                  const isInstagram = src.includes("instagram.com");
+                  const aspectRatioClass = isInstagram
+                    ? "pt-[177.78%]" // 9:16
+                    : "pt-[56.25%]"; // 16:9
+
+                  return (
+                    <div
+                      key={video.id}
+                      className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-black"
+                    >
+                      <div className={`relative w-full ${aspectRatioClass}`}>
+                        <iframe
+                          src={src}
+                          title="Video"
+                          className="absolute top-0 left-0 w-full h-full"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
                       </div>
                     </div>
-
-                    <div className="absolute bottom-3 right-3 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                      YouTube
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           )}
         </div>

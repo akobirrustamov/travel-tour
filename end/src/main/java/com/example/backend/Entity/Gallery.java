@@ -33,6 +33,9 @@ public class Gallery {
     @Column(columnDefinition = "TEXT")
     private String description_turk;
 
+    @ManyToOne
+    private TravelTour travelTour;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 }

@@ -713,7 +713,7 @@ function Tours() {
                             <div className="text-center bg-gradient-to-b from-gray-50 to-white p-2 rounded-lg">
                               <Clock className="w-4 h-4 mx-auto text-emerald-500 mb-1" />
                               <span className="text-xs font-medium text-gray-700">
-                                {duration} {translations.days}
+                                {duration+1} {translations.days}
                               </span>
                             </div>
 
